@@ -193,3 +193,78 @@ def get_stats():
         }
     finally:
         conn.close()
+
+
+# ── Finding example records ───────────────────────────────────────────────────
+
+_FINDING_QUERIES: dict[str, str] = {
+    "food-not-exist":        "SELECT * FROM listings WHERE category = 'RESTAURANT' ORDER BY ingested_at DESC",
+    "no-tombstone":          "SELECT * FROM listings WHERE expires_at IS NOT NULL ORDER BY expires_at ASC",
+    "tour-geo-misleading":   "SELECT * FROM listings WHERE category = 'TOUR' AND latitude IS NOT NULL ORDER BY name",
+    "custodian-not-operator": """
+        SELECT * FROM listings
+        WHERE organisation_name ILIKE '%Destination NSW%'
+           OR organisation_name ILIKE '%Camden%'
+           OR organisation_name ILIKE '%Hipcamp%'
+           OR organisation_name ILIKE '%Ballina%'
+           OR organisation_name ILIKE '%Rundle Mall%'
+           OR organisation_name ILIKE '%Dept of Planning%'
+        ORDER BY organisation_name, ingested_at DESC""",
+    "journey-ambiguous":     "SELECT * FROM listings WHERE category = 'JOURNEY' ORDER BY ingested_at DESC",
+    "areas-taxonomy":        """
+        SELECT * FROM listings
+        WHERE address IS NOT NULL
+          AND jsonb_array_length(address->0->'areas') > 1
+        ORDER BY jsonb_array_length(address->0->'areas') DESC, ingested_at DESC""",
+    "image-urls-unstable":   "SELECT * FROM listings WHERE image_url IS NOT NULL ORDER BY ingested_at DESC",
+    "expiry-no-notice":      "SELECT * FROM listings WHERE expires_at IS NOT NULL ORDER BY expires_at ASC",
+    "deduplication":         """
+        SELECT * FROM listings
+        WHERE organisation_name ILIKE '%AAT Kings%'
+           OR name ILIKE '%Bent Rods%'
+        ORDER BY name, organisation_name""",
+    "api-xml":               "SELECT * FROM listings ORDER BY ingested_at DESC",
+    "genservice-broad":      "SELECT * FROM listings WHERE category = 'GENSERVICE' ORDER BY ingested_at DESC",
+    "address-array":         "SELECT * FROM listings WHERE address IS NOT NULL ORDER BY ingested_at DESC",
+}
+
+
+@app.get("/v1/findings/{slug}/listings")
+def finding_listings(slug: str, limit: int = Query(9, le=50)):
+    if slug not in _FINDING_QUERIES:
+        raise HTTPException(status_code=404, detail="Unknown finding slug")
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute(_FINDING_QUERIES[slug] + " LIMIT %s", [limit])
+        return {"data": rows_as_dicts(cur)}
+    finally:
+        conn.close()
+
+
+# ── Schema.org field coverage ─────────────────────────────────────────────────
+
+@app.get("/v1/schema-coverage")
+def schema_coverage():
+    conn = get_conn()
+    try:
+        cur = conn.cursor()
+        cur.execute("""
+            SELECT
+                category,
+                COUNT(*)                 AS total,
+                COUNT(name)              AS has_name,
+                COUNT(description)       AS has_description,
+                COUNT(image_url)         AS has_image,
+                COUNT(latitude)          AS has_geo,
+                COUNT(address)           AS has_address,
+                COUNT(expires_at)        AS has_expires,
+                COUNT(next_occurrence)   AS has_next_occurrence,
+                COUNT(organisation_name) AS has_organisation
+            FROM listings
+            GROUP BY category
+            ORDER BY total DESC
+        """)
+        return {"categories": rows_as_dicts(cur)}
+    finally:
+        conn.close()

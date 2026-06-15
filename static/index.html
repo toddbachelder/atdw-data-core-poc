@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>ATDW Data Core Probe</title>
 <script src="https://cdn.tailwindcss.com"></script>
-<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
 <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 <style>
@@ -14,10 +13,16 @@
   .tab-btn { transition: all .15s; }
   .tab-btn.active { background: #1a1a2e; color: #fff; }
   .tab-btn:not(.active):hover { background: #e5e7eb; }
-  .finding-card { border-left: 4px solid #e74c3c; }
   .badge { display:inline-block; padding:2px 8px; border-radius:9999px; font-size:.7rem; font-weight:600; }
   .card { background:#fff; border-radius:12px; box-shadow:0 1px 4px rgba(0,0,0,.07); }
+  .fill-bar { height:8px; border-radius:4px; background:#e5e7eb; overflow:hidden; }
+  .fill-bar-inner { height:100%; border-radius:4px; transition:width .4s; }
   ::-webkit-scrollbar { width:6px; } ::-webkit-scrollbar-thumb { background:#cbd5e1; border-radius:3px; }
+  details > summary { cursor:pointer; list-style:none; }
+  details > summary::-webkit-details-marker { display:none; }
+  .schema-row-mapped   { background:#f0fdf4; }
+  .schema-row-partial  { background:#fffbeb; }
+  .schema-row-missing  { background:#fafafa; }
 </style>
 </head>
 <body class="text-gray-800">
@@ -32,7 +37,7 @@
 </div>
 
 <!-- STATS BAR -->
-<div id="stats-bar" class="grid grid-cols-4 gap-4 px-8 py-4 bg-white border-b border-gray-200">
+<div class="grid grid-cols-4 gap-4 px-8 py-4 bg-white border-b border-gray-200">
   <div class="text-center"><div class="text-2xl font-bold text-indigo-900" id="s-total">—</div><div class="text-xs text-gray-500 mt-0.5">Records loaded</div></div>
   <div class="text-center"><div class="text-2xl font-bold text-indigo-900" id="s-cats">—</div><div class="text-xs text-gray-500 mt-0.5">Category codes found</div></div>
   <div class="text-center"><div class="text-2xl font-bold text-indigo-900" id="s-geo">—</div><div class="text-xs text-gray-500 mt-0.5">Records with geo coords</div></div>
@@ -41,34 +46,15 @@
 
 <!-- TABS -->
 <div class="px-8 pt-4 pb-0 bg-white border-b border-gray-200 flex gap-2">
-  <button class="tab-btn active px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('browse')">Browse Listings</button>
-  <button class="tab-btn px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('map')">Map</button>
-  <button class="tab-btn px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('insights')">Insights</button>
-  <button class="tab-btn px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('findings')">Findings</button>
+  <button class="tab-btn active px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('findings',this)">Findings</button>
+  <button class="tab-btn px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('map',this)">Map</button>
+  <button class="tab-btn px-5 py-2 rounded-t-lg text-sm font-medium" onclick="switchTab('schema',this)">Schema.org Coverage</button>
 </div>
 
-<!-- ═══ BROWSE ═══ -->
-<div id="tab-browse" class="tab-panel p-8">
-  <div class="flex gap-3 mb-6 flex-wrap">
-    <input id="search-input" type="text" placeholder="Search by name…" oninput="debounceSearch()"
-      class="border border-gray-200 rounded-lg px-4 py-2 text-sm w-72 focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-    <select id="cat-filter" onchange="loadListings()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
-      <option value="">All categories</option>
-    </select>
-    <select id="state-filter" onchange="loadListings()" class="border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-300">
-      <option value="">All states</option>
-      <option>ACT</option><option>NSW</option><option>NT</option>
-      <option>QLD</option><option>SA</option><option>TAS</option>
-      <option>VIC</option><option>WA</option>
-    </select>
-    <span id="result-count" class="self-center text-sm text-gray-500 ml-auto"></span>
-  </div>
-  <div id="listing-grid" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4"></div>
-  <div class="mt-6 flex gap-3 justify-center">
-    <button id="prev-btn" onclick="changePage(-1)" class="px-4 py-2 rounded-lg border border-gray-200 text-sm hover:bg-gray-50 disabled:opacity-40" disabled>← Prev</button>
-    <span id="page-info" class="self-center text-sm text-gray-500"></span>
-    <button id="next-btn" onclick="changePage(1)" class="px-4 py-2 rounded-lg border border-gray-200 text-sm hover:bg-gray-50 disabled:opacity-40">Next →</button>
-  </div>
+<!-- ═══ FINDINGS ═══ -->
+<div id="tab-findings" class="tab-panel p-8">
+  <p class="text-sm text-gray-500 mb-6">Each finding links to real records from the probe dataset that demonstrate the issue. Expand to browse matching records.</p>
+  <div id="findings-list" class="flex flex-col gap-5"></div>
 </div>
 
 <!-- ═══ MAP ═══ -->
@@ -83,71 +69,40 @@
   <div class="card overflow-hidden">
     <div id="map"></div>
   </div>
-  <div class="mt-4 card p-4 finding-card">
-    <p class="text-sm font-semibold text-red-700">⚠ Finding: TOUR records map to operator office addresses, not tour locations</p>
+  <div class="mt-4 card p-4" style="border-left:4px solid #ef4444;background:#fef2f2">
+    <p class="text-sm font-semibold text-red-700">Finding: TOUR records map to operator office addresses, not tour locations</p>
     <p class="text-sm text-gray-600 mt-1">Filter to TOUR category and zoom in — markers cluster at suburban depots and CBD offices, not the destinations tours operate in.</p>
   </div>
 </div>
 
-<!-- ═══ INSIGHTS ═══ -->
-<div id="tab-insights" class="tab-panel hidden p-8">
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-    <div class="card p-6">
-      <div class="text-sm font-semibold text-gray-700 mb-4">Category distribution — 11 codes found (FOOD doesn't exist)</div>
-      <canvas id="chart-cats" height="260"></canvas>
-    </div>
-    <div class="card p-6">
-      <div class="text-sm font-semibold text-gray-700 mb-4">Geo coverage by category (% with lat/lng)</div>
-      <canvas id="chart-geo" height="260"></canvas>
-    </div>
+<!-- ═══ SCHEMA.ORG ═══ -->
+<div id="tab-schema" class="tab-panel hidden p-8">
+  <div id="schema-content">
+    <p class="text-sm text-gray-400">Loading…</p>
   </div>
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
-    <div class="card p-6">
-      <div class="text-sm font-semibold text-gray-700 mb-4">Average description length by category (chars)</div>
-      <canvas id="chart-desc" height="260"></canvas>
-    </div>
-    <div class="card p-6">
-      <div class="text-sm font-semibold text-gray-700 mb-4">Record expiry spread</div>
-      <canvas id="chart-expiry" height="260"></canvas>
-    </div>
-  </div>
-  <div class="card p-6">
-    <div class="text-sm font-semibold text-gray-700 mb-4">Top data custodians per category (not necessarily the operator)</div>
-    <div id="orgs-table" class="overflow-x-auto"></div>
-  </div>
-</div>
-
-<!-- ═══ FINDINGS ═══ -->
-<div id="tab-findings" class="tab-panel hidden p-8">
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-5" id="findings-grid"></div>
 </div>
 
 <script>
-// ─── CONFIG ────────────────────────────────────────────────────────────────
+// ─── CONFIG ─────────────────────────────────────────────────────────────────
 const API = '';
 const CAT_COLORS = {
   RESTAURANT:'#e74c3c', ACCOMM:'#3498db', TOUR:'#2ecc71', ATTRACTION:'#f39c12',
   EVENT:'#9b59b6', DESTINFO:'#1abc9c', GENSERVICE:'#95a5a6',
   HIRE:'#e67e22', JOURNEY:'#27ae60', INFO:'#2980b9', TRANSPORT:'#8e44ad'
 };
-const CORE = ['RESTAURANT','ACCOMM','TOUR','ATTRACTION','EVENT'];
 
-let currentPage = 0, totalCount = 0, statsData = null;
-let mapInstance = null, allMarkers = [], markerLayer = null;
-let searchTimer = null;
-
-// ─── TABS ───────────────────────────────────────────────────────────────────
-function switchTab(name) {
+// ─── TABS ────────────────────────────────────────────────────────────────────
+function switchTab(name, btn) {
   document.querySelectorAll('.tab-panel').forEach(el => el.classList.add('hidden'));
   document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
   document.getElementById('tab-' + name).classList.remove('hidden');
-  event.target.classList.add('active');
+  btn.classList.add('active');
   if (name === 'map' && !mapInstance) initMap();
-  if (name === 'insights' && !statsData) loadInsights();
-  if (name === 'findings') renderFindings();
+  if (name === 'schema' && !schemaLoaded) loadSchema();
 }
 
-// ─── STATS BAR ──────────────────────────────────────────────────────────────
+// ─── STATS ───────────────────────────────────────────────────────────────────
+let statsData = null;
 async function loadStats() {
   const r = await fetch(API + '/v1/stats');
   statsData = await r.json();
@@ -156,85 +111,159 @@ async function loadStats() {
   const geoCount = statsData.categories.reduce((a, c) => a + c.has_geo, 0);
   document.getElementById('s-geo').textContent = geoCount.toLocaleString();
   document.getElementById('s-states').textContent = statsData.total_states;
-
-  // Populate category dropdowns
   const opts = statsData.categories.map(c =>
-    `<option value="${c.category}">${c.category} (${c.total})</option>`
-  ).join('');
-  document.getElementById('cat-filter').innerHTML += opts;
+    `<option value="${c.category}">${c.category} (${c.total})</option>`).join('');
   document.getElementById('map-cat-filter').innerHTML += opts;
 }
 
-// ─── BROWSE ─────────────────────────────────────────────────────────────────
-const LIMIT = 18;
-async function loadListings() {
-  const search = document.getElementById('search-input').value.trim();
-  const cat    = document.getElementById('cat-filter').value;
-  const state  = document.getElementById('state-filter').value;
-  const params = new URLSearchParams({ limit: LIMIT, offset: currentPage * LIMIT });
-  if (cat)    params.set('category', cat);
-  if (state)  params.set('state', state);
-  if (search) params.set('search', search);
+// ─── FINDINGS ────────────────────────────────────────────────────────────────
+const SEV = {
+  high:   { bg:'#fef2f2', border:'#ef4444', badge:'#ef4444', label:'HIGH' },
+  medium: { bg:'#fffbeb', border:'#f59e0b', badge:'#f59e0b', label:'MED' },
+  low:    { bg:'#f0fdf4', border:'#22c55e', badge:'#22c55e', label:'LOW' },
+};
 
-  const r = await fetch(API + '/v1/listings?' + params);
-  const data = await r.json();
-  totalCount = data.total_count;
+const FINDINGS = [
+  { slug:'food-not-exist', severity:'high', title:"FOOD doesn't exist — it's RESTAURANT",
+    body:"The brief described FOOD as a target category. No records with product_category_id = 'FOOD' exist in the dataset. The correct code is RESTAURANT (1,555 records — the largest single category). The productType query filter is also silently ignored, returning the same 58,151 results regardless of value.",
+    evidence:"RESTAURANT: 1,555 records · FOOD: 0 records across 6,300+ records scanned",
+    recordNote:"These RESTAURANT records are what FOOD was supposed to be — correct code, different name." },
 
-  document.getElementById('result-count').textContent =
-    `${totalCount.toLocaleString()} record${totalCount !== 1 ? 's' : ''}`;
+  { slug:'no-tombstone', severity:'high', title:"The data has no tombstone signal",
+    body:"When a record expires or is deactivated it silently disappears from the API. All 3,078 records in the probe returned status=ACTIVE — there is no INACTIVE or EXPIRED state visible. A canonical store has no deletion signal; it can only detect absence, not reason.",
+    evidence:"status=ACTIVE: 3,078 records (100%)",
+    recordNote:"Records below are sorted by expiry date — closest to disappearing first. Note every record is ACTIVE; there is no expired or inactive state available." },
 
-  const grid = document.getElementById('listing-grid');
-  if (!data.data.length) {
-    grid.innerHTML = '<p class="text-gray-400 col-span-3 text-center py-12">No records found.</p>';
+  { slug:'tour-geo-misleading', severity:'high', title:"TOUR geo is actively misleading",
+    body:"62% of TOUR records have no lat/lng. The 38% that do have coordinates plot to the operator's office address — not where the tour operates. A Barossa wine tour maps to an Adelaide CBD office. Placing TOUR records on a map mislabels them geographically.",
+    evidence:"TOUR with no geo: 25/40 (62%) · AAT Kings: 5+ records all at depot addresses",
+    recordNote:"These TOUR records all have geo coordinates — but each coordinate is the operator's office or depot, not the tour location." },
+
+  { slug:'custodian-not-operator', severity:'high', title:"The data custodian is not the operator",
+    body:"organisation_name is whoever submitted the record — frequently a state tourism body, regional council, or aggregator. Destination NSW owns 51 restaurant records. Camden Visitor Information Centre owns 33. Hipcamp Australia (an aggregator) owns 15 accommodation records with better-than-average quality.",
+    evidence:"Destination NSW: 51 RESTAURANTs · Camden VIC: 33 · Hipcamp: 15 ACCOMMs",
+    recordNote:"Records owned by state bodies, visitor centres, and aggregators — not the operators being described." },
+
+  { slug:'journey-ambiguous', severity:'medium', title:"JOURNEY is two different things",
+    body:"The JOURNEY category contains walking tracks (with Distance and Difficulty embedded as plain text in the description) and multi-day tourism itineraries. Both use identical record structure. There is no sub-category to distinguish them, 82% have no geo, and structured trail attributes are not in dedicated fields.",
+    evidence:"JOURNEY records with no geo: 82% · Structured data only in 1 of 10 sampled records",
+    recordNote:"Browse JOURNEY records — look for 'Distance:' or 'Difficulty:' in descriptions (trails) vs multi-day itinerary names like '15 Day Outback Legends'." },
+
+  { slug:'areas-taxonomy', severity:'medium', title:"The areas taxonomy is not a clean hierarchy",
+    body:"The areas field mixes tourism marketing regions with local government area names, assigns multiple overlapping values to single records, and has no documented hierarchy. One Tasmanian restaurant was assigned three area values. Adelaide records routinely carry both 'Adelaide' and 'City of Adelaide'.",
+    evidence:"Multiple area values found across RESTAURANT, ACCOMM, TOUR, EVENT, GENSERVICE",
+    recordNote:"These records all have more than one area assigned — note overlapping and hierarchical region names." },
+
+  { slug:'image-urls-unstable', severity:'medium', title:"Image URLs encode distributor context",
+    body:"Every product image URL contains a base64-encoded JSON payload in the ?q= query parameter, encoding the distributor ID and API key ID. If the API key or distributor relationship changes, every image URL in the canonical store breaks. These are not stable asset paths.",
+    evidence:"?q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6... (base64 JSON in every image URL)",
+    recordNote:"Inspect any image_url — the ?q= parameter decodes to JSON containing distributorId and apikeyId." },
+
+  { slug:'expiry-no-notice', severity:'medium', title:"Records expire without notice on ~12-month cycle",
+    body:"Every record carries an expires_at date. 30 records expire this month. Records that are not renewed by their custodian simply disappear from the API — no tombstone, no notification, no changed status. A canonical store must actively track expiry dates and re-sync on schedule.",
+    evidence:"30 records expiring June 2026 · Distribution spread June 2026 – March 2027",
+    recordNote:"Records sorted by nearest expiry — the ones at the top will silently vanish from the API soon." },
+
+  { slug:'deduplication', severity:'medium', title:"Deduplication is unsolved — same entity, multiple records",
+    body:"AAT Kings (a national tour operator) appears as 5+ separate records, one per state entity, each with a different depot address and name variant. '2 Bent Rods' fishing lessons appear as 8 records across 8 locations. Any canonical store would represent one real-world entity as many.",
+    evidence:"AAT Kings: 5+ records (SA, NSW, NT×3, QLD, WA) · 2 Bent Rods: 8 records",
+    recordNote:"AAT Kings and 2 Bent Rods records — same operators appearing as multiple distinct listings." },
+
+  { slug:'api-xml', severity:'low', title:"API returns XML in UTF-16LE, not JSON",
+    body:"The DAPI endpoint returns UTF-16LE encoded XML. Standard JSON tooling fails. Python's xml.etree.ElementTree handles it correctly from raw bytes but will fail if you attempt to decode the response to a string first (BOM handling). No content-type negotiation available — XML is the only format.",
+    evidence:"Content-Type: application/xml; charset=utf-16le · All 58,151+ records",
+    recordNote:"These records were all parsed from UTF-16LE XML — the structure below is the canonical form after translation." },
+
+  { slug:'genservice-broad', severity:'low', title:"GENSERVICE is too broad to use as a filter",
+    body:"GENSERVICE (General Services) contains 361 records spanning a wide range: B2B service suppliers (water-from-air machine vendors), community halls, parks, and legitimate tourism-adjacent services. The category is effectively unusable as a filter for any tourism-specific purpose.",
+    evidence:"GENSERVICE sample includes: water vending machine suppliers, parks, memorial halls",
+    recordNote:"Browse GENSERVICE records — the mix of B2B suppliers, community facilities, and tourism services in one category." },
+
+  { slug:'address-array', severity:'low', title:"Address array is always length 1 — but structured as an array",
+    body:"The XML schema allows multiple <address> elements per record. In practice, every record has exactly one address. The complexity is in the wrong place: the array wrapper is unnecessary, but the areas sub-array is essential.",
+    evidence:"Zero records with jsonb_array_length(address) > 1 across 3,078 records",
+    recordNote:"Every record below has address[0] — never address[1]. But address[0].areas is often multi-valued." },
+];
+
+const recordsCache = {};
+
+function renderFindings() {
+  const container = document.getElementById('findings-list');
+  container.innerHTML = FINDINGS.map(f => {
+    const s = SEV[f.severity];
+    return `
+      <div class="card p-5" style="border-left:4px solid ${s.border};background:${s.bg}">
+        <div class="flex items-start justify-between gap-3 mb-2">
+          <div class="font-semibold text-sm leading-snug">${escHtml(f.title)}</div>
+          <span class="badge shrink-0" style="background:${s.badge};color:#fff">${s.label}</span>
+        </div>
+        <p class="text-sm text-gray-700 leading-relaxed mb-3">${escHtml(f.body)}</p>
+        <p class="text-xs text-gray-500 font-mono border-t border-black/10 pt-2 mb-3">${escHtml(f.evidence)}</p>
+        <button onclick="toggleRecords('${f.slug}', this)"
+          class="text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-300 hover:bg-white/60 transition-colors">
+          Show matching records
+        </button>
+        <div id="records-${f.slug}" class="hidden mt-4">
+          <p class="text-xs text-indigo-700 bg-indigo-50 rounded-lg px-3 py-2 mb-3">${escHtml(f.recordNote)}</p>
+          <div id="records-grid-${f.slug}" class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-3"></div>
+        </div>
+      </div>`;
+  }).join('');
+}
+
+async function toggleRecords(slug, btn) {
+  const panel = document.getElementById('records-' + slug);
+  const isOpen = !panel.classList.contains('hidden');
+  if (isOpen) {
+    panel.classList.add('hidden');
+    btn.textContent = 'Show matching records';
     return;
   }
-  grid.innerHTML = data.data.map(r => listingCard(r)).join('');
-
-  const totalPages = Math.ceil(totalCount / LIMIT);
-  document.getElementById('page-info').textContent = `Page ${currentPage + 1} of ${totalPages}`;
-  document.getElementById('prev-btn').disabled = currentPage === 0;
-  document.getElementById('next-btn').disabled = currentPage >= totalPages - 1;
+  panel.classList.remove('hidden');
+  btn.textContent = 'Hide records';
+  if (recordsCache[slug]) return;
+  const grid = document.getElementById('records-grid-' + slug);
+  grid.innerHTML = '<p class="text-xs text-gray-400 col-span-3 py-4 text-center">Loading…</p>';
+  const r = await fetch(API + `/v1/findings/${slug}/listings?limit=9`);
+  const data = await r.json();
+  recordsCache[slug] = data.data;
+  grid.innerHTML = data.data.length
+    ? data.data.map(rec => listingCard(rec)).join('')
+    : '<p class="text-xs text-gray-400 col-span-3 py-4 text-center">No records matched.</p>';
 }
 
 function listingCard(r) {
   const color = CAT_COLORS[r.category] || '#888';
   const addr = r.address?.[0];
   const location = addr ? `${addr.city || ''}${addr.state ? ', ' + addr.state : ''}` : '';
-  const hasGeo = r.latitude != null;
-  const desc = (r.description || '').slice(0, 140).trim();
+  const areas = addr?.areas?.length > 1 ? addr.areas : null;
+  const desc = (r.description || '').slice(0, 120).trim();
   return `
-    <div class="card p-4 flex flex-col gap-2">
+    <div class="card p-4 flex flex-col gap-2" style="background:#fff">
       <div class="flex items-start justify-between gap-2">
         <span class="text-xs font-bold px-2 py-0.5 rounded-full text-white" style="background:${color}">${r.category}</span>
-        ${!hasGeo ? '<span class="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">No geo</span>' : ''}
+        ${r.latitude == null ? '<span class="text-xs text-amber-600 bg-amber-50 px-2 py-0.5 rounded-full">No geo</span>' : ''}
       </div>
       <div class="font-semibold text-sm leading-snug">${escHtml(r.name || '—')}</div>
       ${location ? `<div class="text-xs text-gray-500">${escHtml(location)}</div>` : ''}
-      ${r.organisation_name ? `<div class="text-xs text-gray-400">via ${escHtml(r.organisation_name)}</div>` : ''}
-      ${desc ? `<p class="text-xs text-gray-600 leading-relaxed">${escHtml(desc)}${r.description?.length > 140 ? '…' : ''}</p>` : ''}
+      ${r.organisation_name ? `<div class="text-xs text-gray-400">via <span class="font-medium text-gray-600">${escHtml(r.organisation_name)}</span></div>` : ''}
+      ${areas ? `<div class="text-xs text-indigo-600 bg-indigo-50 rounded px-2 py-1">Areas: ${areas.map(escHtml).join(' · ')}</div>` : ''}
+      ${desc ? `<p class="text-xs text-gray-600 leading-relaxed">${escHtml(desc)}${(r.description?.length||0) > 120 ? '…' : ''}</p>` : ''}
       <div class="flex gap-2 mt-auto pt-1 flex-wrap">
         ${r.expires_at ? `<span class="text-xs text-gray-400">Expires ${r.expires_at}</span>` : ''}
         ${r.next_occurrence ? `<span class="text-xs text-purple-600">Next: ${r.next_occurrence}</span>` : ''}
+        ${r.latitude != null ? `<span class="text-xs text-green-600">${r.latitude.toFixed(3)}, ${r.longitude.toFixed(3)}</span>` : ''}
       </div>
     </div>`;
 }
 
-function changePage(dir) {
-  currentPage = Math.max(0, currentPage + dir);
-  loadListings();
-  window.scrollTo(0, 0);
-}
-
-function debounceSearch() {
-  clearTimeout(searchTimer);
-  searchTimer = setTimeout(() => { currentPage = 0; loadListings(); }, 350);
-}
-
 function escHtml(s) {
-  return String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+  return String(s ?? '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
 }
 
-// ─── MAP ─────────────────────────────────────────────────────────────────────
+// ─── MAP ──────────────────────────────────────────────────────────────────────
+let mapInstance = null, allMarkers = [], markerLayer = null;
+
 async function initMap() {
   mapInstance = L.map('map').setView([-27, 134], 4);
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
@@ -243,28 +272,26 @@ async function initMap() {
 
   const r = await fetch(API + '/v1/listings/geo');
   const data = await r.json();
-
   markerLayer = L.layerGroup().addTo(mapInstance);
+
   allMarkers = data.data.map(rec => {
     const color = CAT_COLORS[rec.category] || '#888';
-    const marker = L.circleMarker([rec.latitude, rec.longitude], {
+    const m = L.circleMarker([rec.latitude, rec.longitude], {
       radius: 5, fillColor: color, color: '#fff',
       weight: 1.5, opacity: 1, fillOpacity: 0.85,
-      _category: rec.category
     });
-    marker._category = rec.category;
-    marker.bindPopup(`
-      <div style="min-width:200px">
+    m._category = rec.category;
+    m.bindPopup(`
+      <div style="min-width:190px">
         <div style="font-weight:600;margin-bottom:4px">${escHtml(rec.name || '—')}</div>
-        <div style="font-size:11px;color:#555">${rec.city || ''}${rec.state ? ', ' + rec.state : ''}</div>
-        <div style="margin-top:4px"><span style="background:${color};color:#fff;font-size:10px;padding:1px 6px;border-radius:10px">${rec.category}</span></div>
+        <div style="font-size:11px;color:#555">${escHtml(rec.city || '')}${rec.state ? ', ' + rec.state : ''}</div>
+        <span style="background:${color};color:#fff;font-size:10px;padding:1px 6px;border-radius:10px;display:inline-block;margin-top:4px">${rec.category}</span>
         <div style="font-size:11px;color:#888;margin-top:4px">via ${escHtml(rec.organisation_name || '—')}</div>
       </div>`);
-    markerLayer.addLayer(marker);
-    return marker;
+    markerLayer.addLayer(m);
+    return m;
   });
 
-  // Legend
   const legend = document.getElementById('map-legend');
   Object.entries(CAT_COLORS).forEach(([cat, color]) => {
     const count = allMarkers.filter(m => m._category === cat).length;
@@ -278,206 +305,373 @@ function filterMapMarkers() {
   const cat = document.getElementById('map-cat-filter').value;
   if (!markerLayer) return;
   markerLayer.clearLayers();
-  allMarkers.forEach(m => {
-    if (!cat || m._category === cat) markerLayer.addLayer(m);
-  });
+  allMarkers.forEach(m => { if (!cat || m._category === cat) markerLayer.addLayer(m); });
 }
 
-// ─── INSIGHTS ────────────────────────────────────────────────────────────────
-async function loadInsights() {
-  if (!statsData) {
-    const r = await fetch(API + '/v1/stats');
-    statsData = await r.json();
-  }
-  const cats = statsData.categories;
+// ─── SCHEMA.ORG ───────────────────────────────────────────────────────────────
+let schemaLoaded = false;
+let selectedSchemaCat = null;
 
-  // Category distribution
-  new Chart(document.getElementById('chart-cats'), {
-    type: 'bar',
-    data: {
-      labels: cats.map(c => c.category),
-      datasets: [{ data: cats.map(c => c.total),
-        backgroundColor: cats.map(c => CAT_COLORS[c.category] || '#888'),
-        borderRadius: 4 }]
-    },
-    options: { plugins:{legend:{display:false}}, scales:{ y:{ beginAtZero:true } } }
-  });
-
-  // Geo coverage %
-  new Chart(document.getElementById('chart-geo'), {
-    type: 'bar',
-    data: {
-      labels: cats.map(c => c.category),
-      datasets: [{
-        label: '% with geo',
-        data: cats.map(c => c.total ? Math.round(100 * c.has_geo / c.total) : 0),
-        backgroundColor: cats.map(c => {
-          const pct = c.total ? Math.round(100 * c.has_geo / c.total) : 0;
-          return pct < 50 ? '#e74c3c' : pct < 80 ? '#f39c12' : '#2ecc71';
-        }),
-        borderRadius: 4
-      }]
-    },
-    options: {
-      plugins:{ legend:{display:false},
-        tooltip:{ callbacks:{ label: ctx => ctx.raw + '%' } } },
-      scales:{ y:{ beginAtZero:true, max:100,
-        ticks:{ callback: v => v + '%' } } }
-    }
-  });
-
-  // Description length
-  new Chart(document.getElementById('chart-desc'), {
-    type: 'bar',
-    data: {
-      labels: [...cats].sort((a,b) => b.avg_desc_len - a.avg_desc_len).map(c => c.category),
-      datasets: [{
-        label: 'Avg chars',
-        data: [...cats].sort((a,b) => b.avg_desc_len - a.avg_desc_len).map(c => c.avg_desc_len),
-        backgroundColor: '#6366f1', borderRadius: 4
-      }]
-    },
-    options: { plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true } } }
-  });
-
-  // Expiry spread
-  const expiry = statsData.expiry_spread;
-  new Chart(document.getElementById('chart-expiry'), {
-    type: 'bar',
-    data: {
-      labels: expiry.map(e => e.month),
-      datasets: [{
-        label: 'Records expiring',
-        data: expiry.map(e => e.n),
-        backgroundColor: expiry.map(e => e.month <= new Date().toISOString().slice(0,7) ? '#e74c3c' : '#3b82f6'),
-        borderRadius: 3
-      }]
-    },
-    options: { plugins:{ legend:{display:false} }, scales:{ y:{ beginAtZero:true } } }
-  });
-
-  // Orgs table
-  const topOrgs = statsData.top_organisations;
-  const coreCats = CORE.filter(c => topOrgs[c]);
-  document.getElementById('orgs-table').innerHTML = `
-    <table class="text-xs w-full border-collapse">
-      <thead><tr class="bg-gray-50">
-        ${coreCats.map(c => `<th class="text-left px-3 py-2 font-semibold" style="color:${CAT_COLORS[c]}">${c}</th>`).join('')}
-      </tr></thead>
-      <tbody>
-        ${[0,1,2,3,4].map(i => `<tr class="border-t border-gray-100">
-          ${coreCats.map(c => {
-            const org = topOrgs[c]?.[i];
-            return `<td class="px-3 py-1.5 text-gray-600">${org ? `<span class="font-medium">${escHtml(org.org)}</span> <span class="text-gray-400">(${org.n})</span>` : ''}</td>`;
-          }).join('')}
-        </tr>`).join('')}
-      </tbody>
-    </table>`;
-}
-
-// ─── FINDINGS ────────────────────────────────────────────────────────────────
-const FINDINGS = [
-  {
-    title: "FOOD doesn't exist — it's RESTAURANT",
-    severity: 'high',
-    body: "The brief described FOOD as a target category. No records with product_category_id = 'FOOD' exist in the dataset. The correct code is RESTAURANT (1,555 records — the largest single category). The productType query filter is also silently ignored, returning the same 58,151 results regardless of value.",
-    evidence: "RESTAURANT: 1,555 records · FOOD: 0 records across 6,300+ records scanned"
-  },
-  {
-    title: "The data has no tombstone signal",
-    severity: 'high',
-    body: "When a record expires or is deactivated it silently disappears from the API. All 3,078 records in the probe returned status=ACTIVE — there is no INACTIVE or EXPIRED state visible. A canonical store has no deletion signal; it can only detect absence, not reason.",
-    evidence: "status=ACTIVE: 3,078 records (100%)"
-  },
-  {
-    title: "TOUR geo is actively misleading",
-    severity: 'high',
-    body: "62% of TOUR records have no lat/lng. The 38% that do have coordinates plot to the operator's office address — not where the tour operates. A Barossa wine tour maps to an Adelaide CBD office. Placing TOUR records on a map mislabels them geographically. See Map tab → filter to TOUR.",
-    evidence: "TOUR with no geo: 25/40 (62%) · AAT Kings: 5+ records all at depot addresses"
-  },
-  {
-    title: "The data custodian is not the operator",
-    severity: 'high',
-    body: "organisation_name is whoever submitted the record — frequently a state tourism body, regional council, or aggregator. Destination NSW owns 51 restaurant records. Camden Visitor Information Centre owns 33. Hipcamp Australia (an aggregator) owns 15 accommodation records with better-than-average quality.",
-    evidence: "Destination NSW: 51 RESTAURANTs · Camden VIC: 33 · Hipcamp: 15 ACCOMMs"
-  },
-  {
-    title: "JOURNEY is two different things",
-    severity: 'medium',
-    body: "The JOURNEY category contains walking tracks (with Distance and Difficulty embedded as plain text in the description) and multi-day tourism itineraries. Both use identical record structure. There is no sub-category to distinguish them, 82% have no geo (trails cover an area, itineraries cover a route), and structured trail attributes like distance are not in dedicated fields.",
-    evidence: "JOURNEY records with no geo: 82% · Structured data only in 1 of 10 sampled records"
-  },
-  {
-    title: "The areas taxonomy is not a clean hierarchy",
-    severity: 'medium',
-    body: "The areas field mixes tourism marketing regions with local government area names, assigns multiple overlapping values to single records, and has no documented hierarchy. One Tasmanian restaurant was assigned three area values: 'Launceston and North', 'North West', and 'North - Northeast'. Adelaide records routinely carry both 'Adelaide' and 'City of Adelaide'.",
-    evidence: "Multiple area values found across RESTAURANT, ACCOMM, TOUR, EVENT, GENSERVICE"
-  },
-  {
-    title: "Image URLs encode distributor context",
-    severity: 'medium',
-    body: "Every product image URL contains a base64-encoded JSON payload in the ?q= query parameter, encoding the distributor ID and API key ID. Decodes to: {type, listingId, distributorId, apikeyId}. If the API key or distributor relationship changes, every image URL in the canonical store breaks. These are not stable asset paths.",
-    evidence: "?q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6... (base64 JSON in every image URL)"
-  },
-  {
-    title: "Records expire without notice on ~12-month cycle",
-    severity: 'medium',
-    body: "Every record carries an expires_at date. 30 records in the current dataset expire this month. Records that are not renewed by their custodian simply disappear from the API — no tombstone, no notification, no changed status. A canonical store must actively track expiry dates and re-sync on schedule.",
-    evidence: "30 records expiring June 2026 · Distribution spread June 2026 – March 2027"
-  },
-  {
-    title: "Deduplication is unsolved — same entity, multiple records",
-    severity: 'medium',
-    body: "AAT Kings (a national tour operator) appears as 5+ separate records, one per state entity, each with a different depot address and name variant. '2 Bent Rods' fishing lessons appear as 8 records across 8 locations. Any canonical store or schema.org export would represent one real-world entity as many, telling search engines and consumers there are multiple distinct businesses.",
-    evidence: "AAT Kings: 5+ records (SA, NSW, NT×3, QLD, WA) · 2 Bent Rods: 8 records"
-  },
-  {
-    title: "API returns XML in UTF-16LE, not JSON",
-    severity: 'low',
-    body: "The DAPI endpoint returns UTF-16LE encoded XML. Standard JSON tooling fails. Python's xml.etree.ElementTree handles it correctly from raw bytes but will fail if you attempt to decode the response to a string first (BOM handling). No content-type negotiation available — XML is the only format.",
-    evidence: "Content-Type: application/xml; charset=utf-16le · All 58,151+ records"
-  },
-  {
-    title: "GENSERVICE is too broad to use as a filter",
-    severity: 'low',
-    body: "GENSERVICE (General Services) contains 361 records in the dataset spanning a wide range: B2B service suppliers (water-from-air machine vendors), community halls and parks, and legitimate tourism-adjacent services. The category is effectively unusable as a filter for any tourism-specific purpose.",
-    evidence: "GENSERVICE sample includes: water vending machine suppliers, parks, memorial halls"
-  },
-  {
-    title: "Address array is always length 1 — but structured as an array",
-    severity: 'low',
-    body: "The XML schema allows multiple <address> elements per record. In practice, every record in 3,078 has exactly one address. However, within that single address, multiple <area> elements are common. The complexity is in the wrong place: the array wrapper is unnecessary, but the areas sub-array is essential.",
-    evidence: "Zero records with jsonb_array_length(address) > 1 across 3,078 records"
-  }
-];
-
-const SEVERITY_STYLES = {
-  high:   { bg:'#fef2f2', border:'#ef4444', badge:'#ef4444', label:'HIGH' },
-  medium: { bg:'#fffbeb', border:'#f59e0b', badge:'#f59e0b', label:'MEDIUM' },
-  low:    { bg:'#f0fdf4', border:'#22c55e', badge:'#22c55e', label:'LOW' }
+// Maps canonical field names to the coverage API keys
+const SRC_KEY = {
+  'name':              'has_name',
+  'description':       'has_description',
+  'image_url':         'has_image',
+  'latitude+lng':      'has_geo',
+  'address':           'has_address',
+  'expires_at':        'has_expires',
+  'next_occurrence':   'has_next_occurrence',
+  'organisation_name': 'has_organisation',
 };
 
-function renderFindings() {
-  document.getElementById('findings-grid').innerHTML = FINDINGS.map(f => {
-    const s = SEVERITY_STYLES[f.severity];
+// Schema.org property definitions per DAPI category
+// coverage: "data" = directly mapped, "partial" = mapped but quality caveat, "missing" = not in DAPI
+const SCHEMA_DEFS = {
+  RESTAURANT: { type:'schema:Restaurant', url:'https://schema.org/Restaurant', properties:[
+    { prop:'name',                      src:'name',              cov:'data' },
+    { prop:'description',               src:'description',       cov:'data' },
+    { prop:'image',                     src:'image_url',         cov:'data' },
+    { prop:'address',                   src:'address',           cov:'data' },
+    { prop:'geo',                       src:'latitude+lng',      cov:'data' },
+    { prop:'url',                       src:null, cov:'missing', note:'No URL field in DAPI' },
+    { prop:'telephone',                 src:null, cov:'missing', note:'Not captured in DAPI' },
+    { prop:'openingHoursSpecification', src:null, cov:'missing', note:'Not captured in DAPI' },
+    { prop:'servesCuisine',             src:null, cov:'missing', note:'Not captured in DAPI' },
+    { prop:'priceRange',                src:null, cov:'missing', note:'Not captured in DAPI' },
+    { prop:'hasMenu',                   src:null, cov:'missing', note:'Not captured in DAPI' },
+    { prop:'acceptsReservations',       src:null, cov:'missing', note:'Not captured in DAPI' },
+    { prop:'aggregateRating',           src:null, cov:'missing', note:'Not captured in DAPI' },
+  ]},
+  ACCOMM: { type:'schema:LodgingBusiness', url:'https://schema.org/LodgingBusiness', properties:[
+    { prop:'name',             src:'name',         cov:'data' },
+    { prop:'description',      src:'description',  cov:'data' },
+    { prop:'image',            src:'image_url',    cov:'data' },
+    { prop:'address',          src:'address',      cov:'data' },
+    { prop:'geo',              src:'latitude+lng', cov:'data' },
+    { prop:'url',              src:null, cov:'missing', note:'No URL field in DAPI' },
+    { prop:'telephone',        src:null, cov:'missing', note:'Not captured' },
+    { prop:'checkinTime',      src:null, cov:'missing', note:'Not captured' },
+    { prop:'checkoutTime',     src:null, cov:'missing', note:'Not captured' },
+    { prop:'numberOfRooms',    src:null, cov:'missing', note:'Not captured' },
+    { prop:'starRating',       src:null, cov:'missing', note:'Not captured' },
+    { prop:'amenityFeature',   src:null, cov:'missing', note:'Not captured' },
+    { prop:'priceRange',       src:null, cov:'missing', note:'Not captured' },
+    { prop:'aggregateRating',  src:null, cov:'missing', note:'Not captured' },
+  ]},
+  TOUR: { type:'schema:TouristAttraction', url:'https://schema.org/TouristAttraction', properties:[
+    { prop:'name',              src:'name',         cov:'data' },
+    { prop:'description',       src:'description',  cov:'data' },
+    { prop:'image',             src:'image_url',    cov:'data' },
+    { prop:'address',           src:'address',      cov:'data' },
+    { prop:'geo',               src:'latitude+lng', cov:'partial', note:'38% have coords but all plot to operator office, not tour location' },
+    { prop:'url',               src:null, cov:'missing', note:'No URL field in DAPI' },
+    { prop:'telephone',         src:null, cov:'missing', note:'Not captured' },
+    { prop:'duration',          src:null, cov:'missing', note:'Not captured' },
+    { prop:'itinerary',         src:null, cov:'missing', note:'Not captured' },
+    { prop:'touristType',       src:null, cov:'missing', note:'Not captured' },
+    { prop:'availableLanguage', src:null, cov:'missing', note:'Not captured' },
+    { prop:'offers',            src:null, cov:'missing', note:'Pricing not in DAPI' },
+  ]},
+  ATTRACTION: { type:'schema:TouristAttraction', url:'https://schema.org/TouristAttraction', properties:[
+    { prop:'name',                       src:'name',         cov:'data' },
+    { prop:'description',                src:'description',  cov:'data' },
+    { prop:'image',                      src:'image_url',    cov:'data' },
+    { prop:'address',                    src:'address',      cov:'data' },
+    { prop:'geo',                        src:'latitude+lng', cov:'data' },
+    { prop:'url',                        src:null, cov:'missing', note:'No URL field in DAPI' },
+    { prop:'telephone',                  src:null, cov:'missing', note:'Not captured' },
+    { prop:'openingHoursSpecification',  src:null, cov:'missing', note:'Not captured' },
+    { prop:'touristType',                src:null, cov:'missing', note:'Not captured' },
+    { prop:'availableLanguage',          src:null, cov:'missing', note:'Not captured' },
+    { prop:'aggregateRating',            src:null, cov:'missing', note:'Not captured' },
+  ]},
+  EVENT: { type:'schema:Event', url:'https://schema.org/Event', properties:[
+    { prop:'name',          src:'name',              cov:'data' },
+    { prop:'description',   src:'description',       cov:'data' },
+    { prop:'image',         src:'image_url',         cov:'data' },
+    { prop:'location',      src:'address',           cov:'data' },
+    { prop:'startDate',     src:'next_occurrence',   cov:'data' },
+    { prop:'organizer',     src:'organisation_name', cov:'data' },
+    { prop:'endDate',       src:'expires_at',        cov:'partial', note:'expires_at is record expiry, not event end date' },
+    { prop:'url',           src:null, cov:'missing', note:'No URL field in DAPI' },
+    { prop:'telephone',     src:null, cov:'missing', note:'Not captured' },
+    { prop:'eventStatus',   src:null, cov:'missing', note:'No INACTIVE signal in DAPI' },
+    { prop:'eventSchedule', src:null, cov:'missing', note:'Not captured' },
+    { prop:'performer',     src:null, cov:'missing', note:'Not captured' },
+    { prop:'offers',        src:null, cov:'missing', note:'Pricing not in DAPI' },
+    { prop:'aggregateRating', src:null, cov:'missing', note:'Not captured' },
+  ]},
+  DESTINFO: { type:'schema:TouristDestination', url:'https://schema.org/TouristDestination', properties:[
+    { prop:'name',               src:'name',         cov:'data' },
+    { prop:'description',        src:'description',  cov:'data' },
+    { prop:'image',              src:'image_url',    cov:'data' },
+    { prop:'geo',                src:'latitude+lng', cov:'data' },
+    { prop:'url',                src:null, cov:'missing', note:'No URL field' },
+    { prop:'telephone',          src:null, cov:'missing', note:'Not captured' },
+    { prop:'includesAttraction', src:null, cov:'missing', note:'Not captured' },
+    { prop:'touristType',        src:null, cov:'missing', note:'Not captured' },
+  ]},
+  GENSERVICE: { type:'schema:LocalBusiness', url:'https://schema.org/LocalBusiness', properties:[
+    { prop:'name',                       src:'name',         cov:'data' },
+    { prop:'description',                src:'description',  cov:'data' },
+    { prop:'image',                      src:'image_url',    cov:'partial', note:'28% of records have no image' },
+    { prop:'address',                    src:'address',      cov:'data' },
+    { prop:'geo',                        src:'latitude+lng', cov:'data' },
+    { prop:'url',                        src:null, cov:'missing', note:'No URL field' },
+    { prop:'telephone',                  src:null, cov:'missing', note:'Not captured' },
+    { prop:'openingHoursSpecification',  src:null, cov:'missing', note:'Not captured' },
+    { prop:'priceRange',                 src:null, cov:'missing', note:'Not captured' },
+    { prop:'hasOfferCatalog',            src:null, cov:'missing', note:'Not captured' },
+  ]},
+  HIRE: { type:'schema:LocalBusiness', url:'https://schema.org/LocalBusiness', properties:[
+    { prop:'name',                       src:'name',         cov:'data' },
+    { prop:'description',                src:'description',  cov:'data' },
+    { prop:'image',                      src:'image_url',    cov:'data' },
+    { prop:'address',                    src:'address',      cov:'data' },
+    { prop:'geo',                        src:'latitude+lng', cov:'data' },
+    { prop:'url',                        src:null, cov:'missing', note:'No URL field' },
+    { prop:'telephone',                  src:null, cov:'missing', note:'Not captured' },
+    { prop:'openingHoursSpecification',  src:null, cov:'missing', note:'Not captured' },
+    { prop:'priceRange',                 src:null, cov:'missing', note:'Not captured' },
+  ]},
+  JOURNEY: { type:'schema:Trip', url:'https://schema.org/Trip', properties:[
+    { prop:'name',        src:'name',              cov:'data' },
+    { prop:'description', src:'description',       cov:'data' },
+    { prop:'image',       src:'image_url',         cov:'data' },
+    { prop:'provider',    src:'organisation_name', cov:'data' },
+    { prop:'itinerary',   src:null, cov:'missing', note:'Not captured' },
+    { prop:'geo',         src:'latitude+lng',      cov:'partial', note:'82% have no geo — trails cover an area, itineraries cover a route' },
+    { prop:'duration',    src:null, cov:'missing', note:'Embedded in description text only (e.g. "Distance: 1.5km")' },
+    { prop:'url',         src:null, cov:'missing', note:'No URL field' },
+    { prop:'offers',      src:null, cov:'missing', note:'Not captured' },
+    { prop:'touristType', src:null, cov:'missing', note:'Not captured' },
+  ]},
+  INFO: { type:'schema:TouristInformationCenter', url:'https://schema.org/TouristInformationCenter', properties:[
+    { prop:'name',                       src:'name',         cov:'data' },
+    { prop:'description',                src:'description',  cov:'data' },
+    { prop:'image',                      src:'image_url',    cov:'data' },
+    { prop:'address',                    src:'address',      cov:'data' },
+    { prop:'geo',                        src:'latitude+lng', cov:'data' },
+    { prop:'url',                        src:null, cov:'missing', note:'No URL field' },
+    { prop:'telephone',                  src:null, cov:'missing', note:'Not captured' },
+    { prop:'openingHoursSpecification',  src:null, cov:'missing', note:'Not captured' },
+  ]},
+  TRANSPORT: { type:'schema:LocalBusiness', url:'https://schema.org/LocalBusiness', properties:[
+    { prop:'name',                       src:'name',         cov:'data' },
+    { prop:'description',                src:'description',  cov:'data' },
+    { prop:'image',                      src:'image_url',    cov:'data' },
+    { prop:'address',                    src:'address',      cov:'data' },
+    { prop:'geo',                        src:'latitude+lng', cov:'data' },
+    { prop:'url',                        src:null, cov:'missing', note:'No URL field' },
+    { prop:'telephone',                  src:null, cov:'missing', note:'Not captured' },
+    { prop:'openingHoursSpecification',  src:null, cov:'missing', note:'Not captured' },
+    { prop:'areaServed',                 src:null, cov:'missing', note:'Not captured' },
+  ]},
+};
+
+function computeScore(catDef, stats) {
+  if (!catDef || !stats) return 0;
+  const total = catDef.properties.length;
+  if (!total) return 0;
+  let sum = 0;
+  for (const p of catDef.properties) {
+    if (p.cov === 'missing') continue;
+    const key = SRC_KEY[p.src];
+    const fill = key && stats.total > 0 ? stats[key] / stats.total : 1;
+    sum += p.cov === 'partial' ? 0.5 * fill : fill;
+  }
+  return sum / total;
+}
+
+function scoreColor(pct) {
+  if (pct >= 0.5) return '#22c55e';
+  if (pct >= 0.3) return '#f59e0b';
+  return '#ef4444';
+}
+
+async function loadSchema() {
+  schemaLoaded = true;
+  const r = await fetch(API + '/v1/schema-coverage');
+  const data = await r.json();
+
+  // Build a map: category → stats row
+  const statsMap = {};
+  for (const row of data.categories) statsMap[row.category] = row;
+
+  // Compute scores for each defined category
+  const scored = Object.entries(SCHEMA_DEFS).map(([cat, def]) => {
+    const stats = statsMap[cat] || { total: 0 };
+    return { cat, def, stats, score: computeScore(def, stats) };
+  }).sort((a, b) => b.score - a.score);
+
+  // Also include any categories from the DB that have no schema def
+  const undefined_cats = data.categories.filter(row => !SCHEMA_DEFS[row.category]);
+
+  renderSchema(scored, undefined_cats);
+}
+
+function renderSchema(scored, undefined_cats) {
+  const el = document.getElementById('schema-content');
+
+  const summaryRows = scored.map(({ cat, def, stats, score }) => {
+    const pct = Math.round(score * 100);
+    const color = scoreColor(score);
+    const mapped = def.properties.filter(p => p.cov !== 'missing').length;
+    const total  = def.properties.length;
     return `
-      <div class="card p-5 flex flex-col gap-3" style="border-left:4px solid ${s.border}; background:${s.bg}">
-        <div class="flex items-start justify-between gap-3">
-          <div class="font-semibold text-sm leading-snug">${escHtml(f.title)}</div>
-          <span class="badge shrink-0" style="background:${s.badge};color:#fff">${s.label}</span>
-        </div>
-        <p class="text-sm text-gray-700 leading-relaxed">${escHtml(f.body)}</p>
-        <div class="mt-auto pt-2 border-t border-gray-200">
-          <p class="text-xs text-gray-500 font-mono">${escHtml(f.evidence)}</p>
-        </div>
-      </div>`;
+      <tr class="border-t border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
+          onclick="selectSchemaCat('${cat}')" id="schema-row-${cat}">
+        <td class="px-4 py-3">
+          <span class="font-semibold text-sm text-gray-800">${cat}</span>
+          ${stats.total ? `<span class="ml-2 text-xs text-gray-400">${stats.total.toLocaleString()} records</span>` : ''}
+        </td>
+        <td class="px-4 py-3 text-xs text-gray-500">${def.type}</td>
+        <td class="px-4 py-3">
+          <div class="flex items-center gap-2">
+            <div class="fill-bar w-28"><div class="fill-bar-inner" style="width:${pct}%;background:${color}"></div></div>
+            <span class="text-sm font-bold" style="color:${color}">${pct}%</span>
+          </div>
+        </td>
+        <td class="px-4 py-3 text-xs text-gray-500">${mapped} of ${total} properties mappable</td>
+        <td class="px-4 py-3 text-xs text-gray-400">Click to expand</td>
+      </tr>`;
   }).join('');
+
+  el.innerHTML = `
+    <div class="flex gap-6">
+      <!-- Left: summary table -->
+      <div class="flex-1 min-w-0">
+        <div class="card overflow-hidden mb-6">
+          <div class="px-5 py-3 border-b border-gray-100 bg-gray-50">
+            <p class="text-sm font-semibold text-gray-700">Schema.org property coverage by category</p>
+            <p class="text-xs text-gray-400 mt-0.5">Score = (mapped fields × fill rate) ÷ total schema.org properties for the type. "Partial" counts as 0.5×.</p>
+          </div>
+          <div class="overflow-x-auto">
+            <table class="w-full text-sm">
+              <thead>
+                <tr class="bg-gray-50 text-xs text-gray-500 uppercase tracking-wide">
+                  <th class="text-left px-4 py-2 font-semibold">Category</th>
+                  <th class="text-left px-4 py-2 font-semibold">Schema.org type</th>
+                  <th class="text-left px-4 py-2 font-semibold">Score</th>
+                  <th class="text-left px-4 py-2 font-semibold">Mappable</th>
+                  <th class="px-4 py-2"></th>
+                </tr>
+              </thead>
+              <tbody id="schema-table-body">${summaryRows}</tbody>
+            </table>
+          </div>
+        </div>
+        ${undefined_cats.length ? `
+          <div class="card p-4 bg-amber-50 border border-amber-200">
+            <p class="text-xs font-semibold text-amber-800 mb-1">Categories without schema.org mapping defined:</p>
+            <p class="text-xs text-amber-700">${undefined_cats.map(r => r.category + ' (' + r.total + ')').join(', ')}</p>
+          </div>` : ''}
+      </div>
+
+      <!-- Right: drilldown -->
+      <div class="w-[480px] shrink-0">
+        <div id="schema-drilldown" class="card p-5 sticky top-4">
+          <p class="text-sm text-gray-400 text-center py-8">Click a category to see field-level coverage</p>
+        </div>
+      </div>
+    </div>`;
+
+  // Auto-select first row
+  if (scored.length) selectSchemaCat(scored[0].cat);
+}
+
+function selectSchemaCat(cat) {
+  // Highlight row
+  document.querySelectorAll('[id^="schema-row-"]').forEach(r => r.classList.remove('bg-indigo-50'));
+  const row = document.getElementById('schema-row-' + cat);
+  if (row) row.classList.add('bg-indigo-50');
+
+  const def = SCHEMA_DEFS[cat];
+  if (!def) return;
+
+  // Find stats from the scored array
+  const drillEl = document.getElementById('schema-drilldown');
+  fetch(API + '/v1/schema-coverage').then(r => r.json()).then(data => {
+    const statsMap = {};
+    for (const row of data.categories) statsMap[row.category] = row;
+    const stats = statsMap[cat] || { total: 0 };
+
+    const rows = def.properties.map(p => {
+      const key = SRC_KEY[p.src];
+      const fill = key && stats.total > 0 ? stats[key] / stats.total : null;
+      const fillPct = fill !== null ? Math.round(fill * 100) : null;
+
+      let statusLabel, statusClass, rowClass;
+      if (p.cov === 'missing') {
+        statusLabel = '✗ Not captured'; statusClass = 'text-gray-400'; rowClass = 'schema-row-missing';
+      } else if (p.cov === 'partial') {
+        statusLabel = '~ Partial'; statusClass = 'text-amber-600'; rowClass = 'schema-row-partial';
+      } else {
+        statusLabel = '✓ Mapped'; statusClass = 'text-green-600'; rowClass = 'schema-row-mapped';
+      }
+
+      const fillCell = fillPct !== null
+        ? `<div class="flex items-center gap-1.5">
+             <div class="fill-bar w-14"><div class="fill-bar-inner" style="width:${fillPct}%;background:${fillPct>79?'#22c55e':fillPct>49?'#f59e0b':'#ef4444'}"></div></div>
+             <span class="text-xs">${fillPct}%</span>
+           </div>`
+        : `<span class="text-xs text-gray-300">—</span>`;
+
+      return `
+        <tr class="${rowClass} border-t border-gray-100">
+          <td class="px-3 py-2 text-xs font-mono text-gray-700">${escHtml(p.prop)}</td>
+          <td class="px-3 py-2 text-xs text-gray-500">${p.src ? escHtml(p.src) : '<span class="text-gray-300">—</span>'}</td>
+          <td class="px-3 py-2">${fillCell}</td>
+          <td class="px-3 py-2">
+            <span class="text-xs font-medium ${statusClass}">${statusLabel}</span>
+            ${p.note ? `<div class="text-xs text-gray-400 mt-0.5 leading-tight">${escHtml(p.note)}</div>` : ''}
+          </td>
+        </tr>`;
+    }).join('');
+
+    const score = computeScore(def, stats);
+    const pct = Math.round(score * 100);
+    const color = scoreColor(score);
+    const mapped = def.properties.filter(p => p.cov !== 'missing').length;
+    const partial = def.properties.filter(p => p.cov === 'partial').length;
+    const missing = def.properties.filter(p => p.cov === 'missing').length;
+
+    drillEl.innerHTML = `
+      <div class="flex items-start justify-between mb-4">
+        <div>
+          <div class="font-bold text-gray-800">${cat}</div>
+          <div class="text-xs text-indigo-600 mt-0.5">${def.type}</div>
+        </div>
+        <div class="text-right">
+          <div class="text-2xl font-bold" style="color:${color}">${pct}%</div>
+          <div class="text-xs text-gray-400">coverage</div>
+        </div>
+      </div>
+      <div class="flex gap-3 mb-4 text-xs">
+        <span class="bg-green-50 text-green-700 px-2 py-1 rounded font-medium">${mapped - partial} fully mapped</span>
+        ${partial ? `<span class="bg-amber-50 text-amber-700 px-2 py-1 rounded font-medium">${partial} partial</span>` : ''}
+        <span class="bg-gray-100 text-gray-500 px-2 py-1 rounded font-medium">${missing} not captured</span>
+      </div>
+      <div class="overflow-auto max-h-[520px]">
+        <table class="w-full text-xs">
+          <thead>
+            <tr class="bg-gray-50 text-xs text-gray-500">
+              <th class="text-left px-3 py-2 font-semibold">Property</th>
+              <th class="text-left px-3 py-2 font-semibold">DAPI source</th>
+              <th class="text-left px-3 py-2 font-semibold">Fill rate</th>
+              <th class="text-left px-3 py-2 font-semibold">Status</th>
+            </tr>
+          </thead>
+          <tbody>${rows}</tbody>
+        </table>
+      </div>`;
+  });
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
 (async () => {
   await loadStats();
-  await loadListings();
+  renderFindings();
 })();
 </script>
 </body>
