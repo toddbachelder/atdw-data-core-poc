@@ -312,20 +312,10 @@ function filterMapMarkers() {
 let schemaLoaded = false;
 let selectedSchemaCat = null;
 
-// Maps canonical field names to the coverage API keys
-const SRC_KEY = {
-  'name':              'has_name',
-  'description':       'has_description',
-  'image_url':         'has_image',
-  'latitude+lng':      'has_geo',
-  'address':           'has_address',
-  'expires_at':        'has_expires',
-  'next_occurrence':   'has_next_occurrence',
-  'organisation_name': 'has_organisation',
-};
-
 // Schema.org property definitions per DAPI category
-// coverage: "data" = directly mapped, "partial" = mapped but quality caveat, "missing" = not in DAPI
+// cov: "data" = field exists in DAPI schema with direct mapping
+//      "partial" = field exists but with a quality or semantic caveat
+//      "missing" = no field in the DAPI canonical schema maps to this property
 const SCHEMA_DEFS = {
   RESTAURANT: { type:'schema:Restaurant', url:'https://schema.org/Restaurant', properties:[
     { prop:'name',                      src:'name',              cov:'data' },
@@ -469,17 +459,12 @@ const SCHEMA_DEFS = {
   ]},
 };
 
-function computeScore(catDef, stats) {
-  if (!catDef || !stats) return 0;
+function computeScore(catDef) {
+  if (!catDef) return 0;
   const total = catDef.properties.length;
   if (!total) return 0;
-  let sum = 0;
-  for (const p of catDef.properties) {
-    if (p.cov === 'missing') continue;
-    const key = SRC_KEY[p.src];
-    const fill = key && stats.total > 0 ? stats[key] / stats.total : 1;
-    sum += p.cov === 'partial' ? 0.5 * fill : fill;
-  }
+  const sum = catDef.properties.reduce((acc, p) =>
+    acc + (p.cov === 'data' ? 1 : p.cov === 'partial' ? 0.5 : 0), 0);
   return sum / total;
 }
 
@@ -491,39 +476,38 @@ function scoreColor(pct) {
 
 async function loadSchema() {
   schemaLoaded = true;
-  const r = await fetch(API + '/v1/schema-coverage');
-  const data = await r.json();
-
-  // Build a map: category → stats row
+  if (!statsData) {
+    const r = await fetch(API + '/v1/stats');
+    statsData = await r.json();
+  }
   const statsMap = {};
-  for (const row of data.categories) statsMap[row.category] = row;
+  for (const row of statsData.categories) statsMap[row.category] = row;
 
-  // Compute scores for each defined category
-  const scored = Object.entries(SCHEMA_DEFS).map(([cat, def]) => {
-    const stats = statsMap[cat] || { total: 0 };
-    return { cat, def, stats, score: computeScore(def, stats) };
-  }).sort((a, b) => b.score - a.score);
+  const scored = Object.entries(SCHEMA_DEFS).map(([cat, def]) => ({
+    cat, def,
+    total: (statsMap[cat] || {}).total || 0,
+    score: computeScore(def),
+  })).sort((a, b) => b.score - a.score);
 
-  // Also include any categories from the DB that have no schema def
-  const undefined_cats = data.categories.filter(row => !SCHEMA_DEFS[row.category]);
-
+  const undefined_cats = statsData.categories.filter(row => !SCHEMA_DEFS[row.category]);
   renderSchema(scored, undefined_cats);
 }
 
 function renderSchema(scored, undefined_cats) {
   const el = document.getElementById('schema-content');
 
-  const summaryRows = scored.map(({ cat, def, stats, score }) => {
+  const summaryRows = scored.map(({ cat, def, total: recCount, score }) => {
     const pct = Math.round(score * 100);
     const color = scoreColor(score);
-    const mapped = def.properties.filter(p => p.cov !== 'missing').length;
-    const total  = def.properties.length;
+    const nMapped  = def.properties.filter(p => p.cov === 'data').length;
+    const nPartial = def.properties.filter(p => p.cov === 'partial').length;
+    const nMissing = def.properties.filter(p => p.cov === 'missing').length;
     return `
       <tr class="border-t border-gray-100 cursor-pointer hover:bg-gray-50 transition-colors"
           onclick="selectSchemaCat('${cat}')" id="schema-row-${cat}">
         <td class="px-4 py-3">
           <span class="font-semibold text-sm text-gray-800">${cat}</span>
-          ${stats.total ? `<span class="ml-2 text-xs text-gray-400">${stats.total.toLocaleString()} records</span>` : ''}
+          ${recCount ? `<span class="ml-2 text-xs text-gray-400">${recCount.toLocaleString()} records</span>` : ''}
         </td>
         <td class="px-4 py-3 text-xs text-gray-500">${def.type}</td>
         <td class="px-4 py-3">
@@ -532,8 +516,10 @@ function renderSchema(scored, undefined_cats) {
             <span class="text-sm font-bold" style="color:${color}">${pct}%</span>
           </div>
         </td>
-        <td class="px-4 py-3 text-xs text-gray-500">${mapped} of ${total} properties mappable</td>
-        <td class="px-4 py-3 text-xs text-gray-400">Click to expand</td>
+        <td class="px-4 py-3 text-xs text-gray-500">
+          <span class="text-green-700">${nMapped} mapped</span>${nPartial ? ` · <span class="text-amber-600">${nPartial} partial</span>` : ''} · <span class="text-gray-400">${nMissing} missing</span>
+        </td>
+        <td class="px-4 py-3 text-xs text-gray-400">↗ drill in</td>
       </tr>`;
   }).join('');
 
@@ -543,8 +529,8 @@ function renderSchema(scored, undefined_cats) {
       <div class="flex-1 min-w-0">
         <div class="card overflow-hidden mb-6">
           <div class="px-5 py-3 border-b border-gray-100 bg-gray-50">
-            <p class="text-sm font-semibold text-gray-700">Schema.org property coverage by category</p>
-            <p class="text-xs text-gray-400 mt-0.5">Score = (mapped fields × fill rate) ÷ total schema.org properties for the type. "Partial" counts as 0.5×.</p>
+            <p class="text-sm font-semibold text-gray-700">Schema.org field coverage by DAPI category</p>
+            <p class="text-xs text-gray-400 mt-0.5">Score = schema.org properties with a DAPI field mapping ÷ total properties for that type. Partial mappings (field exists but with a semantic caveat) count as 0.5×.</p>
           </div>
           <div class="overflow-x-auto">
             <table class="w-full text-sm">
@@ -581,7 +567,6 @@ function renderSchema(scored, undefined_cats) {
 }
 
 function selectSchemaCat(cat) {
-  // Highlight row
   document.querySelectorAll('[id^="schema-row-"]').forEach(r => r.classList.remove('bg-indigo-50'));
   const row = document.getElementById('schema-row-' + cat);
   if (row) row.classList.add('bg-indigo-50');
@@ -589,83 +574,65 @@ function selectSchemaCat(cat) {
   const def = SCHEMA_DEFS[cat];
   if (!def) return;
 
-  // Find stats from the scored array
   const drillEl = document.getElementById('schema-drilldown');
-  fetch(API + '/v1/schema-coverage').then(r => r.json()).then(data => {
-    const statsMap = {};
-    for (const row of data.categories) statsMap[row.category] = row;
-    const stats = statsMap[cat] || { total: 0 };
+  const recCount = (statsData?.categories?.find(r => r.category === cat) || {}).total || 0;
 
-    const rows = def.properties.map(p => {
-      const key = SRC_KEY[p.src];
-      const fill = key && stats.total > 0 ? stats[key] / stats.total : null;
-      const fillPct = fill !== null ? Math.round(fill * 100) : null;
+  const rows = def.properties.map(p => {
+    let statusLabel, statusClass, rowClass;
+    if (p.cov === 'missing') {
+      statusLabel = '✗ Not in schema'; statusClass = 'text-gray-400'; rowClass = 'schema-row-missing';
+    } else if (p.cov === 'partial') {
+      statusLabel = '~ Partial';       statusClass = 'text-amber-600'; rowClass = 'schema-row-partial';
+    } else {
+      statusLabel = '✓ Mapped';        statusClass = 'text-green-600'; rowClass = 'schema-row-mapped';
+    }
+    return `
+      <tr class="${rowClass} border-t border-gray-100">
+        <td class="px-3 py-2 text-xs font-mono text-gray-700">${escHtml(p.prop)}</td>
+        <td class="px-3 py-2 text-xs font-mono ${p.src ? 'text-gray-600' : 'text-gray-300'}">${p.src ? escHtml(p.src) : '—'}</td>
+        <td class="px-3 py-2">
+          <span class="text-xs font-medium ${statusClass}">${statusLabel}</span>
+          ${p.note ? `<div class="text-xs text-gray-400 mt-0.5 leading-tight">${escHtml(p.note)}</div>` : ''}
+        </td>
+      </tr>`;
+  }).join('');
 
-      let statusLabel, statusClass, rowClass;
-      if (p.cov === 'missing') {
-        statusLabel = '✗ Not captured'; statusClass = 'text-gray-400'; rowClass = 'schema-row-missing';
-      } else if (p.cov === 'partial') {
-        statusLabel = '~ Partial'; statusClass = 'text-amber-600'; rowClass = 'schema-row-partial';
-      } else {
-        statusLabel = '✓ Mapped'; statusClass = 'text-green-600'; rowClass = 'schema-row-mapped';
-      }
+  const score   = computeScore(def);
+  const pct     = Math.round(score * 100);
+  const color   = scoreColor(score);
+  const nMapped  = def.properties.filter(p => p.cov === 'data').length;
+  const nPartial = def.properties.filter(p => p.cov === 'partial').length;
+  const nMissing = def.properties.filter(p => p.cov === 'missing').length;
 
-      const fillCell = fillPct !== null
-        ? `<div class="flex items-center gap-1.5">
-             <div class="fill-bar w-14"><div class="fill-bar-inner" style="width:${fillPct}%;background:${fillPct>79?'#22c55e':fillPct>49?'#f59e0b':'#ef4444'}"></div></div>
-             <span class="text-xs">${fillPct}%</span>
-           </div>`
-        : `<span class="text-xs text-gray-300">—</span>`;
-
-      return `
-        <tr class="${rowClass} border-t border-gray-100">
-          <td class="px-3 py-2 text-xs font-mono text-gray-700">${escHtml(p.prop)}</td>
-          <td class="px-3 py-2 text-xs text-gray-500">${p.src ? escHtml(p.src) : '<span class="text-gray-300">—</span>'}</td>
-          <td class="px-3 py-2">${fillCell}</td>
-          <td class="px-3 py-2">
-            <span class="text-xs font-medium ${statusClass}">${statusLabel}</span>
-            ${p.note ? `<div class="text-xs text-gray-400 mt-0.5 leading-tight">${escHtml(p.note)}</div>` : ''}
-          </td>
-        </tr>`;
-    }).join('');
-
-    const score = computeScore(def, stats);
-    const pct = Math.round(score * 100);
-    const color = scoreColor(score);
-    const mapped = def.properties.filter(p => p.cov !== 'missing').length;
-    const partial = def.properties.filter(p => p.cov === 'partial').length;
-    const missing = def.properties.filter(p => p.cov === 'missing').length;
-
-    drillEl.innerHTML = `
-      <div class="flex items-start justify-between mb-4">
-        <div>
-          <div class="font-bold text-gray-800">${cat}</div>
-          <div class="text-xs text-indigo-600 mt-0.5">${def.type}</div>
-        </div>
-        <div class="text-right">
-          <div class="text-2xl font-bold" style="color:${color}">${pct}%</div>
-          <div class="text-xs text-gray-400">coverage</div>
-        </div>
+  drillEl.innerHTML = `
+    <div class="flex items-start justify-between mb-3">
+      <div>
+        <div class="font-bold text-gray-800">${cat}</div>
+        <div class="text-xs text-indigo-600 mt-0.5">${def.type}</div>
+        ${recCount ? `<div class="text-xs text-gray-400 mt-0.5">${recCount.toLocaleString()} records in dataset</div>` : ''}
       </div>
-      <div class="flex gap-3 mb-4 text-xs">
-        <span class="bg-green-50 text-green-700 px-2 py-1 rounded font-medium">${mapped - partial} fully mapped</span>
-        ${partial ? `<span class="bg-amber-50 text-amber-700 px-2 py-1 rounded font-medium">${partial} partial</span>` : ''}
-        <span class="bg-gray-100 text-gray-500 px-2 py-1 rounded font-medium">${missing} not captured</span>
+      <div class="text-right">
+        <div class="text-2xl font-bold" style="color:${color}">${pct}%</div>
+        <div class="text-xs text-gray-400">field coverage</div>
       </div>
-      <div class="overflow-auto max-h-[520px]">
-        <table class="w-full text-xs">
-          <thead>
-            <tr class="bg-gray-50 text-xs text-gray-500">
-              <th class="text-left px-3 py-2 font-semibold">Property</th>
-              <th class="text-left px-3 py-2 font-semibold">DAPI source</th>
-              <th class="text-left px-3 py-2 font-semibold">Fill rate</th>
-              <th class="text-left px-3 py-2 font-semibold">Status</th>
-            </tr>
-          </thead>
-          <tbody>${rows}</tbody>
-        </table>
-      </div>`;
-  });
+    </div>
+    <div class="flex gap-2 mb-4 text-xs flex-wrap">
+      <span class="bg-green-50 text-green-700 px-2 py-1 rounded font-medium">${nMapped} mapped</span>
+      ${nPartial ? `<span class="bg-amber-50 text-amber-700 px-2 py-1 rounded font-medium">${nPartial} partial</span>` : ''}
+      <span class="bg-gray-100 text-gray-500 px-2 py-1 rounded font-medium">${nMissing} not in schema</span>
+    </div>
+    <div class="overflow-auto max-h-[520px]">
+      <table class="w-full text-xs">
+        <thead>
+          <tr class="bg-gray-50 text-xs text-gray-500">
+            <th class="text-left px-3 py-2 font-semibold">schema.org property</th>
+            <th class="text-left px-3 py-2 font-semibold">DAPI field</th>
+            <th class="text-left px-3 py-2 font-semibold">Status / note</th>
+          </tr>
+        </thead>
+        <tbody>${rows}</tbody>
+      </table>
+    </div>`;
 }
 
 // ─── INIT ────────────────────────────────────────────────────────────────────
