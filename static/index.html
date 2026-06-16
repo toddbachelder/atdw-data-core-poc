@@ -53,7 +53,7 @@
 
 <!-- ═══ FINDINGS ═══ -->
 <div id="tab-findings" class="tab-panel p-8">
-  <p class="text-sm text-gray-500 mb-6">Each finding links to real records from the probe dataset that demonstrate the issue. Expand to browse matching records.</p>
+  <p class="text-sm text-gray-500 mb-4">Each finding is cross-referenced against the POC. DECISION items are new and need a deliberate call; SOLVED items have a fix already built; NORMAL items are standard integration work. Expand any finding to browse matching records from the dataset.</p>
   <div id="findings-list" class="flex flex-col gap-5"></div>
 </div>
 
@@ -118,87 +118,142 @@ async function loadStats() {
 
 // ─── FINDINGS ────────────────────────────────────────────────────────────────
 const SEV = {
-  high:   { bg:'#fef2f2', border:'#ef4444', badge:'#ef4444', label:'HIGH' },
-  medium: { bg:'#fffbeb', border:'#f59e0b', badge:'#f59e0b', label:'MED' },
-  low:    { bg:'#f0fdf4', border:'#22c55e', badge:'#22c55e', label:'LOW' },
+  high:   { border:'#ef4444', badge:'#ef4444', label:'HIGH' },
+  medium: { border:'#f59e0b', badge:'#f59e0b', label:'MED' },
+  low:    { border:'#22c55e', badge:'#22c55e', label:'LOW' },
+};
+const STATUS = {
+  solved:   { bg:'#f0fdf4', badge:'#16a34a', label:'SOLVED',   note:'Fix already built or committed in the POC.' },
+  decision: { bg:'#eff6ff', badge:'#2563eb', label:'DECISION', note:'New finding — needs a deliberate call before proceeding.' },
+  normal:   { bg:'#f9fafb', badge:'#6b7280', label:'NORMAL',   note:'Standard integration work — scoped, not a blocker.' },
 };
 
 const FINDINGS = [
-  { slug:'food-not-exist', severity:'high', title:"FOOD doesn't exist — it's RESTAURANT",
-    body:"The brief described FOOD as a target category. No records with product_category_id = 'FOOD' exist in the dataset. The correct code is RESTAURANT (1,555 records — the largest single category). The productType query filter is also silently ignored, returning the same 58,151 results regardless of value.",
-    evidence:"RESTAURANT: 1,555 records · FOOD: 0 records across 6,300+ records scanned",
-    recordNote:"These RESTAURANT records are what FOOD was supposed to be — correct code, different name." },
-
-  { slug:'no-tombstone', severity:'high', title:"The data has no tombstone signal",
-    body:"When a record expires or is deactivated it silently disappears from the API. All 3,078 records in the probe returned status=ACTIVE — there is no INACTIVE or EXPIRED state visible. A canonical store has no deletion signal; it can only detect absence, not reason.",
-    evidence:"status=ACTIVE: 3,078 records (100%)",
-    recordNote:"Records below are sorted by expiry date — closest to disappearing first. Note every record is ACTIVE; there is no expired or inactive state available." },
-
-  { slug:'tour-geo-misleading', severity:'high', title:"TOUR geo is actively misleading",
-    body:"62% of TOUR records have no lat/lng. The 38% that do have coordinates plot to the operator's office address — not where the tour operates. A Barossa wine tour maps to an Adelaide CBD office. Placing TOUR records on a map mislabels them geographically.",
-    evidence:"TOUR with no geo: 25/40 (62%) · AAT Kings: 5+ records all at depot addresses",
-    recordNote:"These TOUR records all have geo coordinates — but each coordinate is the operator's office or depot, not the tour location." },
-
-  { slug:'custodian-not-operator', severity:'high', title:"The data custodian is not the operator",
+  { slug:'custodian-not-operator', severity:'high', status:'decision',
+    title:"The data custodian is not the operator",
     body:"organisation_name is whoever submitted the record — frequently a state tourism body, regional council, or aggregator. Destination NSW owns 51 restaurant records. Camden Visitor Information Centre owns 33. Hipcamp Australia (an aggregator) owns 15 accommodation records with better-than-average quality.",
     evidence:"Destination NSW: 51 RESTAURANTs · Camden VIC: 33 · Hipcamp: 15 ACCOMMs",
+    response:"Model custodian and operator as distinct concepts in the canonical layer — who entered the record vs who runs the business — accepting that operator will frequently be null. This is an identity/governance matter, not a schema one. A modest addition best made now while the schema is still settling. Note: aggregator records were often higher quality than direct submissions, so this is a governance question, not simply a quality one.",
     recordNote:"Records owned by state bodies, visitor centres, and aggregators — not the operators being described." },
 
-  { slug:'journey-ambiguous', severity:'medium', title:"JOURNEY is two different things",
-    body:"The JOURNEY category contains walking tracks (with Distance and Difficulty embedded as plain text in the description) and multi-day tourism itineraries. Both use identical record structure. There is no sub-category to distinguish them, 82% have no geo, and structured trail attributes are not in dedicated fields.",
-    evidence:"JOURNEY records with no geo: 82% · Structured data only in 1 of 10 sampled records",
-    recordNote:"Browse JOURNEY records — look for 'Distance:' or 'Difficulty:' in descriptions (trails) vs multi-day itinerary names like '15 Day Outback Legends'." },
-
-  { slug:'areas-taxonomy', severity:'medium', title:"The areas taxonomy is not a clean hierarchy",
-    body:"The areas field mixes tourism marketing regions with local government area names, assigns multiple overlapping values to single records, and has no documented hierarchy. One Tasmanian restaurant was assigned three area values. Adelaide records routinely carry both 'Adelaide' and 'City of Adelaide'.",
-    evidence:"Multiple area values found across RESTAURANT, ACCOMM, TOUR, EVENT, GENSERVICE",
-    recordNote:"These records all have more than one area assigned — note overlapping and hierarchical region names." },
-
-  { slug:'image-urls-unstable', severity:'medium', title:"Image URLs encode distributor context",
-    body:"Every product image URL contains a base64-encoded JSON payload in the ?q= query parameter, encoding the distributor ID and API key ID. If the API key or distributor relationship changes, every image URL in the canonical store breaks. These are not stable asset paths.",
-    evidence:"?q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6... (base64 JSON in every image URL)",
-    recordNote:"Inspect any image_url — the ?q= parameter decodes to JSON containing distributorId and apikeyId." },
-
-  { slug:'expiry-no-notice', severity:'medium', title:"Records expire without notice on ~12-month cycle",
-    body:"Every record carries an expires_at date. 30 records expire this month. Records that are not renewed by their custodian simply disappear from the API — no tombstone, no notification, no changed status. A canonical store must actively track expiry dates and re-sync on schedule.",
-    evidence:"30 records expiring June 2026 · Distribution spread June 2026 – March 2027",
-    recordNote:"Records sorted by nearest expiry — the ones at the top will silently vanish from the API soon." },
-
-  { slug:'deduplication', severity:'medium', title:"Deduplication is unsolved — same entity, multiple records",
+  { slug:'deduplication', severity:'medium', status:'decision',
+    title:"Deduplication is unsolved — same entity, multiple records",
     body:"AAT Kings (a national tour operator) appears as 5+ separate records, one per state entity, each with a different depot address and name variant. '2 Bent Rods' fishing lessons appear as 8 records across 8 locations. Any canonical store would represent one real-world entity as many.",
     evidence:"AAT Kings: 5+ records (SA, NSW, NT×3, QLD, WA) · 2 Bent Rods: 8 records",
+    response:"Ingest as-is on ATDW source IDs, flag suspected duplicates via heuristics, and resolve as a dedicated later wave. Entity resolution is only a hard pre-condition if 'one canonical URL per real-world entity' is a day-one requirement — it doesn't have to be. Keep duplication from blocking everything else while still treating it as real work.",
     recordNote:"AAT Kings and 2 Bent Rods records — same operators appearing as multiple distinct listings." },
 
-  { slug:'api-xml', severity:'low', title:"API returns XML in UTF-16LE, not JSON",
-    body:"The DAPI endpoint returns UTF-16LE encoded XML. Standard JSON tooling fails. Python's xml.etree.ElementTree handles it correctly from raw bytes but will fail if you attempt to decode the response to a string first (BOM handling). No content-type negotiation available — XML is the only format.",
-    evidence:"Content-Type: application/xml; charset=utf-16le · All 58,151+ records",
-    recordNote:"These records were all parsed from UTF-16LE XML — the structure below is the canonical form after translation." },
+  { slug:'food-not-exist', severity:'high', status:'solved',
+    title:"FOOD doesn't exist — it's RESTAURANT",
+    body:"The brief described FOOD as a target category. No records with product_category_id = 'FOOD' exist in the dataset. The correct code is RESTAURANT (1,555 records — the largest single category). The productType query filter is also silently ignored, returning the same 58,151 results regardless of value.",
+    evidence:"RESTAURANT: 1,555 records · FOOD: 0 records across 6,300+ records scanned",
+    response:"The field-mapping table maps real category codes (RESTAURANT, not FOOD); filtering is client-side on product_category_id. This is the worked example of translate-don't-transplant — the risk only bites a system that transplanted assumptions, which the architecture is built to avoid.",
+    recordNote:"These RESTAURANT records are what FOOD was supposed to be — correct code, different name." },
 
-  { slug:'genservice-broad', severity:'low', title:"GENSERVICE is too broad to use as a filter",
+  { slug:'no-tombstone', severity:'high', status:'solved',
+    title:"The data has no tombstone signal",
+    body:"When a record expires or is deactivated it silently disappears from the API. All 3,078 records in the probe returned status=ACTIVE — there is no INACTIVE or EXPIRED state visible. A canonical store has no deletion signal; it can only detect absence, not reason.",
+    evidence:"status=ACTIVE: 3,078 records (100%)",
+    response:"Scoped via scheduled sync and expiry tracking. Treat a vanished record as a reconciliation event, not a silent delete. The feed is a live projection, not an export — owning the data means owning the refresh cycle, and the governed-importer design is built for exactly that.",
+    recordNote:"Records sorted by expiry date — closest to disappearing first. Note every record is ACTIVE; there is no expired or inactive state visible." },
+
+  { slug:'tour-geo-misleading', severity:'high', status:'solved',
+    title:"TOUR geo is actively misleading",
+    body:"62% of TOUR records have no lat/lng. The 38% that do have coordinates plot to the operator's office address — not where the tour operates. A Barossa wine tour maps to an Adelaide CBD office. Placing TOUR records on a map mislabels them geographically.",
+    evidence:"TOUR with no geo: 25/40 (62%) · AAT Kings: 5+ records all at depot addresses",
+    response:"Category-aware handling: suppress or flag tour coordinates rather than mapping them to a misleading point. Tours are itinerant with no single venue — better to omit point-geo than place a Barossa tour in Adelaide. The same category-aware scoring principle already applied in the POC extends naturally to geo.",
+    recordNote:"These TOUR records all have geo coordinates — but each coordinate is the operator's office or depot, not the tour location." },
+
+  { slug:'image-urls-unstable', severity:'medium', status:'solved',
+    title:"Image URLs encode distributor context",
+    body:"Every product image URL contains a base64-encoded JSON payload in the ?q= query parameter, encoding the distributor ID and API key ID. If the API key or distributor relationship changes, every image URL in the canonical store breaks. These are not stable asset paths.",
+    evidence:"?q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6... (base64 JSON in every image URL)",
+    response:"Strip or vault the URL at ingestion (pipeline stage 5); never store or serve the raw distributor-scoped URL. Both the probe and POC flagged this as launch-blocking — the fix is in hand. The image URL must be re-fetched or proxied through a stable CDN path before being stored in the canonical record.",
+    recordNote:"Inspect any image_url — the ?q= parameter decodes to JSON containing distributorId and apikeyId." },
+
+  { slug:'expiry-no-notice', severity:'medium', status:'solved',
+    title:"Records expire without notice on ~12-month cycle",
+    body:"Every record carries an expires_at date. 30 records expire this month. Records that are not renewed by their custodian simply disappear from the API — no tombstone, no notification, no changed status. A canonical store must actively track expiry dates and re-sync on schedule.",
+    evidence:"30 records expiring June 2026 · Distribution spread June 2026 – March 2027",
+    response:"Scheduled sync and expiry tracking handles this. Records with approaching expires_at dates are candidates for re-sync; vanished records are reconciliation events. The re-run precedence rule and DAPI-vs-database reconciliation step in the POC are designed for this exact pattern.",
+    recordNote:"Records sorted by nearest expiry — the ones at the top will silently vanish from the API soon." },
+
+  { slug:'journey-ambiguous', severity:'medium', status:'normal',
+    title:"JOURNEY is two different things",
+    body:"The JOURNEY category contains walking tracks (with Distance and Difficulty embedded as plain text in the description) and multi-day tourism itineraries. Both use identical record structure. There is no sub-category to distinguish them, 82% have no geo, and structured trail attributes are not in dedicated fields.",
+    evidence:"JOURNEY records with no geo: 82% · Structured data only in 1 of 10 sampled records",
+    response:"Derive a sub-type at the translation stage (track vs itinerary) from existing signals in the description field. No schema change to the canonical core — the distinction lives in the mapping layer and can be projected differently downstream.",
+    recordNote:"Browse JOURNEY records — look for 'Distance:' or 'Difficulty:' in descriptions (trails) vs multi-day itinerary names like '15 Day Outback Legends'." },
+
+  { slug:'areas-taxonomy', severity:'medium', status:'normal',
+    title:"The areas taxonomy is not a clean hierarchy",
+    body:"The areas field mixes tourism marketing regions with local government area names, assigns multiple overlapping values to single records, and has no documented hierarchy. One Tasmanian restaurant was assigned three area values. Adelaide records routinely carry both 'Adelaide' and 'City of Adelaide'.",
+    evidence:"Multiple area values found across RESTAURANT, ACCOMM, TOUR, EVENT, GENSERVICE",
+    response:"Treat areas as a multi-value tag set, not a hierarchy, until ATDW publishes an authoritative region list. Multi-value regional tags serve the API and reporting fine. Only high-effort if a strict hierarchy is insisted on — which is not needed at this stage.",
+    recordNote:"These records all have more than one area assigned — note overlapping and hierarchical region names." },
+
+  { slug:'genservice-broad', severity:'low', status:'normal',
+    title:"GENSERVICE is too broad to use as a filter",
     body:"GENSERVICE (General Services) contains 361 records spanning a wide range: B2B service suppliers (water-from-air machine vendors), community halls, parks, and legitimate tourism-adjacent services. The category is effectively unusable as a filter for any tourism-specific purpose.",
     evidence:"GENSERVICE sample includes: water vending machine suppliers, parks, memorial halls",
+    response:"Filter at the projection layer, not the canonical core. The core stores GENSERVICE records as-is; the API and reporting decide relevance by use case. No need to model the source's looseness into the canonical schema.",
     recordNote:"Browse GENSERVICE records — the mix of B2B suppliers, community facilities, and tourism services in one category." },
 
-  { slug:'address-array', severity:'low', title:"Address array is always length 1 — but structured as an array",
+  { slug:'api-xml', severity:'low', status:'normal',
+    title:"API returns XML in UTF-16LE, not JSON",
+    body:"The DAPI endpoint returns UTF-16LE encoded XML. Standard JSON tooling fails. Python's xml.etree.ElementTree handles it correctly from raw bytes but will fail if you attempt to decode the response to a string first (BOM handling). No content-type negotiation available — XML is the only format.",
+    evidence:"Content-Type: application/xml; charset=utf-16le · All 58,151+ records",
+    response:"Standard integration work, already handled at the ingestion stage. UTF-16LE XML is parsed from raw bytes; no architecture impact downstream. The translation layer abstracts the wire format completely.",
+    recordNote:"These records were all parsed from UTF-16LE XML — the structure below is the canonical form after translation." },
+
+  { slug:'address-array', severity:'low', status:'normal',
+    title:"Address array is always length 1 — but structured as an array",
     body:"The XML schema allows multiple <address> elements per record. In practice, every record has exactly one address. The complexity is in the wrong place: the array wrapper is unnecessary, but the areas sub-array is essential.",
     evidence:"Zero records with jsonb_array_length(address) > 1 across 3,078 records",
+    response:"Structural observation, handled correctly. The array wrapper is valid per the XML schema; all downstream queries use address->0. The multiple-areas-within-one-address pattern is preserved and queryable.",
     recordNote:"Every record below has address[0] — never address[1]. But address[0].areas is often multi-valued." },
 ];
 
 const recordsCache = {};
 
 function renderFindings() {
+  const nSolved   = FINDINGS.filter(f => f.status === 'solved').length;
+  const nDecision = FINDINGS.filter(f => f.status === 'decision').length;
+  const nNormal   = FINDINGS.filter(f => f.status === 'normal').length;
+
   const container = document.getElementById('findings-list');
-  container.innerHTML = FINDINGS.map(f => {
-    const s = SEV[f.severity];
+
+  // Summary banner
+  const banner = `
+    <div class="card p-4 mb-2" style="background:#1a1a2e;color:#fff">
+      <p class="text-sm font-semibold mb-1">POC cross-reference — June 2026</p>
+      <p class="text-xs text-indigo-300 leading-relaxed mb-3">Two independent probes converging on the same core conclusion: ATDW data is shaped for distribution, not ownership, and becoming canonical means translating deliberately rather than copying across. Of the ${FINDINGS.length} findings:</p>
+      <div class="flex gap-3 flex-wrap">
+        <span class="badge" style="background:#2563eb;color:#fff;font-size:.75rem;padding:4px 10px">${nDecision} decisions — new, carry forward</span>
+        <span class="badge" style="background:#16a34a;color:#fff;font-size:.75rem;padding:4px 10px">${nSolved} solved in the POC</span>
+        <span class="badge" style="background:#6b7280;color:#fff;font-size:.75rem;padding:4px 10px">${nNormal} standard integration work</span>
+      </div>
+    </div>`;
+
+  container.innerHTML = banner + FINDINGS.map(f => {
+    const sev = SEV[f.severity];
+    const st  = STATUS[f.status] || {};
     return `
-      <div class="card p-5" style="border-left:4px solid ${s.border};background:${s.bg}">
+      <div class="card p-5" style="border-left:4px solid ${sev.border};background:${st.bg || '#fff'}">
         <div class="flex items-start justify-between gap-3 mb-2">
           <div class="font-semibold text-sm leading-snug">${escHtml(f.title)}</div>
-          <span class="badge shrink-0" style="background:${s.badge};color:#fff">${s.label}</span>
+          <div class="flex gap-1.5 shrink-0">
+            ${f.status ? `<span class="badge" style="background:${st.badge};color:#fff">${st.label}</span>` : ''}
+            <span class="badge" style="background:${sev.badge};color:#fff">${sev.label}</span>
+          </div>
         </div>
         <p class="text-sm text-gray-700 leading-relaxed mb-3">${escHtml(f.body)}</p>
         <p class="text-xs text-gray-500 font-mono border-t border-black/10 pt-2 mb-3">${escHtml(f.evidence)}</p>
+        ${f.response ? `
+        <div class="mb-3 p-3 rounded-lg border" style="background:rgba(255,255,255,0.65);border-color:rgba(0,0,0,0.08)">
+          <p class="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-1.5">POC response</p>
+          <p class="text-xs text-gray-700 leading-relaxed">${escHtml(f.response)}</p>
+        </div>` : ''}
         <button onclick="toggleRecords('${f.slug}', this)"
           class="text-xs font-medium px-3 py-1.5 rounded-lg border border-gray-300 hover:bg-white/60 transition-colors">
           Show matching records
