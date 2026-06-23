@@ -1,0 +1,1110 @@
+<?xml version='1.0' encoding='utf-8'?>
+<atdw_data_results>
+  <service_distribution product_id="615264e244035b4666beb903" product_number="AU0456000" service_id="615bc67f928215136befcb33">
+    <service_record>
+      <service_name>9 Islands Scenic Experience</service_name>
+      <product_category_id>TOUR</product_category_id>
+      <product_pixel_url>https://atlas.atdw-online.com.au/pixel?productId=615264e244035b4666beb903&amp;distributorId=56b1eb9344feca3df2e320c7&amp;language=en&amp;syndicationMethod=API</product_pixel_url>
+      <international_ready_flag />
+      <sequence_number>100</sequence_number>
+      <minimum_capacity>2</minimum_capacity>
+      <maximum_capacity>5</maximum_capacity>
+      <children_catered_for_flag />
+      <children_catered_for_text />
+      <pets_allowed_flag />
+      <disabled_access_flag />
+      <pickup_available_flag />
+      <tour_duration />
+      <attribute_id_time_unit />
+      <attribute_id_time_unit_description />
+      <service_description>Take in the breath-taking views of the Greater Palm group of islands in your private helicopter before landing on a secluded beach on Havannah Island.
+
+An underappreciated natural beauty, this pristine group of islands feature mountainous peaks with lush rainforest descending to the edge of the ocean, and are fringed by shallow reefs with abundant marine life. It's hard to put into words how spectacular it is - you really have to see it for yourself!
+
+Lifting off over Rowes Bay, you'll travel past the west point of Magnetic Island before crossing the open waters of Halifax Bay towards the Palm Island group. Once we arrive at Great Palm Island (Bwgcolman) we'll circle around the islands, our route taking you past:
+
+-Great Palm (Bwgcolman)
+-Curacao (Noogoo or Inoogoo)
+-Fantome (Eumilli)
+-Orpheus (Goolboddi)
+-Pelorus (Yanooa or Guyroogarrie)
+-Esk (Soopun)
+-Brisk (Culgarul)
+-Fly Island
+
+and multiple fringing reefs, before setting down on the sandy beaches of uninhabited Havannah Island. Here you'll have up to 45 minutes on the ground to explore, enjoy a picnic in paradise or dip you toes in the water before heading back, flying past Herald &amp; Rattlesnake Islands and along the coast before landing in town.</service_description>
+      <service_update_date>2025-12-03T10:34:15.917+10:00</service_update_date>
+      <journey_route>
+-19.243647,146.7761526
+        </journey_route>
+      <location_details>This tour starts and finishes at our base in Townsville. We can also pick you up and/or drop you off at the helipad in Nelly Bay on Magnetic Island (with slight alterations to the tour). Please let us know your preferred start and end locations when you book!</location_details>
+      <service_booking_with_tracking>https://redirect.atdw-online.com.au/redirect?dest=https%3A%2F%2Fwww.townsvillehelicopters.com.au%2Fscenic-flights%2F9-islands-scenic-experience%2F&amp;q=eyJ0eXBlIjoiYm9va2luZyIsImRlc3RpbmF0aW9uIjoiaHR0cHM6Ly93d3cudG93bnN2aWxsZWhlbGljb3B0ZXJzLmNvbS5hdS9zY2VuaWMtZmxpZ2h0cy85LWlzbGFuZHMtc2NlbmljLWV4cGVyaWVuY2UvIiwibGlzdGluZ0lkIjoiNjE1MjY0ZTI0NDAzNWI0NjY2YmViOTAzIiwiZGlzdHJpYnV0b3JJZCI6IjU2YjFlYjkzNDRmZWNhM2RmMmUzMjBjNyIsImFwaWtleUlkIjoiNTZiMWY2M2YwY2YyMTNhZDIwZGVkZWQ4In0%3D</service_booking_with_tracking>
+      <service_booking>https://www.townsvillehelicopters.com.au/scenic-flights/9-islands-scenic-experience/</service_booking>
+      <tour_booking_with_tracking>https://redirect.atdw-online.com.au/redirect?dest=https%3A%2F%2Fwww.townsvillehelicopters.com.au%2Fscenic-flights%2F9-islands-scenic-experience%2F&amp;q=eyJ0eXBlIjoic2VydmljZSIsImRlc3RpbmF0aW9uIjoiaHR0cHM6Ly93d3cudG93bnN2aWxsZWhlbGljb3B0ZXJzLmNvbS5hdS9zY2VuaWMtZmxpZ2h0cy85LWlzbGFuZHMtc2NlbmljLWV4cGVyaWVuY2UvIiwibGlzdGluZ0lkIjoiNjE1MjY0ZTI0NDAzNWI0NjY2YmViOTAzIiwiZGlzdHJpYnV0b3JJZCI6IjU2YjFlYjkzNDRmZWNhM2RmMmUzMjBjNyIsImFwaWtleUlkIjoiNTZiMWY2M2YwY2YyMTNhZDIwZGVkZWQ4In0%3D</tour_booking_with_tracking>
+      <tour_booking>https://www.townsvillehelicopters.com.au/scenic-flights/9-islands-scenic-experience/</tour_booking>
+      <trail_distance />
+      <trail_duration />
+      <trail_number />
+      <service_difficulty_comment />
+    </service_record>
+    <service_attribute>
+      <row>
+        <attribute_type_id>TOUR TYPE</attribute_type_id>
+        <attribute_type_id_description>Vertical classifications</attribute_type_id_description>
+        <attribute_id>TAILORED</attribute_id>
+        <attribute_id_description>Customised</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>TRANS MODE</attribute_type_id>
+        <attribute_type_id_description>Transport</attribute_type_id_description>
+        <attribute_id>AIR</attribute_id>
+        <attribute_id_description>Air</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>SERVICETYPES</attribute_type_id>
+        <attribute_type_id_description>Service types</attribute_type_id_description>
+        <attribute_id>AHBTOURS</attribute_id>
+        <attribute_id_description>Air, Helicopter and Balloon Tours</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>SERVICETYPES</attribute_type_id>
+        <attribute_type_id_description>Service types</attribute_type_id_description>
+        <attribute_id>ANTOURS</attribute_id>
+        <attribute_id_description>Nature and wildlife</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>SVC FAC</attribute_type_id>
+        <attribute_type_id_description>Service Facility</attribute_type_id_description>
+        <attribute_id>CARPARK</attribute_id>
+        <attribute_id_description>Carpark</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>SVC FAC</attribute_type_id>
+        <attribute_type_id_description>Service Facility</attribute_type_id_description>
+        <attribute_id>FAMFRIEND</attribute_id>
+        <attribute_id_description>Family Friendly</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>SVC FAC</attribute_type_id>
+        <attribute_type_id_description>Service Facility</attribute_type_id_description>
+        <attribute_id>NSMOKESTAB</attribute_id>
+        <attribute_id_description>Non Smoking</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>SVC FAC</attribute_type_id>
+        <attribute_type_id_description>Service Facility</attribute_type_id_description>
+        <attribute_id>PUBTOILATT</attribute_id>
+        <attribute_id_description>Public Toilet</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>DISASSIST</attribute_type_id>
+        <attribute_type_id_description>Actively welcomes people with access needs.</attribute_type_id_description>
+        <attribute_id>DISTASSIST</attribute_id>
+        <attribute_id_description>Disabled access available, contact operator for details.</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>FITNESS</attribute_type_id>
+        <attribute_type_id_description>fitness</attribute_type_id_description>
+        <attribute_id>BASIC</attribute_id>
+        <attribute_id_description>Basic</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>TOURFORMAT</attribute_type_id>
+        <attribute_type_id_description>Tour Format</attribute_type_id_description>
+        <attribute_id>PRIVATETOUR</attribute_id>
+        <attribute_id_description>Private Tour</attribute_id_description>
+      </row>
+      <row>
+        <attribute_type_id>TOURFORMAT</attribute_type_id>
+        <attribute_type_id_description>Tour Format</attribute_type_id_description>
+        <attribute_id>SMLGRPTOUR</attribute_id>
+        <attribute_id_description>Small Group Tour</attribute_id_description>
+      </row>
+    </service_attribute>
+    <service_related_products>
+    </service_related_products>
+    <service_accessibility_attribute>
+      <row>
+        <attribute_type_id>ACCESSIBILITY</attribute_type_id>
+        <attribute_type_id_description>Accessibility</attribute_type_id_description>
+        <attribute_sub_type_1_id>DISTASSIST</attribute_sub_type_1_id>
+        <attribute_sub_type_1_id_description>Disabled access available, contact operator for details.</attribute_sub_type_1_id_description>
+      </row>
+    </service_accessibility_attribute>
+    <service_configuration>
+      <row>
+        <attribute_id_service_configuration />
+        <attribute_id_service_configuration_description />
+        <attribute_id_service_configuration_description_mv />
+        <minimum_capacity>2</minimum_capacity>
+        <maximum_capacity>5</maximum_capacity>
+        <service_configuration_attr_relationship />
+      </row>
+    </service_configuration>
+    <service_deals>
+    </service_deals>
+    <service_external_systems>        
+    </service_external_systems>
+    <service_multimedia>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=700%2C0%2C4200%2C3150&amp;w=2048&amp;h=1536&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1536</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=700%2C0%2C4200%2C3150&amp;w=1600&amp;h=1200&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>1200</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=700%2C0%2C4200%2C3150&amp;w=800&amp;h=600&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>800</width>
+        <height>600</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=700%2C0%2C4200%2C3150&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>280</width>
+        <height>210</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=0%2C0%2C5600%2C3150&amp;w=2048&amp;h=1152&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1152</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=0%2C0%2C5600%2C3150&amp;w=1600&amp;h=900&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>900</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=0%2C0%2C5600%2C3150&amp;w=800&amp;h=450&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>800</width>
+        <height>450</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc6069a2802f6bc16d62</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/08c32989d8486ad1292d42cd25dd398c.jpeg?rect=0%2C0%2C5600%2C3150&amp;w=280&amp;h=158&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>280</width>
+        <height>158</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>100</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C0%2C3868%2C2901&amp;w=2048&amp;h=1536&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1536</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C0%2C3868%2C2901&amp;w=1600&amp;h=1200&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>1200</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C0%2C3868%2C2901&amp;w=800&amp;h=600&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>800</width>
+        <height>600</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C0%2C3868%2C2901&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>280</width>
+        <height>210</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C363%2C3868%2C2176&amp;w=2048&amp;h=1152&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1152</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C363%2C3868%2C2176&amp;w=1600&amp;h=900&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>900</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C363%2C3868%2C2176&amp;w=800&amp;h=450&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>800</width>
+        <height>450</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc68b54271412de15eb6</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/365fecd20ca216138efd58621d30a1ea.jpeg?rect=0%2C363%2C3868%2C2176&amp;w=280&amp;h=158&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>280</width>
+        <height>158</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>200</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C0%2C2727%2C2045&amp;w=2048&amp;h=1536&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1536</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C0%2C2727%2C2045&amp;w=1600&amp;h=1200&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>1200</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C0%2C2727%2C2045&amp;w=800&amp;h=600&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>800</width>
+        <height>600</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C0%2C2727%2C2045&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>280</width>
+        <height>210</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C256%2C2727%2C1534&amp;w=2048&amp;h=1152&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1152</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C256%2C2727%2C1534&amp;w=1600&amp;h=900&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>900</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C256%2C2727%2C1534&amp;w=800&amp;h=450&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>800</width>
+        <height>450</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc2abb9dc95249dcda2</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/6d22a6c0a7bb1a35a2ae2a4a1eb23659.jpeg?rect=0%2C256%2C2727%2C1534&amp;w=280&amp;h=158&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>280</width>
+        <height>158</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>300</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc644f3e2f1f0966582d</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/5748b63a0cd066a0b0280cc7f62a75d3.jpeg?rect=99%2C0%2C1600%2C1200&amp;w=1600&amp;h=1200&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>1200</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>400</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc644f3e2f1f0966582d</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/5748b63a0cd066a0b0280cc7f62a75d3.jpeg?rect=99%2C0%2C1600%2C1200&amp;w=800&amp;h=600&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>800</width>
+        <height>600</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>400</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc644f3e2f1f0966582d</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/5748b63a0cd066a0b0280cc7f62a75d3.jpeg?rect=99%2C0%2C1600%2C1200&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>280</width>
+        <height>210</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>400</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc644f3e2f1f0966582d</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/5748b63a0cd066a0b0280cc7f62a75d3.jpeg?rect=0%2C95%2C1798%2C1011&amp;w=1600&amp;h=900&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>900</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>400</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc644f3e2f1f0966582d</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/5748b63a0cd066a0b0280cc7f62a75d3.jpeg?rect=0%2C95%2C1798%2C1011&amp;w=800&amp;h=450&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>800</width>
+        <height>450</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>400</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdc644f3e2f1f0966582d</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/5748b63a0cd066a0b0280cc7f62a75d3.jpeg?rect=0%2C95%2C1798%2C1011&amp;w=280&amp;h=158&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>280</width>
+        <height>158</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>400</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C0%2C3939%2C2954&amp;w=2048&amp;h=1536&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1536</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C0%2C3939%2C2954&amp;w=1600&amp;h=1200&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>1200</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C0%2C3939%2C2954&amp;w=800&amp;h=600&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>800</width>
+        <height>600</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C0%2C3939%2C2954&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>4X3</attribute_id_size_orientation>
+        <width>280</width>
+        <height>210</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C369%2C3939%2C2216&amp;w=2048&amp;h=1152&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>2048</width>
+        <height>1152</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C369%2C3939%2C2216&amp;w=1600&amp;h=900&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>1600</width>
+        <height>900</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C369%2C3939%2C2216&amp;w=800&amp;h=450&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>800</width>
+        <height>450</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+      <row>
+        <market_variant_id />
+        <multimedia_id>615bdbc7abb9dc95249dcda3</multimedia_id>
+        <authored_date>2021-10-06</authored_date>
+        <server_path>https://assets.atdw-online.com.au/images/4c01541cb305564732585d0f74a26fb0.jpeg?rect=0%2C369%2C3939%2C2216&amp;w=280&amp;h=158&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCIsInNlcnZpY2VJZCI6IjYxNWJjNjdmOTI4MjE1MTM2YmVmY2IzMyJ9</server_path>
+        <attribute_id_multimedia_content>IMAGE</attribute_id_multimedia_content>
+        <attribute_id_multimedia_content_description>Image</attribute_id_multimedia_content_description>
+        <attribute_id_size_orientation>16X9</attribute_id_size_orientation>
+        <width>280</width>
+        <height>158</height>
+        <alt_text>9 Islands Scenic Experience</alt_text>
+        <caption />
+        <photographer />
+        <copyright>Townsville Helicopters</copyright>
+        <sequence_number>500</sequence_number>
+      </row>
+    </service_multimedia>
+    <service_indicative_prices>
+      <row>
+        <range_1_from_rate>895</range_1_from_rate>
+        <range_1_to_rate>4475</range_1_to_rate>
+        <range_1_comment_text>2-5 passengers: $895 per person</range_1_comment_text>
+        <free_entry_flag>0</free_entry_flag>
+      </row>
+    </service_indicative_prices>
+    <service_indicative_child_rate>
+      <row>
+        <range_1_from_rate />
+        <range_1_to_rate />
+        <range_1_comment_text />
+        <free_entry_flag />
+      </row>
+    </service_indicative_child_rate>
+    <service_rate_inclusions />
+    <service_external_system />
+    <service_waypoint>
+    </service_waypoint>
+    <service_route>
+    </service_route>
+    <service_start_location>
+      <row>
+        <sequence_number />
+        <start_location_text />
+        <attribute_id_address>PHYSICAL</attribute_id_address>
+        <attribute_id_address_description>Physical</attribute_id_address_description>
+        <address_line_1>85-121 Old Common Road</address_line_1>
+        <address_line_2 />
+        <suburb_name>Rowes Bay</suburb_name>
+        <city_name />
+        <area_name>Townsville Area</area_name>
+        <region_name>Townsville Region</region_name>
+        <state_name>Queensland</state_name>
+        <country_name>Australia</country_name>
+        <address_postal_code>4810</address_postal_code>
+        <override_domestic_region_flag />
+        <geocode_gda_latitude>-19.243647</geocode_gda_latitude>
+        <geocode_gda_longitude>146.7761526</geocode_gda_longitude>
+        <service_start_loc_street_directory_relationship />
+        <service_start_loc_domestic_region_relationship>
+          <row>
+            <domestic_region_name>Townsville Region</domestic_region_name>
+            <domestic_region_code>122</domestic_region_code>
+            <attribute_id_dom_region_type>MARKETING</attribute_id_dom_region_type>
+          </row>
+        </service_start_loc_domestic_region_relationship>
+        <service_start_loc_area_relationship>
+          <row>
+            <area_name>Townsville Area</area_name>
+            <area_type>LOCAL</area_type>
+          </row>
+        </service_start_loc_area_relationship>
+      </row>
+    </service_start_location>
+    <service_end_location>
+      <row>
+        <sequence_number />
+        <end_location_text />
+        <attribute_id_address>PHYSICAL</attribute_id_address>
+        <attribute_id_address_description>Physical</attribute_id_address_description>
+        <address_line_1>85-121 Old Common Road</address_line_1>
+        <address_line_2 />
+        <suburb_name>Rowes Bay</suburb_name>
+        <city_name />
+        <area_name>Townsville Area</area_name>
+        <region_name>Townsville Region</region_name>
+        <state_name>Queensland</state_name>
+        <country_name>Australia</country_name>
+        <address_postal_code>4810</address_postal_code>
+        <override_domestic_region_flag />
+        <geocode_gda_latitude>-19.243647</geocode_gda_latitude>
+        <geocode_gda_longitude>146.7761526</geocode_gda_longitude>
+        <service_end_loc_street_directory_relationship />
+        <service_end_loc_domestic_region_relationship>
+          <row>
+            <domestic_region_name>Townsville Region</domestic_region_name>
+            <domestic_region_code>122</domestic_region_code>
+            <attribute_id_dom_region_type>MARKETING</attribute_id_dom_region_type>
+          </row>
+        </service_end_loc_domestic_region_relationship>
+        <service_end_loc_area_relationship>
+          <row>
+            <area_name>Townsville Area</area_name>
+            <area_type>LOCAL</area_type>
+          </row>
+        </service_end_loc_area_relationship>
+      </row>
+    </service_end_location>
+    <service_comment>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>JAPANESE</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>ハヴァナ島の人里離れたビーチに着陸する前に、プライベートヘリコプターでグレーターパームグループの島々の息を呑むような景色をご覧ください。
+
+過小評価されている自然の美しさ、この手付かずの島々のグループは、海の端に下る緑豊かな熱帯雨林のある山頂が特徴で、豊富な海洋生物が生息する浅いサンゴ礁に囲まれています。それがどれほど壮観であるかを言葉で表現するのは難しいです-あなたは本当にそれを自分で見なければなりません！
+
+ローズベイを上って、マグネティック島の西の地点を通り過ぎてから、ハリファックス湾の外洋を渡ってパーム島のグループに向かいます。グレートパーム島（Bwgcolman）に到着したら、島々を一周します。ルートは次のとおりです。
+
+-グレートパーム（Bwgcolman）
+-キュラソー（NoogooまたはInoogoo）
+-ファントム（ユーミリ）
+-オルフェウス（Goolboddi）
+-Pelorus（YanooaまたはGuyroogarrie）
+-エスキモー（スープン）
+-ブリスク（カルガルル）
+-フライ島
+
+無人島の砂浜に降りる前に、複数のフリンジリーフがあります。ここでは、地上で最大45分間探索したり、楽園でピクニックを楽しんだり、水に足を浸してから戻ったり、ヘラルド＆ガラガラヘビ諸島を通り過ぎたり、海岸沿いを飛んだりして、町に着陸することができます。</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>GERMAN</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Genießen Sie in Ihrem privaten Hubschrauber die atemberaubende Aussicht auf die Inselgruppe Greater Palm, bevor Sie an einem abgelegenen Strand auf Havannah Island landen.
+
+Diese unberührte Inselgruppe ist eine unterschätzte natürliche Schönheit und weist Berggipfel mit üppigem Regenwald auf, die bis zum Rand des Ozeans abfallen, und wird von flachen Riffen mit einer reichen Unterwasserwelt gesäumt. Es ist schwer in Worte zu fassen, wie spektakulär es ist – Sie müssen es wirklich selbst gesehen haben!
+
+Sie heben über der Rowes Bay ab und fahren an der Westspitze von Magnetic Island vorbei, bevor Sie die offenen Gewässer der Halifax Bay in Richtung der Palm Island-Gruppe überqueren. Sobald wir Great Palm Island (Bwgcolman) erreicht haben, umrunden wir die Inseln, unsere Route führt Sie vorbei an:
+
+-Große Palme (Bwgcolman)
+-Curacao (Noogoo oder Inoogoo)
+-Fantome (Eumilli)
+-Orpheus (Goolboddi)
+-Pelorus (Yanooa oder Guyroogarrie)
+-Esk (Soopun)
+- Brisk (Culgarul)
+-Fly Island
+
+und mehrere Saumriffe, bevor Sie an den Sandstränden der unbewohnten Insel Havannah landen. Hier haben Sie bis zu 45 Minuten Zeit, um den Boden zu erkunden, ein Picknick im Paradies zu genießen oder Ihre Zehen ins Wasser zu tauchen, bevor Sie zurückfliegen, an Herald &amp; Rattlesnake Islands vorbei und entlang der Küste fliegen, bevor Sie in der Stadt landen.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>FRENCH</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Admirez la vue à couper le souffle sur le groupe d'îles de Greater Palm dans votre hélicoptère privé avant d'atterrir sur une plage isolée de l'île de Havannah.
+
+D'une beauté naturelle sous-estimée, ce groupe d'îles vierges présente des sommets montagneux avec une forêt tropicale luxuriante descendant jusqu'au bord de l'océan et est bordé de récifs peu profonds avec une vie marine abondante. Il est difficile d'exprimer avec des mots à quel point c'est spectaculaire - vous devez vraiment le voir par vous-même !
+
+En décollant au-dessus de Rowes Bay, vous passerez devant la pointe ouest de Magnetic Island avant de traverser les eaux libres de la baie d'Halifax en direction du groupe Palm Island. Une fois arrivés à Great Palm Island (Bwgcolman), nous ferons le tour des îles, notre itinéraire vous faisant passer par :
+
+-Grand palmier (Bwgcolman)
+-Curaçao (Noogoo ou Inoogoo)
+-Fantôme (Eumilli)
+-Orphée (Goolboddi)
+-Pelorus (Yanooa ou Guyroogarrie)
+-Esk (Soopun)
+-Vif (Culgarul)
+-Île aux mouches
+
+et de multiples récifs frangeants, avant de se poser sur les plages de sable de l'île inhabitée de Havannah. Ici, vous aurez jusqu'à 45 minutes au sol pour explorer, profiter d'un pique-nique au paradis ou tremper vos orteils dans l'eau avant de repartir, en survolant les îles Herald &amp; Rattlesnake et le long de la côte avant d'atterrir en ville.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>CHINESE-T</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>在降落在哈凡納島僻靜的海灘之前，您可以乘坐私人直升機欣賞大棕櫚島群的壯麗景色。
+
+一個未被充分認識的自然美景，這個原始的島嶼群以山峰和茂密的熱帶雨林下降到海洋的邊緣，並被擁有豐富海洋生物的淺礁所環繞。很難用語言來形容它是多麼壯觀——你真的必須親眼看到它！
+
+從羅伊斯灣起飛，您將經過磁島的西點，然後穿過哈利法克斯灣的開闊水域，前往棕櫚島群。抵達大棕櫚島 (Bwgcolman) 後，我們將繞島一圈，我們的路線將帶您經過：
+
+-大棕櫚（Bwgcolman）
+-庫拉索島（Noogoo 或 Inoogoo）
+-Fantome（歐米利）
+——俄耳甫斯（古爾博迪）
+-Pelorus（Yanooa 或 Guyroogarrie）
+-Esk（蘇朋）
+-輕快（Culgarul）
+-飛島
+
+和多個邊緣珊瑚礁，然後在無人居住的哈凡納島的沙灘上落腳。在這裡，您將有長達 45 分鐘的時間在地面上探索、在天堂享受野餐或在返回之前將腳趾浸入水中，飛過先驅和響尾蛇群島並沿著海岸降落，然後降落在城鎮。</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>SPAN-EUR</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Disfrute de las impresionantes vistas del grupo de islas Greater Palm en su helicóptero privado antes de aterrizar en una playa aislada en la isla de Havannah.
+
+Una belleza natural subestimada, este prístino grupo de islas presenta picos montañosos con una exuberante selva tropical que desciende hasta el borde del océano, y está bordeado por arrecifes poco profundos con abundante vida marina. Es difícil expresar con palabras lo espectacular que es, ¡realmente tienes que verlo por ti mismo!
+
+Despegando sobre la bahía de Rowes, viajará más allá del punto oeste de la isla magnética antes de cruzar las aguas abiertas de la bahía de Halifax hacia el grupo de islas Palm. Una vez que lleguemos a Great Palm Island (Bwgcolman), daremos la vuelta a las islas, nuestra ruta te llevará por:
+
+-Gran Palmera (Bwgcolman)
+-Curazao (Noogoo o Inoogoo)
+-Fantome (Eumilli)
+-Orfeo (Goolboddi)
+-Pelorus (Yanooa o Guyroogarrie)
+-Esk (Soopun)
+-Enérgico (Culgarul)
+-Isla Volar
+
+y múltiples arrecifes costeros, antes de posarse en las playas de arena de la isla deshabitada de Havannah. Aquí tendrá hasta 45 minutos en tierra para explorar, disfrutar de un picnic en el paraíso o sumergir los dedos de los pies en el agua antes de regresar, pasando volando por las islas Herald y Rattlesnake y a lo largo de la costa antes de aterrizar en la ciudad.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>PORT-EUR</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Aprecie as vistas de tirar o fôlego do grupo de ilhas Greater Palm em seu helicóptero particular antes de pousar em uma praia isolada na Ilha Havannah.
+
+Uma beleza natural subestimada, este grupo intocado de ilhas apresenta picos montanhosos com exuberante floresta tropical descendo até a beira do oceano e são cercados por recifes rasos com vida marinha abundante. É difícil colocar em palavras o quão espetacular é - você realmente tem que ver por si mesmo!
+
+Decolando sobre Rowes Bay, você passará pelo ponto oeste de Magnetic Island antes de cruzar as águas abertas de Halifax Bay em direção ao grupo Palm Island. Assim que chegarmos a Great Palm Island (Bwgcolman), daremos uma volta pelas ilhas, nossa rota passará por:
+
+-Grande Palma (Bwgcolman)
+-Curaçao (Noogoo ou Inoogoo)
+-Fantome (Eumilli)
+-Orfeu (Goolboddi)
+-Pelorus (Yanooa ou Guyroogarrie)
+-Esk (Soopun)
+-Brisk (Culgarul)
+-Ilha Voar
+
+e vários recifes de franja, antes de se estabelecer nas praias de areia da ilha desabitada de Havannah. Aqui você terá até 45 minutos em terra para explorar, desfrutar de um piquenique no paraíso ou mergulhar os pés na água antes de voltar, voando pelas Ilhas Herald &amp; Rattlesnake e ao longo da costa antes de aterrissar na cidade.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>INDONESIAN</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Nikmati pemandangan menakjubkan dari gugusan pulau Greater Palm di helikopter pribadi Anda sebelum mendarat di pantai terpencil di Pulau Havannah.
+
+Keindahan alam yang kurang dihargai, kelompok pulau yang masih asli ini memiliki puncak pegunungan dengan hutan hujan lebat yang turun ke tepi laut, dan dibatasi oleh terumbu dangkal dengan kehidupan laut yang melimpah. Sulit untuk mengatakan betapa spektakulernya itu - Anda benar-benar harus melihatnya sendiri!
+
+Mendarat di atas Rowes Bay, Anda akan melakukan perjalanan melewati titik barat Magnetic Island sebelum menyeberangi perairan terbuka Halifax Bay menuju grup Palm Island. Setelah kami tiba di Great Palm Island (Bwgcolman), kami akan mengelilingi pulau, rute kami akan membawa Anda melewati:
+
+-Palm Besar (Bwgcolman)
+-Curacao (Noogoo atau Inoogoo)
+-Fantome (Eumilli)
+-Orpheus (Goolboddi)
+-Pelorus (Yanooa atau Guyroogarrie)
+-Esk (Soopun)
+-Culgarul (Culgarul)
+-Pulau Terbang
+
+dan beberapa terumbu karang tepi, sebelum terbenam di pantai berpasir di Pulau Havannah yang tidak berpenghuni. Di sini Anda akan memiliki waktu hingga 45 menit di darat untuk menjelajah, menikmati piknik di surga atau mencelupkan jari-jari kaki Anda ke dalam air sebelum kembali, terbang melewati Kepulauan Herald &amp; Rattlesnake dan di sepanjang pantai sebelum mendarat di kota.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>ITALIAN</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Ammira le viste mozzafiato del gruppo di isole Greater Palm nel tuo elicottero privato prima di atterrare su una spiaggia appartata sull'isola di Havannah.
+
+Una bellezza naturale sottovalutata, questo gruppo incontaminato di isole presenta cime montuose con una lussureggiante foresta pluviale che scendono fino al bordo dell'oceano e sono orlate da scogliere poco profonde con abbondante vita marina. È difficile esprimere a parole quanto sia spettacolare: devi davvero vederlo di persona!
+
+Decollando sopra Rowes Bay, viaggerai oltre il punto ovest di Magnetic Island prima di attraversare le acque aperte della baia di Halifax verso il gruppo di Palm Island. Una volta arrivati a Great Palm Island (Bwgcolman), faremo il giro delle isole, il nostro percorso ti porterà oltre:
+
+-Grande palma (Bwgcolman)
+-Curacao (Noogoo o Inoogoo)
+-Fantomo (Eumilli)
+-Orfeo (Goolboddi)
+-Pelorus (Yanooa o Guyroogarrie)
+-Esk (Soopun)
+-Brisk (Culgarul)
+- Isola della mosca
+
+e molteplici scogliere marginali, prima di approdare sulle spiagge sabbiose dell'isola disabitata dell'Avana. Qui avrai fino a 45 minuti a terra per esplorare, goderti un picnic in paradiso o immergerti in acqua prima di tornare indietro, sorvolando Herald &amp; Rattlesnake Islands e lungo la costa prima di atterrare in città.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>KOREAN</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>Havannah Island의 한적한 해변에 착륙하기 전에 개인 헬리콥터에서 Greater Palm 군도의 숨막히는 전경을 감상하십시오.
+
+과소 평가된 자연의 아름다움인 이 깨끗한 섬 그룹은 바다 가장자리로 내려가는 무성한 열대 우림이 있는 산봉우리를 특징으로 하며 풍부한 해양 생물이 있는 얕은 암초로 둘러싸여 있습니다. 그것이 얼마나 장관인지 말로 표현하기 어렵습니다. 실제로 직접 보셔야 합니다!
+
+Rowes Bay를 넘어 마그네틱 아일랜드의 서쪽 지점을 지나 Halifax Bay의 탁 트인 바다를 건너 Palm Island 그룹으로 향하게 됩니다. Great Palm Island(Bwgcolman)에 도착하면 섬 주변을 한 바퀴 돌게 됩니다.
+
+-그레이트 팜(Bwgcolman)
+-Curacao (누구 또는 이누구)
+-팬텀(Eumilli)
+-오르페우스(굴보디)
+-Pelorus(야누아 또는 가이루가리)
+-에스크(수분)
+-Brisk (Culgarul)
+-플라이 아일랜드
+
+무인도 Havannah Island의 모래 사장에 내려 오기 전에 여러 개의 주변 산호초. 여기에서 지상에서 최대 45분 동안 탐험을 하거나 낙원에서 피크닉을 즐기거나 물에 발을 담그고 돌아오기 전에 Herald &amp; Rattlesnake Islands를 지나 해안을 따라 비행한 후 마을에 도착할 수 있습니다.</comment_text>
+      </row>
+      <row>
+        <market_variant_id />
+        <sequence_number />
+        <attribute_id_language_written>CHINESE-S</attribute_id_language_written>
+        <attribute_id_language_written_description />
+        <comment_text>在降落在哈凡纳岛僻静的海滩之前，您可以乘坐私人直升机欣赏大棕榈岛群的壮丽景色。
+
+一个未被充分认识的自然美景，这个原始的岛屿群以山峰和茂密的热带雨林下降到海洋的边缘，并被拥有丰富海洋生物的浅礁所环绕。很难用语言来形容它是多么壮观——你真的必须亲眼看到它！
+
+从罗伊斯湾起飞，您将经过磁岛的西点，然后穿过哈利法克斯湾的开阔水域，前往棕榈岛群。抵达大棕榈岛 (Bwgcolman) 后，我们将绕岛一圈，我们的路线将带您经过：
+
+-大棕榈（Bwgcolman）
+-库拉索岛（Noogoo 或 Inoogoo）
+-Fantome（欧米利）
+——俄耳甫斯（古尔博迪）
+-Pelorus（Yanooa 或 Guyroogarrie）
+-Esk（苏朋）
+-轻快（Culgarul）
+-飞岛
+
+和多个边缘珊瑚礁，然后在无人居住的哈凡纳岛的沙滩上落脚。在这里，您可以在地面上进行长达 45 分钟的探索，在天堂享受野餐，或者在返回之前将脚趾浸入水中，飞过先驱和响尾蛇群岛并沿着海岸降落，然后降落在镇上。</comment_text>
+      </row>
+    </service_comment>
+    <service_departure_date />
+    <service_rate_basis_comment />
+    <service_related_service />
+    <service_related_product />
+    <service_make_model_style />
+    <service_minimum_period />
+    <service_season_tariff_comment />
+    <service_tariff_adult />
+    <service_tariff_child />
+    <service_tariff_concession />
+    <service_vertical_classification>
+      <row>
+        <product_type_id>AHBTOURS</product_type_id>
+        <product_type_description>Air, Helicopter and Balloon Tours</product_type_description>
+        <product_sub_type_lowest />
+      </row>
+      <row>
+        <product_type_id>ANTOURS</product_type_id>
+        <product_type_description>Nature and wildlife</product_type_description>
+        <product_sub_type_lowest />
+      </row>
+      <row>
+        <product_type_id>TAILORED</product_type_id>
+        <product_type_description>Customised</product_type_description>
+        <product_sub_type_lowest />
+      </row>
+    </service_vertical_classification>
+    <service_schedule>
+      <row>
+        <type>ONDEMAND</type>
+        <date_from />
+        <date_to />
+        <departure_time>
+        </departure_time>
+        <tour_schedule_details>The 9 Islands Scenic Experience takes approximately 2 hours &amp; 15 minutes.
+
+All scenic tours are run 7 days a week and generally require 24 hours notice.</tour_schedule_details>
+      </row>
+    </service_schedule>
+  </service_distribution>
+</atdw_data_results>

@@ -253,10 +253,146 @@ Recurring events like "10 Toes Trivia Night" and "2 Bent Rods - All Age Fishing 
 
 ## Open Questions
 
-- Is 58,151 records national or distributor-scoped? The NSW dominance in RESTAURANT (737/1,555) suggests either scope limitation or genuine state imbalance.
+- ~~Is 58,151 records national or distributor-scoped?~~ **Answered (June 2026)**: 58,388 records via DAPI for this distributor key. The ATDW PlatformDB contains 190,280 listings — the DAPI is a filtered distributor projection, not a full platform mirror. NSW dominance (43% of records) is real, not sampling bias.
 - Is there a single-product detail endpoint returning richer fields than the search response? (Pricing, opening hours, booking URLs, multimedia beyond one image?)
 - What does `score` represent when there is no search query — all our records returned `score=1`?
-- Is there a category list endpoint, or is the taxonomy only discoverable by sampling?
-- What does the INACTIVE/EXPIRED flow look like? The API appears to silently drop records rather than serving them with a different status.
-- What is the full set of category codes? We found 11 in ~3,000 records but there may be more.
+- Is there a category list endpoint, or is the taxonomy only discoverable by sampling? **Partial answer**: 11 categories confirmed in the full 58,388-record national dataset.
+- ~~What does the INACTIVE/EXPIRED flow look like?~~ **Answered**: The API silently drops records — all 58,388 records are ACTIVE. No inactive or expired state is ever visible.
+- ~~What is the full set of category codes?~~ **Answered**: 11 codes: ACCOMM, ATTRACTION, EVENT, RESTAURANT, TOUR, DESTINFO, GENSERVICE, HIRE, JOURNEY, INFO, TRANSPORT.
 - Are DESTINFO records the intended mechanism for destination guides, or is this an unofficial use of the product record schema?
+
+---
+
+## Full National Dataset — Confirmed Findings at Scale (June 2026)
+
+The full national ingest completed June 2026: **58,388 records** ingested from 19,511 pages at 3 records/page. Runtime: 5h 26m. All findings below supersede the probe-sample numbers above.
+
+### Category Breakdown
+
+| Category   | Count  | % of total | Geo coverage | Image coverage |
+|------------|--------|-----------|-------------|----------------|
+| ACCOMM     | 16,247 | 27.8%     | 100%        | 100%           |
+| ATTRACTION | 14,833 | 25.4%     | 100%        | 99%            |
+| EVENT      | 8,954  | 15.3%     | 100%        | 99%            |
+| RESTAURANT | 8,282  | 14.2%     | 100%        | 100%           |
+| TOUR       | 3,465  | 5.9%      | 45% (**54.6% missing**) | —   |
+| DESTINFO   | 1,955  | 3.3%      | 100%        | —              |
+| GENSERVICE | 1,803  | 3.1%      | 100%        | 71%            |
+| HIRE       | 1,224  | 2.1%      | —           | —              |
+| JOURNEY    | 734    | 1.3%      | 16% (**83.6% missing**) | —  |
+| INFO       | 498    | 0.9%      | —           | —              |
+| TRANSPORT  | 393    | 0.7%      | —           | —              |
+
+### State Distribution (confirmed national)
+
+| State | Records | % |
+|-------|---------|---|
+| NSW   | 21,725  | 43% |
+| QLD   | 8,532   | 16% |
+| SA    | 6,767   | 13% |
+| VIC   | 6,008   | 12% |
+| WA    | 3,552   | 7%  |
+| TAS   | 2,982   | 6%  |
+| NT    | 1,133   | 2%  |
+| ACT   | 1,082   | 2%  |
+
+NSW dominance (43%) is confirmed as a genuine data skew, not a sampling artefact.
+
+### Custodian / Operator Confirmed at Scale
+
+**ACCOMM**: Hipcamp Australia owns 2,158 records — **13.3% of all accommodation** from a single third-party aggregator. Average quality is higher than direct submissions (100% geo, 100% image).
+
+**ATTRACTION**: Department of Planning and Environment NSW owns 1,395 records — **9.4% of all attractions** from a single government agency.
+
+**RESTAURANT**: Destination NSW owns 251 restaurant records (3% of all RESTAURANT) entered as proxy custodian.
+
+### Deduplication at Scale
+
+- **AAT Kings**: 10 records confirmed across 6 states (SA, NSW, NT, QLD, WA).
+- **2 Bent Rods**: 9 records in QLD — same operator, separate records per venue.
+- **Multi-area records**: 4,334 records carry more than one area tag.
+
+### Geo Findings Confirmed
+
+- **TOUR**: 1,891 of 3,465 records missing geo (54.6%) — confirmed finding. The 38% with coordinates point to operator offices.
+- **JOURNEY**: 614 of 734 records missing geo (83.6%) — confirmed finding.
+- ACCOMM, ATTRACTION, EVENT, RESTAURANT: all effectively 100% geo.
+
+### Expiry at Scale
+
+1,688 records expire **June 2026** (this month). The 12-month renewal cycle creates a rolling refresh obligation — this is material, not a footnote.
+
+### DAPI Coverage Gap (New Finding)
+
+The ATDW DAPI returned 58,388 records for this distributor key. The authoritative ATDW PlatformDB (queried directly via CData Connect Cloud) contains **190,280 listings**. The DAPI is a filtered distributor projection exposing roughly **30.7% of platform data**. Any canonical store built from DAPI alone is structurally incomplete relative to the full platform.
+
+---
+
+## Full Dataset Probe — New Findings (June 2026)
+
+The following findings emerged from running analytical queries across the complete 58,388-record national dataset. These are new patterns not visible in the 3,078-record probe sample.
+
+### External Territories — 112 records outside the mainland bounding box
+
+112 records have coordinates that fall outside the standard Australian mainland bounding box (lat −10°S to −44°S, lng 113°E to 154°E). These are not errors — they are legitimate Australian territories:
+
+| Territory | ~Records | Coordinates | State |
+|-----------|---------|-------------|-------|
+| Lord Howe Island | ~20 | −31.5°, 159.1° | NSW |
+| Cocos (Keeling) Islands | ~6 | −12.2°, 96.8° | WA |
+| Christmas Island | ~2 | −10.4°, 105.7° | WA |
+| Norfolk Island | ~1 | −29.0°, 168.0° | NSW |
+
+Any geo filter, map viewport, or bounding-box query that clips to mainland Australia will silently exclude these records. This is a deliberate architecture decision, not a data error — but it needs to be made deliberately.
+
+### Null-Island Geocoding — 28 records at lat=0, lng=0
+
+28 records have non-null latitude and longitude, both set to exactly 0.0 — the null-island coordinate in the Gulf of Guinea. These are real Australian places with broken geocoding: SEA LIFE Sydney, Queensland Parliament House, Dashville (Lower Belford NSW), Francvillers Station (Cunnamulla QLD). These records pass a `latitude IS NOT NULL` filter and would be plotted in West Africa on a map. A `latitude != 0 AND longitude != 0` validation step is required.
+
+### Event Timing Drift — 457 events with past next_occurrence
+
+457 EVENT records have `next_occurrence` in the past. The DAPI filters future events at query time, but a canonical store ingest freezes the state at ingest time. Events that occurred after the ingest are not automatically removed. Without regular re-sync the canonical store accumulates stale EVENT records silently. Note also: of 8,954 total EVENTs, **50% are one-off** (next_occurrence == expires_at) and **49% are recurring** (next_occurrence ≠ expires_at).
+
+### GENSERVICE Is a Regional Tourism Body Dumping Ground
+
+GENSERVICE top-5 concentration is 34% — far higher than any other category. Destination Southern Tasmania alone owns 351 GENSERVICE records (19% of the category). East Coast Tasmania Tourism owns 130. Regional tourism bodies appear to be using GENSERVICE as a catch-all for content that doesn't fit tourism product categories — destination guides, regional info, facilities. This compresses the already-low utility of GENSERVICE as a filter.
+
+### Organisation Name Normalisation — 4,135 ALL-CAPS entries
+
+4,135 records have ALL-CAPS organisation names (e.g., ADELAIDE FESTIVAL CENTRE, WAITOC, KEG TOURING). 167 records have all-lowercase org names. One org name is a phone number: `0410405278`. The data has no normalisation at the custodian-entry level — organisation names will sort, display, and match inconsistently without a standardisation step.
+
+### Hipcamp Data Quality NOT Exceptional at Scale
+
+At the 15-record probe sample, Hipcamp records appeared higher quality. At 2,158 records the difference is negligible: Hipcamp ACCOMM avg description 900 chars vs 917 chars for all others; geo 100% vs 100%; image 100% vs 100%. The "aggregator data = higher quality" hypothesis from the probe sample does not hold at national scale. Hipcamp records are equivalent, not superior.
+
+### Image URL Finding Confirmed at 100%
+
+The earlier probe noted that image URLs carry a `?q=` distributor payload. At full dataset the URL structure reveals the parameter is actually `&q=` (after rect, w, h, rot params), not the leading query param. All **57,874** image URLs contain a `&q=` base64 JSON payload encoding distributorId and apikeyId. Every image URL in the canonical store is distributor-scoped and will break if the key rotates.
+
+### JOURNEY Sub-Type Detection: 90% Unclassifiable
+
+Only 5% of JOURNEY records have trail signals (Distance/Difficulty/Grade) in descriptions; 3% have N-day itinerary signals. The remaining 90% have neither. Deriving JOURNEY sub-type from description parsing is not a viable approach for the majority of records — additional metadata or human curation would be needed.
+
+### Cross-State Operators — Name Deduplication Scale
+
+793 distinct names appear on 2+ records. There are 930 excess records (records beyond the first instance of each name). Notable national operators appearing 7x across all states: Australian Geographic Travel, Auswalk Walking Holidays, Australian Air Safaris. "Rugby World Cup (Australia)" holds 60 EVENT records across 5 states — likely stale from a past tournament.
+
+## Platform Re-Architecture Probe — DAPI Component (June 2026)
+
+Hit the live DAPI directly with the existing key (not the translated `listings` table) to see what the raw API surface actually exposes, ahead of the web-portal/DAPI re-architecture work. Script: `src/probe_dapi_api.py`, raw samples in `docs/dapi_raw/`.
+
+### The /products list endpoint is a thin slice of what DAPI actually has
+
+`/products` (the endpoint `ingest.py` has always used) returns only **16 top-level fields** per record — name, description, category, organisation, image, address, status, expiry, next_occurrence, etc. This is the entire universe the canonical schema and the standards-mapping tab have been built against so far.
+
+### /product (single-record detail) exposes ~3x more, and it is structurally different
+
+Calling `/product?productId=<id>` for one real TOUR record returned **194 distinct tags** (including nested service data), with ~46 of them new top-level fields never seen via `/products` or captured anywhere in the canonical schema: `australian_business_number`, `check_in_time`/`check_out_time`, `disabled_access_flag`/`_text`, `pets_allowed_flag`/`_text`, `children_catered_for_flag`/`_text`, `rate_from`/`rate_to`, `attribute_id_currency`, `number_of_rooms`, `total_capacity`, `stra_property_id_number`, `international_ready_flag`, `nearest_gateway`/`_distance`, `validity_date_from`/`_to`, `brochure_available_flag`, `deal_flag`, `job_flag`. None of this is reachable through the list endpoint at all — it only exists if you fetch every product individually by ID.
+
+### /productservice requires BOTH productId and serviceId — and is richer again
+
+`/productservice` 400s with "Product Id and Service Id are mandatory" unless given both. The `service_id` has to be harvested from the nested `<service_id>` block embedded inside a `/product` detail response — it isn't surfaced by `/products` at all. Once called correctly, a single service record returned **123 distinct tags**: pricing ranges (`range_1_from_rate`/`_to_rate`), booking config (`service_booking`, `service_booking_with_tracking`, `service_configuration`), capacity (`minimum_capacity`/`maximum_capacity`), departure data (`service_departure_date`, `departure_time`, `journey_route`, `end_location_text`), and multimedia with `photographer`/`copyright` credit fields.
+
+### Implication for the re-architecture work
+
+A future-state DAPI (or its replacement) can't be scoped from the list endpoint alone — the bulk of the platform's actual product/service data (pricing, accessibility, capacity, booking config) is only visible one record at a time via two extra round-trips per product. Any redesign that wants this data at scale needs either a bulk detail endpoint that doesn't exist today, or N+1 API calls per product — itself a re-architecture-worthy finding for the DAPI component.

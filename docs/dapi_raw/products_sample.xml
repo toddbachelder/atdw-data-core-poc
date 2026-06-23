@@ -1,0 +1,205 @@
+<?xml version='1.0' encoding='utf-8'?>
+<atdw_search_response>
+  <status>0</status>
+  <number_of_results>58413</number_of_results>
+  <query_time>1</query_time>
+  <products>
+    <product_record>
+      <product_id>615264e244035b4666beb903</product_id>
+      <product_number>AU0456000</product_number>
+      <status>ACTIVE</status>
+      <product_update_date>2025-12-03T10:34:15.447+10:00</product_update_date>
+      <owning_organisation_id>572005b3d236b6641e10c0e0</owning_organisation_id>
+      <owning_organisation_number>OR0001669</owning_organisation_number>
+      <owning_organisation_name>TOWNSVILLE HELICOPTERS</owning_organisation_name>
+      <product_name>'9 Islands' Scenic Experience - Townsville Helicopters</product_name>
+      <atdw_expiry_date>2026-12-03</atdw_expiry_date>
+      <product_description>A truly unique experience - take in the breathtaking views of the Greater Palm group of islands in your private helicopter before landing on a secluded beach on Havannah Island to soak up the atmosphere.
+
+An underappreciated natural beauty, this pristine group of islands feature mountainous peaks with lush rainforest descending to the edge of the ocean, fringed by shallow reefs with abundant marine life. It's hard to put into words how spectacular it is - you really have to see it for yourself!
+
+Lifting off over Rowes Bay, you'll travel past the west point of Magnetic Island before crossing the open waters of Halifax Bay towards the Palm Island group.
+
+Fly over multiple fringing reefs, before setting down on the sandy beaches of uninhabited Havannah Island. Here you'll have up to 45 minutes on the ground to explore, enjoy a picnic in paradise or dip your toes in the water before heading back, flying past Herald and Rattlesnake Islands and along the coast before landing in town. 
+
+They can also depart from and drop off at Magnetic Island with slight alternations to the tour.</product_description>
+      <product_category_id>TOUR</product_category_id>
+      <product_image>https://assets.atdw-online.com.au/images/31e0960178be40886a0d3c2f056b8ac6.jpeg?rect=0%2C0%2C3020%2C2265&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYxNTI2NGUyNDQwMzViNDY2NmJlYjkwMyIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCJ9</product_image>
+      <boundary>-19.243647,146.7761526</boundary>
+      <addresses>
+        <address>
+          <address_type>PHYSICAL</address_type>
+          <address_line>85-121 Old Common Road</address_line>
+          <address_line2 />
+          <city>Rowes Bay</city>
+          <state>QLD</state>
+          <postcode>4810</postcode>
+          <country>Australia</country>
+          <area>Townsville Area</area>
+          <region>Townsville Region</region>
+        </address>
+      </addresses>
+      <next_occurrence />
+      <score>1</score>
+      <product_pixel_url>https://atlas.atdw-online.com.au/pixel?productId=615264e244035b4666beb903&amp;distributorId=56b1eb9344feca3df2e320c7&amp;language=en&amp;syndicationMethod=API</product_pixel_url>
+    </product_record>
+    <product_record>
+      <product_id>629574eb6841157d3062649f</product_id>
+      <product_number>AU0808256</product_number>
+      <status>ACTIVE</status>
+      <product_update_date>2026-06-03T14:12:06.929+10:00</product_update_date>
+      <owning_organisation_id>5c942de313a173a466c2b6ab</owning_organisation_id>
+      <owning_organisation_number>OR0022337</owning_organisation_number>
+      <owning_organisation_name>Rundle Mall Management Authority</owning_organisation_name>
+      <product_name>'A Day Out' by Marguerite Derricourt</product_name>
+      <atdw_expiry_date>2027-07-01</atdw_expiry_date>
+      <product_description>On 3 July 1999, Rundle Mall welcomed four new residents —Horatio, Oliver, Truffles and Augusta. Made completely from bronze, these life-sized pigs look to be having a great day out in Rundle Mall as they walk the Mall, dig through the bin for food scraps and greet passers-by.
+
+The art installation officially known as A Day Out was created by Marguerite Derricourt, the winner of a national sculpture competition instigated by the City of Adelaide in the final stages of the Rundle Mall upgrades in the late 1990s.
+
+The people of Adelaide loved the pigs so much, a competition was held to name them and you can find a plaque next to each pig stating its name and the name of the person who named them.
+
+Children and adults alike are often seen hugging, sitting on and posing for pictures with the popular pigs on their days out in Rundle Mall.</product_description>
+      <product_category_id>ATTRACTION</product_category_id>
+      <product_image>https://assets.atdw-online.com.au/images/12e14fafc353e8d431cb9c0f05f1d0d7.jpeg?rect=0%2C0%2C1600%2C1200&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYyOTU3NGViNjg0MTE1N2QzMDYyNjQ5ZiIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCJ9</product_image>
+      <boundary>-34.9228403,138.6025388</boundary>
+      <addresses>
+        <address>
+          <address_type>PHYSICAL</address_type>
+          <address_line>Rundle Mall</address_line>
+          <address_line2 />
+          <city>Adelaide</city>
+          <state>SA</state>
+          <postcode>5000</postcode>
+          <country>Australia</country>
+          <area>Adelaide</area>
+          <area>City of Adelaide</area>
+          <region>Adelaide</region>
+        </address>
+      </addresses>
+      <next_occurrence />
+      <score>1</score>
+      <product_pixel_url>https://atlas.atdw-online.com.au/pixel?productId=629574eb6841157d3062649f&amp;distributorId=56b1eb9344feca3df2e320c7&amp;language=en&amp;syndicationMethod=API</product_pixel_url>
+    </product_record>
+    <product_record>
+      <product_id>698d5cbdbb78accd2c36b800</product_id>
+      <product_number>AU2231085</product_number>
+      <status>ACTIVE</status>
+      <product_update_date>2026-02-12T18:06:58.947+10:00</product_update_date>
+      <owning_organisation_id>56b1ed0144feca3df2e378c3</owning_organisation_id>
+      <owning_organisation_number>NSW2340</owning_organisation_number>
+      <owning_organisation_name>Tamworth Visitor Information Centre</owning_organisation_name>
+      <product_name>'Bedtime Story,' Queen Street Mural</product_name>
+      <atdw_expiry_date>2027-02-12</atdw_expiry_date>
+      <product_description>"Bedtime Story" created by Scott Nagy and Krimsone is Barraba Public Art's latest addition to the public art trail. This amazing mural is featured on the wall of the local library.
+
+The mural is a dreamy narrative around Barraba's wildlife. A child sits reading while their imagination spills into the room they are in.
+
+The mural brings colour into the courtyard area. Making it the perfect shady spot for you to sit and enjoy some of the fabulous food and drinks Barraba has to offer.</product_description>
+      <product_category_id>ATTRACTION</product_category_id>
+      <product_image>https://assets.atdw-online.com.au/images/0152f0871d18dd493fb9058b3386b4d8.jpeg?rect=0%2C0%2C1600%2C1200&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjY5OGQ1Y2JkYmI3OGFjY2QyYzM2YjgwMCIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCJ9</product_image>
+      <boundary>-30.3790641,150.6107517</boundary>
+      <addresses>
+        <address>
+          <address_type>PHYSICAL</address_type>
+          <address_line>108 Queen Street</address_line>
+          <address_line2 />
+          <city>Barraba</city>
+          <state>NSW</state>
+          <postcode>2347</postcode>
+          <country>Australia</country>
+          <area>Tamworth</area>
+          <region>Country NSW</region>
+        </address>
+      </addresses>
+      <next_occurrence />
+      <score>1</score>
+      <product_pixel_url>https://atlas.atdw-online.com.au/pixel?productId=698d5cbdbb78accd2c36b800&amp;distributorId=56b1eb9344feca3df2e320c7&amp;language=en&amp;syndicationMethod=API</product_pixel_url>
+    </product_record>
+    <product_record>
+      <product_id>69f19cf3083fcfff120e2aad</product_id>
+      <product_number>AU2315247</product_number>
+      <status>ACTIVE</status>
+      <product_update_date>2026-05-31T03:30:32.168+10:00</product_update_date>
+      <owning_organisation_id>5f8e32daeeccde484fab7722</owning_organisation_id>
+      <owning_organisation_number>OR0035591</owning_organisation_number>
+      <owning_organisation_name>Never Never Distilling Co. </owning_organisation_name>
+      <product_name>'Boom - Shuck-Alaka!'</product_name>
+      <atdw_expiry_date>2026-07-31</atdw_expiry_date>
+      <product_description>Start your OysterPalooza weekend the right way with 'Boom - Shuck-Alaka!' - Never Never Distilling's Friday evening Oyster Event. 
+
+Full-priced tickets are $59pp, but to celebrate OysterPalooza turning five, they're going back to 2021 pricing and offering $40 Early Bird Tickets for all bookings made before the end of May 2026!
+
+Tickets include two drinks from our OysterPalooza menu, Oyster Shell Gin tastings, a half-dozen natural South Australian Pacific Oysters with a selection of cold dressings, and a 'Shellie' - a frozen Oyster Shell Gin served straight from a fresh oyster shell.
+
+Plus enjoy live oyster shucking, drink specials, their famous 'Shellie' luge and live music. 
+
+Additional oysters will be available to purchase at the time of booking by the dozen ($35). Pre-purchase an extra double dozen ($60) when you book your tickets and save $10!</product_description>
+      <product_category_id>EVENT</product_category_id>
+      <product_image>https://assets.atdw-online.com.au/images/fffefe8d302ec25773ee20b3d3c3c10c.jpeg?rect=167%2C0%2C2667%2C2000&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjY5ZjE5Y2YzMDgzZmNmZmYxMjBlMmFhZCIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCJ9</product_image>
+      <boundary>-35.2135576,138.5433658</boundary>
+      <addresses>
+        <address>
+          <address_type>PHYSICAL</address_type>
+          <address_line>56 Field Street</address_line>
+          <address_line2 />
+          <city>McLaren Vale</city>
+          <state>SA</state>
+          <postcode>5171</postcode>
+          <country>Australia</country>
+          <area>City of Onkaparinga</area>
+          <region>Fleurieu Peninsula</region>
+        </address>
+      </addresses>
+      <next_occurrence>2026-07-31</next_occurrence>
+      <start_date>2026-07-31</start_date>
+      <end_date>2026-07-31</end_date>
+      <attribute_id_frequency>ANNUAL</attribute_id_frequency>
+      <event_dates>
+        <event_date>2026-07-31</event_date>
+      </event_dates>
+      <score>1</score>
+      <product_pixel_url>https://atlas.atdw-online.com.au/pixel?productId=69f19cf3083fcfff120e2aad&amp;distributorId=56b1eb9344feca3df2e320c7&amp;language=en&amp;syndicationMethod=API</product_pixel_url>
+    </product_record>
+    <product_record>
+      <product_id>62cecfcd70c53e2a537aec82</product_id>
+      <product_number>AU0918893</product_number>
+      <status>ACTIVE</status>
+      <product_update_date>2025-11-09T12:56:05.695+10:00</product_update_date>
+      <owning_organisation_id>62cecf0941be72e93fb54b1d</owning_organisation_id>
+      <owning_organisation_number>OR0049190</owning_organisation_number>
+      <owning_organisation_name>BUSHLAND HIDEAWAY</owning_organisation_name>
+      <product_name>'Bushland Hideaway on the River'</product_name>
+      <atdw_expiry_date>2026-11-09</atdw_expiry_date>
+      <product_description>Nestled along the tranquil Dumaresq River on the QLD/NSW border, Bushland Hideaway offers the perfect rural escape. With one kilometre of river frontage, it's ideal for couples, families, groups, or solo travellers to relax and reconnect with nature.
+
+Spacious grassy campsites sit under magnificent gum and oak trees, shared with native wildlife and birdsong. All sites are easily accessible for RVs, caravans, and vehicles. Enjoy sunny days, clear night skies, and peaceful riverside views.
+
+Adventurers can fish, swim, kayak, or explore nearby walking and cycling trails. Free kayaks are provided (indemnity form required). Bring your camera and fishing rod —wildlife and natural beauty abound.
+
+'Bushland Hideaway' is perfectly situated at the heart of popular tourist destinations, including Inglewood, Texas, Yelarbon, and Goondiwindi. While enjoying the peace and tranquillity of the Hideaway, you'll also have the opportunity to venture out on easy day trips to explore the unique attractions of the Goondiwindi Region.
+
+After a day of discovering local gems, return to the calm of Bushland Hideaway where you can unwind , sit by the crackling campfire, gaze up at the star-filled sky, and let the stillness of the bushland soothe your soul.—an ideal way to end a fulfilling day of adventure.</product_description>
+      <product_category_id>ACCOMM</product_category_id>
+      <product_image>https://assets.atdw-online.com.au/images/b5bfdc442e549e2e349517c3ca1ff4ba.jpeg?rect=422%2C0%2C3152%2C2364&amp;w=280&amp;h=210&amp;rot=360&amp;q=eyJ0eXBlIjoibGlzdGluZyIsImxpc3RpbmdJZCI6IjYyY2VjZmNkNzBjNTNlMmE1MzdhZWM4MiIsImRpc3RyaWJ1dG9ySWQiOiI1NmIxZWI5MzQ0ZmVjYTNkZjJlMzIwYzciLCJhcGlrZXlJZCI6IjU2YjFmNjNmMGNmMjEzYWQyMGRlZGVkOCJ9</product_image>
+      <boundary>-28.69674423715457,150.928914664418</boundary>
+      <addresses>
+        <address>
+          <address_type>PHYSICAL</address_type>
+          <address_line>3271 Texas Yelarbon Road</address_line>
+          <address_line2 />
+          <city>Yelarbon</city>
+          <state>QLD</state>
+          <postcode>4388</postcode>
+          <country>Australia</country>
+          <area>Goondiwindi Area</area>
+          <region>Queensland Country Tourism</region>
+          <region>Western Downs Region</region>
+        </address>
+      </addresses>
+      <next_occurrence />
+      <score>1</score>
+      <product_pixel_url>https://atlas.atdw-online.com.au/pixel?productId=62cecfcd70c53e2a537aec82&amp;distributorId=56b1eb9344feca3df2e320c7&amp;language=en&amp;syndicationMethod=API</product_pixel_url>
+    </product_record>
+  </products>
+</atdw_search_response>

@@ -74,3 +74,21 @@ The log format doesn't matter. Bullet points are fine. Timestamp entries if it h
 > "If we had to own the canonical version of this data nationally, what's actually hard about it?"
 
 Everything in the codebase should be in service of being able to answer that honestly.
+
+## Expanded objective: platform re-architecture
+
+The probe's scope is being expanded beyond the data layer alone. The new objective is to use
+what's been learned here to inform a re-architecture assessment of the **current ATDW
+platform** into potential **future-state architectures**, across its three main components:
+
+1. **Web portal** — where operators create and maintain listing records.
+2. **Data layer** — the canonical store (MongoDB / ATDW PlatformDB, queried via CData Connect
+   Cloud) this probe has already been mapping. See `docs/findings.md` and the DAPI Standards
+   Mapping / Canonical (MongoDB) tab in `static/index.html` for what's been found so far.
+3. **Distribution API (DAPI)** — where records are distributed out to distributors via an API.
+   Reference: https://developer.atdw.com.au/ATDWO-api.html
+
+This builds on the existing data-layer findings rather than replacing them — the canonical
+schema, translation layer, and findings log remain the foundation. The new work extends that
+same hands-on, real-data lens to the web portal and DAPI components, and reasons about what a
+future-state architecture spanning all three would need to address.

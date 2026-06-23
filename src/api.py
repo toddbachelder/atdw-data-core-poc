@@ -10,7 +10,9 @@ from pathlib import Path
 
 from fastapi import FastAPI, HTTPException, Query
 from fastapi.middleware.cors import CORSMiddleware
-from fastapi.responses import HTMLResponse
+from fastapi.middleware.gzip import GZipMiddleware
+from fastapi.responses import HTMLResponse, JSONResponse
+from fastapi.staticfiles import StaticFiles
 from dotenv import load_dotenv
 
 sys.path.insert(0, os.path.dirname(__file__))
@@ -20,6 +22,7 @@ load_dotenv()
 
 app = FastAPI(title="ATDW Data Core Probe", version="0.1.0")
 
+app.add_middleware(GZipMiddleware, minimum_size=1000)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=["*"],
@@ -28,12 +31,26 @@ app.add_middleware(
 )
 
 STATIC_DIR = Path(__file__).parent.parent / "static"
+app.mount("/static", StaticFiles(directory=STATIC_DIR), name="static")
 
+_schema_cache: dict | None = None
 
 @app.get("/", response_class=HTMLResponse, include_in_schema=False)
 def index():
     html_path = STATIC_DIR / "index.html"
-    return HTMLResponse(content=html_path.read_text(encoding="utf-8"))
+    return HTMLResponse(
+        content=html_path.read_text(encoding="utf-8"),
+        headers={"Cache-Control": "no-store"},
+    )
+
+
+@app.get("/v1/cdata-schema", include_in_schema=False)
+def cdata_schema():
+    global _schema_cache
+    if _schema_cache is None:
+        schema_path = STATIC_DIR / "cdata_schema.json"
+        _schema_cache = json.loads(schema_path.read_text(encoding="utf-8"))
+    return JSONResponse(content=_schema_cache)
 
 
 # ── Listings ──────────────────────────────────────────────────────────────────
