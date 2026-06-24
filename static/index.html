@@ -59,6 +59,28 @@
     border-color: var(--atdw-parakeet);
     transform: translateY(-1px);
   }
+  .subtab-btn {
+    transition: color .15s, background .15s, border-color .15s, transform .15s;
+    color: var(--atdw-charcoal);
+    background: var(--atdw-off-white);
+    border: 2px solid var(--atdw-border);
+    border-radius: 10px;
+    font-weight: 700;
+    font-size: 0.9rem;
+    letter-spacing: .01em;
+  }
+  .subtab-btn.active {
+    background: var(--atdw-charcoal);
+    color: var(--atdw-white);
+    border-color: var(--atdw-charcoal);
+    box-shadow: 0 3px 0 var(--atdw-parakeet);
+  }
+  .subtab-btn:not(.active):hover {
+    background: var(--atdw-parakeet);
+    color: var(--atdw-charcoal);
+    border-color: var(--atdw-parakeet);
+    transform: translateY(-1px);
+  }
 
   /* ── Cards ────────────────────────────────────────────────────────────── */
   .card {
@@ -92,6 +114,54 @@
     font-style: italic;
     padding: 2px 0;
   }
+  .own-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border: 2px solid;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* ── Tech-layer type: icon + light background ─────────────────────────── */
+  .layer-icon { margin-right: 6px; }
+  .layer-external { background: #f3f4f6; }
+  .layer-frontend { background: #fce7f3; }
+  .layer-api { background: #dbeafe; }
+  .layer-data { background: #d1fae5; }
+  .layer-analytics { background: #e0e7ff; }
+  .layer-swatch {
+    display: inline-block;
+    width: 12px;
+    height: 12px;
+    border-radius: 3px;
+    vertical-align: middle;
+    margin-right: 4px;
+  }
+
+  /* ── Executive view (default) with per-object technical drill-in ─────────── */
+  #tab-future-state .arch-box-title { font-size: 1rem; }
+  #tab-future-state .arch-box-note.fs-exec {
+    font-size: 0.82rem;
+    color: var(--atdw-charcoal);
+    margin-top: 4px;
+  }
+  #tab-future-state .arch-box { padding: 14px 16px; }
+  .detail-container .fs-tech { display: none; }
+  .detail-container.expanded .fs-tech { display: block; margin-top: 4px; }
+  .detail-toggle-btn {
+    display: inline-block;
+    margin-top: 8px;
+    font-size: 0.62rem;
+    font-weight: 700;
+    letter-spacing: 0.03em;
+    text-transform: uppercase;
+    color: var(--atdw-parakeet);
+    cursor: pointer;
+    user-select: none;
+  }
+  .detail-toggle-btn:hover { text-decoration: underline; }
 
   /* ── Badges ───────────────────────────────────────────────────────────── */
   .badge {
@@ -222,14 +292,24 @@
       <div style="width:4px;height:40px;background:var(--atdw-parakeet);border-radius:2px;flex-shrink:0"></div>
       <div>
         <div class="text-white text-lg sm:text-xl font-bold tracking-tight">ATDW Data Core — Probe</div>
-        <div style="color:rgba(23,223,151,0.75)" class="text-xs sm:text-sm mt-0.5">Live data: ATDW Data Quality Findings from 58,388 national DAPI records, a DAPI Standards Mapping against schema.org, OCTO, Magpie and MongoDB, and a draft Future State Logical Architecture for the platform re-architecture (June 2026)</div>
+        <div style="color:rgba(23,223,151,0.75)" class="text-xs sm:text-sm mt-0.5">Live data: ATDW Data Quality Findings from 58,388 national DAPI records, a DAPI Standards Mapping against schema.org, OCTO, Magpie and MongoDB, and a draft Partnership Architecture for the platform re-architecture (June 2026)</div>
       </div>
     </div>
     <span class="badge self-start sm:self-auto" style="background:var(--atdw-parakeet);color:var(--atdw-charcoal);font-size:.75rem;padding:4px 14px;font-weight:700;letter-spacing:.04em">FINDINGS DEMO</span>
   </div>
 
+  <!-- TABS -->
+  <div class="px-4 sm:px-8 py-3 sm:py-4 flex flex-col sm:flex-row gap-3 sm:gap-4" style="background:var(--atdw-off-white);border-bottom:1px solid var(--atdw-border)">
+    <button class="tab-btn px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto" onclick="switchTab('findings',this)">ATDW Data Quality Findings</button>
+    <button class="tab-btn px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto" onclick="switchTab('schema',this)">DAPI Standards Mapping</button>
+    <button class="tab-btn active px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto" onclick="switchTab('future-state',this)">Partnership Architecture</button>
+  </div>
+</div>
+
+<!-- ═══ FINDINGS ═══ -->
+<div id="tab-findings" class="tab-panel hidden p-4 sm:p-8">
   <!-- STATS BAR -->
-  <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 bg-white border-b" style="border-color:var(--atdw-border)">
+  <div class="grid grid-cols-1 sm:grid-cols-2 gap-0 bg-white border rounded-lg mb-5 -mx-4 sm:mx-0" style="border-color:var(--atdw-border)">
     <div class="text-center px-4 sm:px-8 py-4 sm:border-r" style="border-color:var(--atdw-border)">
       <div class="text-xl sm:text-3xl font-extrabold uppercase tracking-wide" style="color:var(--atdw-charcoal)">Distributor API</div>
       <div class="flex items-baseline justify-center gap-1.5 mt-1 mb-2">
@@ -255,19 +335,9 @@
       </button>
     </div>
   </div>
-  <div id="dapi-field-explorer" class="hidden bg-white border-b px-4 sm:px-8 py-4 overflow-x-auto" style="border-color:var(--atdw-border)"></div>
-  <div id="global-schema-explorer" class="hidden bg-white border-b px-4 sm:px-8 py-4 overflow-x-auto" style="border-color:var(--atdw-border)"></div>
+  <div id="dapi-field-explorer" class="hidden bg-white border rounded-lg mb-5 px-4 sm:px-8 py-4 overflow-x-auto" style="border-color:var(--atdw-border)"></div>
+  <div id="global-schema-explorer" class="hidden bg-white border rounded-lg mb-5 px-4 sm:px-8 py-4 overflow-x-auto" style="border-color:var(--atdw-border)"></div>
 
-  <!-- TABS -->
-  <div class="px-4 sm:px-8 py-3 sm:py-4 flex flex-col sm:flex-row gap-3 sm:gap-4" style="background:var(--atdw-off-white);border-bottom:1px solid var(--atdw-border)">
-    <button class="tab-btn active px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto" onclick="switchTab('findings',this)">ATDW Data Quality Findings</button>
-    <button class="tab-btn px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto" onclick="switchTab('schema',this)">DAPI Standards Mapping</button>
-    <button class="tab-btn px-5 sm:px-8 py-3 sm:py-4 w-full sm:w-auto" onclick="switchTab('future-state',this)">Future State Logical Architecture</button>
-  </div>
-</div>
-
-<!-- ═══ FINDINGS ═══ -->
-<div id="tab-findings" class="tab-panel p-4 sm:p-8">
   <p class="text-sm text-gray-500 mb-4">Filter by severity and source below. <strong>DAPI</strong> findings are about the feed itself; <strong>MongoDB</strong> findings are about the ATDW database itself (queried directly via CData Connect Cloud), independent of what DAPI exposes. Each finding carries a Proposed Remediation Plan; expand a finding to browse its matching records, or jump to the MongoDB field browser (top of page) for findings tied to a specific table.</p>
   <div id="findings-filters" class="flex flex-wrap items-center gap-3 mb-5"></div>
   <div id="findings-list" class="flex flex-col gap-5"></div>
@@ -282,150 +352,283 @@
 </div>
 
 <!-- ═══ FUTURE STATE LOGICAL ARCHITECTURE ═══ -->
-<div id="tab-future-state" class="tab-panel hidden p-4 sm:p-8">
-  <p class="text-sm text-gray-500 mb-2"><strong>Draft — in progress.</strong> This is the logical architecture for the platform re-architecture assessment (web portal + data layer + DAPI). It's grounded only in what's been probed so far: the data layer ( extensively) and the DAPI surface (just started). The web portal hasn't been probed yet — pending operator portal access — and internal technical documentation is on Confluence, pending account access. Every design decision below is annotated with the specific finding driving it; anything without one is a structural assumption, not yet evidenced.</p>
+<div id="tab-future-state" class="tab-panel p-4 sm:p-8">
+  <p class="text-sm text-gray-500 mb-2">A first draft of how the platform could evolve — what exists today, and what's proposed to replace it. Click <strong>Show technical detail</strong> on any box for the finding or constraint behind it.</p>
 
-  <div class="grid grid-cols-1 xl:grid-cols-2 gap-6 mt-6">
+  <div class="flex flex-wrap gap-3 mb-4">
+    <button class="subtab-btn active px-4 py-2" onclick="switchArchView('current',this)">Current State</button>
+    <button class="subtab-btn px-4 py-2" onclick="switchArchView('future',this)">Magpie Partnership</button>
+  </div>
 
+  <div id="arch-view-current">
     <!-- CURRENT STATE -->
     <div class="card p-5">
       <p class="text-sm font-bold text-gray-800 mb-1">Current State</p>
       <p class="text-xs text-gray-400 mb-4">As probed — three components, three different shapes of truth.</p>
 
       <div class="flex flex-col gap-2 items-stretch">
-        <div class="arch-box" style="border-color:var(--atdw-border)">
-          <div class="arch-box-title">Web Portal</div>
-          <div class="arch-box-note text-amber-600">Not yet probed — pending access</div>
+        <div class="flex gap-2 items-stretch">
+          <div class="flex-1 flex flex-col gap-1">
+            <div class="arch-box layer-external" style="border-color:#6b7280">
+              <div class="arch-box-title"><span class="layer-icon">👤</span>Tourism Operators</div>
+              <div class="arch-box-note">Businesses that own the listings being managed</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ log in to manage their own listings</div>
+            <div class="arch-box flex-1 detail-container layer-frontend" style="border-color:#2563eb">
+              <div class="arch-box-title"><span class="layer-icon">🖥️</span>Web Portal</div>
+              <div class="arch-box-note fs-exec">Where staff create and manage listings</div>
+              <div class="arch-box-note text-amber-600 fs-tech">Not yet probed — pending access</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ operators create/edit records</div>
+            <div class="arch-box detail-container layer-api" style="border-color:#2563eb">
+              <div class="arch-box-title"><span class="layer-icon">🔌</span>Web Portal API</div>
+              <div class="arch-box-note fs-exec">The connection the web portal uses to write into the database</div>
+              <div class="arch-box-note text-amber-600 fs-tech">Not yet probed — pending access</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ writes into the data layer</div>
+          </div>
+          <div class="flex-1 flex flex-col gap-1">
+            <div class="arch-box layer-external" style="border-color:#6b7280">
+              <div class="arch-box-title"><span class="layer-icon">👤</span>Bulk Contributors</div>
+              <div class="arch-box-note">Partners submitting many listings at once, outside individual operator logins</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ bulk contribution</div>
+            <div class="arch-box flex-1 detail-container layer-api" style="border-color:#2563eb">
+              <div class="arch-box-title"><span class="layer-icon">🔌</span>CAPI <span class="text-gray-400 font-normal">(Contribution API)</span></div>
+              <div class="arch-box-note fs-exec">A separate channel for uploading many listings at once</div>
+              <div class="arch-box-note fs-tech">Bulk upload of profiles — not yet probed</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ rate-limited bulk writes</div>
+          </div>
         </div>
-        <div class="arch-arrow">↓ operators create/edit records</div>
 
-        <div class="arch-box" style="border-color:var(--atdw-parakeet)">
-          <div class="arch-box-title">Data Layer — MongoDB / ATDW PlatformDB</div>
-          <div class="arch-box-note">51 tables · 1,592 columns · only 21 reach DAPI (1.3%)</div>
-          <div class="arch-box-note">190,280 listings total</div>
+        <div class="arch-box detail-container layer-data" style="border-color:#2563eb">
+          <div class="arch-box-title"><span class="layer-icon">🗄️</span>Data Layer — MongoDB</div>
+          <div class="arch-box-note fs-exec">The central database holding every tourism listing</div>
+          <div class="arch-box-note fs-tech">51 tables · 1,592 columns · only 21 reach DAPI (1.3%)</div>
+          <div class="arch-box-note fs-tech">190,280 listings total</div>
+          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
         </div>
-        <div class="arch-arrow">↓ filtered distributor projection — 58,388 of 190,280 (30.7%)</div>
+        <div class="arch-arrow">↓ only part of that data reaches travel partners</div>
 
-        <div class="arch-box" style="border-color:#ef4444">
-          <div class="arch-box-title">DAPI — three disjoint endpoints</div>
-          <div class="arch-box-note"><code>/products</code> list → 16 fields</div>
-          <div class="arch-box-note"><code>/product</code> detail (1 call/record) → 194 fields</div>
-          <div class="arch-box-note"><code>/productservice</code> (needs productId + serviceId, mined from /product) → 123 fields</div>
+        <div class="arch-box detail-container layer-api" style="border-color:#2563eb">
+          <div class="arch-box-title"><span class="layer-icon">🔌</span>DAPI</div>
+          <div class="arch-box-note fs-exec">Shares listings with travel partners — split across three separate, inconsistent calls</div>
+          <div class="arch-box-note fs-tech"><code>/products</code> list → 16 fields</div>
+          <div class="arch-box-note fs-tech"><code>/product</code> detail (1 call/record) → 194 fields</div>
+          <div class="arch-box-note fs-tech"><code>/productservice</code> (needs productId + serviceId, mined from /product) → 123 fields</div>
+          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
         </div>
-        <div class="arch-arrow">↓ N+1 calls to assemble one full record</div>
-
-        <div class="arch-box" style="border-color:var(--atdw-border)">
-          <div class="arch-box-title">Distributors</div>
-          <div class="arch-box-note">Each builds its own canonical store from a 30.7% slice, one field tier at a time</div>
+        <div class="flex gap-2 items-stretch">
+          <div class="flex-1 flex flex-col gap-1">
+            <div class="arch-arrow" style="padding:0">↓ slow, multi-step, and rate-limited</div>
+            <div class="arch-box flex-1 detail-container layer-external" style="border-color:#6b7280">
+              <div class="arch-box-title"><span class="layer-icon">👤</span>Distributors</div>
+              <div class="arch-box-note fs-exec">Travel websites and apps that display ATDW listings</div>
+              <div class="arch-box-note fs-tech">Each builds its own canonical store from a 30.7% slice, one field tier at a time</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+            </div>
+          </div>
+          <div class="flex-1 flex flex-col gap-1">
+            <div class="arch-arrow" style="padding:0">↓ embeddable, real-time</div>
+            <div class="arch-box flex-1 detail-container layer-api" style="border-color:#2563eb">
+              <div class="arch-box-title"><span class="layer-icon">🔌</span>Widget</div>
+              <div class="arch-box-note fs-exec">A live, embeddable display of listings for partner websites</div>
+              <div class="arch-box-note fs-tech">Realtime iframe — embedded directly on operator/partner sites, bypassing the rate-limited DAPI polling path</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
+  </div>
 
+  <div id="arch-view-future" class="hidden">
     <!-- FUTURE STATE -->
     <div class="card p-5">
-      <p class="text-sm font-bold text-gray-800 mb-1">Future State (proposed, draft)</p>
+      <p class="text-sm font-bold text-gray-800 mb-1">Magpie Partnership</p>
       <p class="text-xs text-gray-400 mb-4">One shape of truth, exposed at whatever grain the consumer needs — and a managed runway off the old DAPI schema, not a hard cutover.</p>
+      <div class="flex items-center flex-wrap gap-3 mb-2 text-[0.65rem] text-gray-500">
+        <span>Ownership (border colour):</span>
+        <span><span class="own-swatch" style="border-color:#db2777"></span>Magpie</span>
+        <span><span class="own-swatch" style="border-color:#7c3aed; border-image: linear-gradient(90deg,#db2777 50%,#2563eb 50%) 1;"></span>Co-owned</span>
+        <span><span class="own-swatch" style="border-color:#2563eb"></span>ATDW</span>
+        <span><span class="own-swatch" style="border-color:#6b7280"></span>External</span>
+      </div>
+      <div class="flex items-center flex-wrap gap-3 mb-3 text-[0.65rem] text-gray-500">
+        <span>Layer type (icon &amp; background):</span>
+        <span><span class="layer-swatch" style="background:#f3f4f6"></span>👤 People</span>
+        <span><span class="layer-swatch" style="background:#fce7f3"></span>🖥️ Front end</span>
+        <span><span class="layer-swatch" style="background:#dbeafe"></span>🔌 API</span>
+        <span><span class="layer-swatch" style="background:#d1fae5"></span>🗄️ Data</span>
+        <span><span class="layer-swatch" style="background:#e0e7ff"></span>📊 Analytics</span>
+      </div>
 
       <div class="flex flex-col gap-2 items-stretch">
-        <div class="arch-box" style="border-color:var(--atdw-border)">
-          <div class="arch-box-title">Magpie Front End <span class="text-gray-400 font-normal">(Web Portal)</span></div>
-          <div class="arch-box-note">Buy vs. build: operator-facing record creation/editing via Magpie's existing UI, talking to the canonical layer over an API — not a bespoke ATDW portal</div>
+        <div class="flex gap-2 items-stretch">
+          <div class="flex-1 flex flex-col gap-1">
+            <div class="arch-box flex-1 layer-external" style="border-color:#6b7280">
+              <div class="arch-box-title"><span class="layer-icon">👤</span>Tourism Operators</div>
+              <div class="arch-box-note">Businesses that own the listings being managed</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ log in to manage their own listings</div>
+          </div>
+          <div class="flex-1 flex flex-col gap-1">
+            <div class="arch-box flex-1 layer-external" style="border-color:#6b7280">
+              <div class="arch-box-title"><span class="layer-icon">👤</span>Contributors <span class="text-gray-400 font-normal">(TBD)</span></div>
+              <div class="arch-box-note">Bulk-upload partners — future integration path not yet defined</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ bulk contribution</div>
+          </div>
         </div>
-        <div class="arch-arrow">↓ writes via API, including explicit delete/deactivate events</div>
 
-        <div class="arch-box" style="border-color:var(--atdw-parakeet)">
-          <div class="arch-box-title">Canonical Data Layer</div>
-          <div class="arch-box-note">Custodian and operator as distinct entities, not one organisation_name field</div>
-          <div class="arch-box-note">Native tombstone / deletion signal — no more "absence as the only delete signal"</div>
-          <div class="arch-box-note">Media stored behind a stable ID — distributor keys never embedded in the URL itself</div>
-          <div class="arch-box-note">Single source of truth — both APIs below read the same data, neither owns a copy</div>
+        <div class="arch-box detail-container layer-frontend" style="border-color:#db2777">
+          <div class="arch-box-title"><span class="layer-icon">🖥️</span>Magpie Front End <span class="text-gray-400 font-normal">(Web Portal)</span></div>
+          <div class="arch-box-note fs-exec">Staff use Magpie's existing software to manage listings — no need to build our own from scratch</div>
+          <div class="arch-box-note fs-tech">Buy vs. build: operator-facing record creation/editing via Magpie's existing UI, talking to the canonical layer over an API — not a bespoke ATDW portal</div>
+          <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> hosted by Magpie (third-party SaaS) — outside ATDW's AWS footprint; no hosting decision needed on our side</div>
+          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
         </div>
-        <div class="arch-arrow">↓ one canonical model — each API reads it a different way</div>
+        <div class="arch-arrow">↓ updates flow straight into the central database</div>
 
+        <div class="arch-box detail-container layer-api" style="border-color:#7c3aed; border-image: linear-gradient(90deg,#db2777 50%,#2563eb 50%) 1;">
+          <div class="arch-box-title"><span class="layer-icon">🔌</span>Magpie/ATDW API</div>
+          <div class="arch-box-note fs-exec">The agreed connection point between Magpie and ATDW's systems</div>
+          <div class="arch-box-note fs-tech">The contract between the front end and the canonical layer — Magpie never touches the database directly, so the data layer can change shape underneath without a front-end rewrite</div>
+          <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon API Gateway in front of AWS Lambda (or ECS/Fargate if write validation logic grows beyond what fits a function)</div>
+          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+        </div>
+        <div class="arch-arrow">↓ validated writes</div>
+
+        <div class="arch-box detail-container layer-data" style="border-color:#2563eb">
+          <div class="arch-box-title"><span class="layer-icon">🗄️</span>Canonical Data Layer</div>
+          <div class="arch-box-note fs-exec">One trustworthy source of truth for all listing data</div>
+          <div class="arch-box-note fs-tech">Custodian and operator as distinct entities, not one organisation_name field</div>
+          <div class="arch-box-note fs-tech">Native tombstone / deletion signal — no more "absence as the only delete signal"</div>
+          <div class="arch-box-note fs-tech">Media stored behind a stable ID — distributor keys never embedded in the URL itself</div>
+          <div class="arch-box-note fs-tech">Single source of truth — both APIs below read the same data, neither owns a copy</div>
+          <div class="arch-box-note fs-tech">Lossy/ambiguous mappings (old ↔ new format) may need accommodating here, not just at the adapter</div>
+          <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon DynamoDB as the long-term target rather than Amazon DocumentDB — DocumentDB only buys MongoDB-API compatibility, which matters for a lift-and-shift migration but not for where this needs to end up; DynamoDB is AWS-native, scales predictably without ops overhead, and DynamoDB Streams gives the tombstone/delta change feed natively instead of bolting one on. DocumentDB remains the lower-friction interim option if a faster initial migration off MongoDB is needed before re-modelling for DynamoDB's access-pattern-first design</div>
+          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+        </div>
         <div class="flex flex-col lg:flex-row gap-4">
           <!-- Distribution path -->
           <div class="flex-1 flex flex-col gap-2">
             <p class="text-xs font-semibold text-gray-500 text-center uppercase tracking-wide">Distribution path</p>
+            <div class="arch-arrow" style="padding:0">↓ read-only canonical query</div>
+            <div class="arch-box detail-container layer-api" style="border-color:#2563eb">
+              <div class="arch-box-title"><span class="layer-icon">🔌</span>Schema Translation Layer</div>
+              <div class="arch-box-note fs-exec">Automatically converts data between old and new formats, so nothing breaks during the transition</div>
+              <div class="arch-box-note fs-tech">Sits in front of both APIs — translates canonical → legacy shape for v1; passes the native canonical shape straight through, untouched, for v2</div>
+              <div class="arch-box-note fs-tech">For v1, this is where old ↔ new mapping actually happens — a field-by-field crosswalk (canonical name/type/shape → legacy <code>/products</code>/<code>/product</code>/<code>/productservice</code> tag), built directly from this probe's findings</div>
+              <div class="arch-box-note fs-tech">Stateless and per-request — no translated copy is stored, so canonical stays the only source of truth</div>
+              <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> AWS Lambda behind Amazon API Gateway — a stateless, per-request transform is a natural fit for a function rather than a standing server</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+            </div>
+            <div class="arch-arrow" style="padding:0">↓ old partners see the old format, new partners see the new format</div>
             <div class="flex gap-2 items-stretch">
-              <div class="flex-1 flex flex-col gap-1">
-                <div class="arch-arrow" style="padding:0">↓ read-only · schema-translation adapter</div>
-                <div class="arch-box flex-1" style="border-color:#f59e0b">
-                  <div class="arch-box-title">DAPI v1 <span class="text-gray-400 font-normal">(Legacy Schema)</span></div>
-                  <div class="arch-box-note">Queries the canonical record, then maps it back into today's exact <code>/products</code>/<code>/product</code>/<code>/productservice</code> field shapes on the way out</div>
-                  <div class="arch-box-note">Never writes to the database, and never stores a translated copy — the mapping happens per-request</div>
-                  <div class="arch-box-note">No distributor changes required</div>
-                  <div class="arch-box-note font-semibold" style="color:#b45309">Retirement date: TBD — set once migration plan exists</div>
-                </div>
+              <div class="arch-box flex-1 detail-container layer-api" style="border-color:#2563eb">
+                <div class="arch-box-title"><span class="layer-icon">🔌</span>DAPI v1 <span class="text-gray-400 font-normal">(Legacy Schema)</span></div>
+                <div class="arch-box-note fs-exec">Keeps working exactly as today — no changes required for existing partners</div>
+                <div class="arch-box-note fs-tech">Serves exactly today's <code>/products</code>/<code>/product</code>/<code>/productservice</code> field shapes — distributors see no difference</div>
+                <div class="arch-box-note fs-tech">No distributor changes required</div>
+                <div class="arch-box-note font-semibold fs-tech" style="color:#b45309">Retirement date: TBD — set once migration plan exists</div>
+                <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon API Gateway + AWS Lambda — a thin, low-traffic shim that should shrink to nothing as v1 usage winds down</div>
+                <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
               </div>
-              <div class="flex-1 flex flex-col gap-1">
-                <div class="arch-arrow" style="padding:0">↓ read-only · native schema, no translation</div>
-                <div class="arch-box flex-1" style="border-color:#22c55e">
-                  <div class="arch-box-title">DAPI v2 <span class="text-gray-400 font-normal">(New Schema)</span></div>
-                  <div class="arch-box-note">Queries and returns the canonical record's own field structure directly — no adapter step, so bulk and detail calls see identical fields</div>
-                  <div class="arch-box-note">Also exposes the database's native change feed (delta + deletes) as a subscribable endpoint, not just point-in-time queries</div>
-                  <div class="arch-box-note">Where new/migrating distributors land</div>
-                </div>
+              <div class="arch-box flex-1 detail-container layer-api" style="border-color:#2563eb">
+                <div class="arch-box-title"><span class="layer-icon">🔌</span>DAPI v2 <span class="text-gray-400 font-normal">(New Schema)</span></div>
+                <div class="arch-box-note fs-exec">A modern, complete connection for new and upgrading partners</div>
+                <div class="arch-box-note fs-tech">Returns the canonical record's own field structure directly — no adapter step, so bulk and detail calls see identical fields</div>
+                <div class="arch-box-note fs-tech">Also exposes the database's native change feed (delta + deletes) as a subscribable endpoint, not just point-in-time queries</div>
+                <div class="arch-box-note fs-tech">Where new/migrating distributors land</div>
+                <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon API Gateway + AWS Lambda/Fargate for the request/response API; Amazon Kinesis Data Streams or EventBridge to power the delta/change-feed endpoint</div>
+                <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
               </div>
             </div>
             <div class="arch-arrow">↓ each distributor calls exactly one of the two, by choice</div>
-            <div class="arch-box" style="border-color:var(--atdw-border)">
-              <div class="arch-box-title">Distributors</div>
-              <div class="arch-box-note">Existing integrations keep working unmodified on v1 while they plan a v2 migration on their own timeline</div>
+            <div class="arch-box detail-container layer-external" style="border-color:#6b7280">
+              <div class="arch-box-title"><span class="layer-icon">👤</span>Distributors</div>
+              <div class="arch-box-note fs-exec">Partners move to the new system on their own timeline</div>
+              <div class="arch-box-note fs-tech">Existing integrations keep working unmodified on v1 while they plan a v2 migration on their own timeline</div>
+              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
             </div>
           </div>
 
           <!-- Analytics path -->
           <div class="flex-1 flex flex-col gap-2">
-            <p class="text-xs font-semibold text-gray-500 text-center uppercase tracking-wide">Analytics path</p>
-            <div class="arch-box" style="border-color:#6366f1">
-              <div class="arch-box-title">Data Lakehouse</div>
-              <div class="arch-box-note">Ingests the full change feed — including tombstones/deletes — so history is queryable, not just current state</div>
-              <div class="arch-box-note">Read-only off the canonical layer; never the system of record</div>
+            <p class="text-xs font-semibold text-gray-500 text-center uppercase tracking-wide">Data Query Path</p>
+            <div class="arch-arrow" style="padding:0">↓ read-only change feed off the canonical layer</div>
+            <div style="border:2px dashed #9333ea; border-radius:10px; padding:14px 10px 10px; position:relative;">
+              <span style="position:absolute; top:-10px; left:10px; background:var(--atdw-white,#fff); padding:0 6px; font-size:0.62rem; font-weight:700; color:#9333ea; text-transform:uppercase; letter-spacing:.04em;">Future Horizon</span>
+            <div class="flex gap-2 items-start">
+              <div class="flex-1 flex flex-col gap-2">
+                <div class="arch-box detail-container layer-analytics" style="border-color:#2563eb">
+                  <div class="arch-box-title"><span class="layer-icon">📊</span>Data Lakehouse</div>
+                  <div class="arch-box-note fs-exec">Keeps a full history of changes for reporting and analysis</div>
+                  <div class="arch-box-note fs-tech">Ingests the full change feed — including tombstones/deletes — so history is queryable, not just current state</div>
+                  <div class="arch-box-note fs-tech">Read-only off the canonical layer; never the system of record</div>
+                  <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon S3 (raw + curated zones) with AWS Glue for ETL/cataloguing and AWS Lake Formation for access governance; Amazon Athena or Redshift Spectrum for query access</div>
+                  <div class="arch-box-note fs-tech" style="color:#7c3aed"><strong>Alternative — Databricks:</strong> Delta Lake + Unity Catalog could replace the S3/Glue/Athena/QuickSight/Bedrock stack across this whole Future Horizon group with one governed platform. Worth moving to it if: ML/data-science ambitions grow beyond basic reporting and NL query, a single platform spanning lakehouse + BI + AI is preferred over stitching together separate AWS services, or multi-cloud flexibility becomes a real requirement. For the current scope, the AWS-native stack stays simpler and cheaper</div>
+                  <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+                </div>
+                <div class="arch-arrow">↓ curated, query-ready datasets</div>
+                <div class="flex gap-2 items-stretch">
+                  <div class="arch-box flex-1 detail-container layer-analytics" style="border-color:#2563eb">
+                    <div class="arch-box-title"><span class="layer-icon">📊</span>Business Analytics</div>
+                    <div class="arch-box-note fs-exec">Turns that history into dashboards and reports for decision-making</div>
+                    <div class="arch-box-note fs-tech">v1 vs. v2 distributor adoption — the same usage data the v1 retirement date depends on</div>
+                    <div class="arch-box-note fs-tech">Data-quality trend monitoring — turns the one-off probe findings into an ongoing measure</div>
+                    <div class="arch-box-note fs-tech">National tourism reporting for ATDW stakeholders</div>
+                    <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon QuickSight reading directly off the lakehouse's curated datasets in S3/Athena</div>
+                    <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+                  </div>
+                  <div class="arch-box flex-1 detail-container layer-external" style="border-color:#2563eb">
+                    <div class="arch-box-title"><span class="layer-icon">🤖</span>AI Natural-Language Query</div>
+                    <div class="arch-box-note fs-exec">Ask questions about the data in plain English and get instant answers — no need to know how to query a database</div>
+                    <div class="arch-box-note fs-tech">Built on the same curated lakehouse datasets — a natural-language interface layered over structured data, not a separate copy</div>
+                    <div class="arch-box-note fs-tech">Read-only, same as the rest of the analytics path — cannot write back into the canonical layer</div>
+                    <div class="arch-box-note fs-tech">Recommended to connect via the Data Lakehouse rather than DAPI v2 — AI-generated queries are unpredictable in shape and volume, and the canonical store's live schema and operational load aren't suited to absorbing that directly; the lakehouse's curated, query-ready datasets are built for exactly this</div>
+                    <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon Bedrock (or Amazon Q Business) as the natural-language layer, querying the lakehouse's curated tables via Athena under the hood</div>
+                    <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+                  </div>
+                </div>
+              </div>
+              <div class="flex-1 flex gap-2 items-stretch">
+              <div class="flex items-center justify-center text-gray-400" style="font-size:1.1rem; padding:0 2px;">↔</div>
+              <div class="flex-1 flex flex-col gap-1">
+                <div class="arch-box detail-container layer-analytics" style="border-color:#6b7280">
+                  <div class="arch-box-title"><span class="layer-icon">📥</span>3rd Party Data Exchange</div>
+                  <div class="arch-box-note fs-exec">Exchanges data with external partners — pulling in third-party datasets (visitor numbers, weather, economic indicators) and sharing curated ATDW data back out in return</div>
+                  <div class="arch-box-note fs-tech">Bi-directional link with the Data Lakehouse — inbound datasets enrich it, and curated extracts flow back out to the exchange partner</div>
+                  <div class="arch-box-note fs-tech">Kept as a separate, clearly-sourced layer — never merged into the canonical model, and outbound sharing only ever draws from the lakehouse's read-only copy, never the live canonical layer</div>
+                  <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> AWS Data Exchange for managed third-party dataset subscriptions, landing into the same S3/Glue pipeline as the rest of the lakehouse</div>
+                  <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
+                </div>
+              </div>
+              </div>
             </div>
-            <div class="arch-arrow">↓ curated, query-ready datasets</div>
-            <div class="arch-box" style="border-color:#6366f1">
-              <div class="arch-box-title">Business Analytics</div>
-              <div class="arch-box-note">v1 vs. v2 distributor adoption — the same usage data the v1 retirement date depends on</div>
-              <div class="arch-box-note">Data-quality trend monitoring — turns the one-off probe findings into an ongoing measure</div>
-              <div class="arch-box-note">National tourism reporting for ATDW stakeholders</div>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="card p-5 mt-6">
+  <div class="card p-5 mt-6 detail-container">
     <p class="text-sm font-bold text-gray-800 mb-2">Maintaining two Distributor APIs through the transition</p>
-    <p class="text-xs text-gray-500 leading-relaxed mb-3">The two APIs are <strong>facades over one canonical model, not two systems</strong> — this is the part that makes a dual-API period survivable rather than a maintenance burden:</p>
-    <ol class="text-xs text-gray-700 leading-relaxed list-decimal list-inside space-y-1.5">
+    <p class="text-xs text-gray-500 leading-relaxed mb-3 fs-exec">Both APIs read from the same database: existing partners keep working unchanged, new partners get the upgraded version, and the old one is retired once usage data shows it's safe to do so.</p>
+    <p class="text-xs text-gray-500 leading-relaxed mb-3 fs-tech">The two APIs are <strong>facades over one canonical model, not two systems</strong> — this is the part that makes a dual-API period survivable rather than a maintenance burden:</p>
+    <ol class="text-xs text-gray-700 leading-relaxed list-decimal list-inside space-y-1.5 fs-tech">
       <li><strong>v1 is a translation layer, not a data store.</strong> It reads the same canonical record as v2 and reshapes it back into the existing XML field structure on the way out. There is never a separate "legacy" copy of the data to keep in sync — that's what makes the no-distributor-changes promise possible without a permanent double-write burden.</li>
       <li><strong>Version by route, not by data.</strong> <code>/v1/...</code> and <code>/v2/...</code> sit behind the same gateway and the same auth/key model distributors already use, so switching is a URL change for a distributor when they're ready, not a new integration.</li>
       <li><strong>Instrument usage before setting the retirement date.</strong> Track per-distributor v1 vs. v2 call volume from day one of v2's launch. The retirement date isn't a guess — it's set once the migration curve shows v1 traffic is low enough (and remaining holdouts are known and engaged), per the existing project constraint that this date is still TBD.</li>
       <li><strong>Retirement is a deprecation window, not a flag day.</strong> Announce the date once set, support both through it, then turn v1 into a fixed-shape error response (not a silent 404) pointing distributors at v2 documentation.</li>
     </ol>
+    <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
   </div>
-
-  <div class="card p-5 mt-6">
-    <p class="text-sm font-bold text-gray-800 mb-3">Design decision → evidence</p>
-    <table class="w-full text-xs">
-      <thead>
-        <tr class="text-left text-gray-500 uppercase tracking-wide border-b border-gray-100">
-          <th class="py-2 pr-3 font-semibold">Future-state decision</th>
-          <th class="py-2 font-semibold">Grounded in</th>
-        </tr>
-      </thead>
-      <tbody class="divide-y divide-gray-100">
-        <tr><td class="py-2 pr-3">Field parity between bulk and detail calls</td><td class="py-2 text-gray-500"><code>/products</code> exposes 16 fields, <code>/product</code> exposes 194 — bulk consumers structurally can't see most of the platform's data today.</td></tr>
-        <tr><td class="py-2 pr-3">Native tombstone / deletion signal</td><td class="py-2 text-gray-500">"The data has no tombstone signal" finding — expired/deactivated records simply disappear; absence is the only delete signal.</td></tr>
-        <tr><td class="py-2 pr-3">Custodian and operator as separate entities</td><td class="py-2 text-gray-500">"The data custodian is not the operator" finding — organisation_name conflates the two, breaking organizer/provider mappings across schema.org, OCTO and Magpie.</td></tr>
-        <tr><td class="py-2 pr-3">Media stored behind a stable ID, not a self-describing URL</td><td class="py-2 text-gray-500">Every image URL embeds a distributor API key in <code>&amp;q=</code> — confirmed at both the DAPI and MongoDB layers; a key rotation breaks every stored URL.</td></tr>
-        <tr><td class="py-2 pr-3">Change feed instead of full re-poll</td><td class="py-2 text-gray-500">457 EVENT records found with past-dated <code>next_occurrence</code> — snapshot ingestion goes stale silently without an incremental sync mechanism.</td></tr>
-        <tr><td class="py-2 pr-3">Magpie front end for the web portal</td><td class="py-2 text-gray-500">Explicit direction from Todd (2026-06-24) — buy vs. build the operator-facing UI on top of the canonical layer, rather than rebuilding ATDW's own portal.</td></tr>
-        <tr><td class="py-2 pr-3">Dual DAPI v1/v2 with v1 retirement date TBD</td><td class="py-2 text-gray-500">Explicit constraint from Todd (2026-06-24) — existing distributors must not be forced to change their API calls; a new schema must still be made available, with v1 sunset once a migration plan exists.</td></tr>
-        <tr><td class="py-2 pr-3">Data lakehouse + business analytics</td><td class="py-2 text-gray-500">Explicit direction from Todd (2026-06-24) — added as a separate, read-only analytics path off the canonical layer; doubles as the usage-monitoring source the v1 retirement decision above already depends on.</td></tr>
-      </tbody>
-    </table>
   </div>
 
   <div class="card p-4 mt-6" style="background:var(--atdw-off-white)">
@@ -449,6 +652,19 @@ function switchTab(name, btn) {
   document.getElementById('tab-' + name).classList.remove('hidden');
   btn.classList.add('active');
   if (name === 'schema' && !schemaLoaded) loadSchema();
+}
+
+function switchArchView(name, btn) {
+  document.getElementById('arch-view-current').classList.toggle('hidden', name !== 'current');
+  document.getElementById('arch-view-future').classList.toggle('hidden', name !== 'future');
+  document.querySelectorAll('.subtab-btn').forEach(el => el.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+function toggleDetail(btn) {
+  const box = btn.closest('.detail-container');
+  box.classList.toggle('expanded');
+  btn.textContent = box.classList.contains('expanded') ? 'Hide technical detail ▲' : 'Show technical detail ▼';
 }
 
 // ─── STATS ───────────────────────────────────────────────────────────────────
