@@ -357,17 +357,17 @@
 
   <div class="flex flex-wrap gap-3 mb-4">
     <button class="subtab-btn active px-4 py-2" onclick="switchArchView('current',this)">Current State</button>
-    <button class="subtab-btn px-4 py-2" onclick="switchArchView('future',this)">Magpie Partnership</button>
   </div>
 
   <div id="arch-view-current">
+    <div class="flex flex-col lg:flex-row gap-4 items-start">
     <!-- CURRENT STATE -->
-    <div class="card p-5">
+    <div class="card p-5 flex-1 min-w-0">
       <p class="text-sm font-bold text-gray-800 mb-1">Current State</p>
       <p class="text-xs text-gray-400 mb-4">As probed — three components, three different shapes of truth.</p>
 
       <div class="flex flex-col gap-2 items-stretch">
-        <div class="flex gap-2 items-stretch">
+        <div class="flex flex-col sm:flex-row gap-2 items-stretch">
           <div class="flex-1 flex flex-col gap-1">
             <div class="arch-box layer-external" style="border-color:#6b7280">
               <div class="arch-box-title"><span class="layer-icon">👤</span>Tourism Operators</div>
@@ -422,7 +422,7 @@
           <div class="arch-box-note fs-tech"><code>/productservice</code> (needs productId + serviceId, mined from /product) → 123 fields</div>
           <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
         </div>
-        <div class="flex gap-2 items-stretch">
+        <div class="flex flex-col sm:flex-row gap-2 items-stretch">
           <div class="flex-1 flex flex-col gap-1">
             <div class="arch-arrow" style="padding:0">↓ slow, multi-step, and rate-limited</div>
             <div class="arch-box flex-1 detail-container layer-external" style="border-color:#6b7280">
@@ -444,191 +444,14 @@
         </div>
       </div>
     </div>
-  </div>
 
-  <div id="arch-view-future" class="hidden">
-    <!-- FUTURE STATE -->
-    <div class="card p-5">
-      <p class="text-sm font-bold text-gray-800 mb-1">Magpie Partnership</p>
-      <p class="text-xs text-gray-400 mb-4">One shape of truth, exposed at whatever grain the consumer needs — and a managed runway off the old DAPI schema, not a hard cutover.</p>
-      <div class="flex items-center flex-wrap gap-3 mb-2 text-[0.65rem] text-gray-500">
-        <span>Ownership (border colour):</span>
-        <span><span class="own-swatch" style="border-color:#db2777"></span>Magpie</span>
-        <span><span class="own-swatch" style="border-color:#7c3aed; border-image: linear-gradient(90deg,#db2777 50%,#2563eb 50%) 1;"></span>Co-owned</span>
-        <span><span class="own-swatch" style="border-color:#2563eb"></span>ATDW</span>
-        <span><span class="own-swatch" style="border-color:#6b7280"></span>External</span>
-      </div>
-      <div class="flex items-center flex-wrap gap-3 mb-3 text-[0.65rem] text-gray-500">
-        <span>Layer type (icon &amp; background):</span>
-        <span><span class="layer-swatch" style="background:#f3f4f6"></span>👤 People</span>
-        <span><span class="layer-swatch" style="background:#fce7f3"></span>🖥️ Front end</span>
-        <span><span class="layer-swatch" style="background:#dbeafe"></span>🔌 API</span>
-        <span><span class="layer-swatch" style="background:#d1fae5"></span>🗄️ Data</span>
-        <span><span class="layer-swatch" style="background:#e0e7ff"></span>📊 Analytics</span>
-      </div>
-
-      <div class="flex flex-col gap-2 items-stretch">
-        <div class="flex gap-2 items-stretch">
-          <div class="flex-1 flex flex-col gap-1">
-            <div class="arch-box flex-1 layer-external" style="border-color:#6b7280">
-              <div class="arch-box-title"><span class="layer-icon">👤</span>Tourism Operators</div>
-              <div class="arch-box-note">Businesses that own the listings being managed</div>
-            </div>
-            <div class="arch-arrow" style="padding:0">↓ log in to manage their own listings</div>
-          </div>
-          <div class="flex-1 flex flex-col gap-1">
-            <div class="arch-box flex-1 layer-external" style="border-color:#6b7280">
-              <div class="arch-box-title"><span class="layer-icon">👤</span>Contributors <span class="text-gray-400 font-normal">(TBD)</span></div>
-              <div class="arch-box-note">Bulk-upload partners — future integration path not yet defined</div>
-            </div>
-            <div class="arch-arrow" style="padding:0">↓ bulk contribution</div>
-          </div>
-        </div>
-
-        <div class="arch-box detail-container layer-frontend" style="border-color:#db2777">
-          <div class="arch-box-title"><span class="layer-icon">🖥️</span>Magpie Front End <span class="text-gray-400 font-normal">(Web Portal)</span></div>
-          <div class="arch-box-note fs-exec">Staff use Magpie's existing software to manage listings — no need to build our own from scratch</div>
-          <div class="arch-box-note fs-tech">Buy vs. build: operator-facing record creation/editing via Magpie's existing UI, talking to the canonical layer over an API — not a bespoke ATDW portal</div>
-          <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> hosted by Magpie (third-party SaaS) — outside ATDW's AWS footprint; no hosting decision needed on our side</div>
-          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-        </div>
-        <div class="arch-arrow">↓ updates flow straight into the central database</div>
-
-        <div class="arch-box detail-container layer-api" style="border-color:#7c3aed; border-image: linear-gradient(90deg,#db2777 50%,#2563eb 50%) 1;">
-          <div class="arch-box-title"><span class="layer-icon">🔌</span>Magpie/ATDW API</div>
-          <div class="arch-box-note fs-exec">The agreed connection point between Magpie and ATDW's systems</div>
-          <div class="arch-box-note fs-tech">The contract between the front end and the canonical layer — Magpie never touches the database directly, so the data layer can change shape underneath without a front-end rewrite</div>
-          <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon API Gateway in front of AWS Lambda (or ECS/Fargate if write validation logic grows beyond what fits a function)</div>
-          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-        </div>
-        <div class="arch-arrow">↓ validated writes</div>
-
-        <div class="arch-box detail-container layer-data" style="border-color:#2563eb">
-          <div class="arch-box-title"><span class="layer-icon">🗄️</span>Canonical Data Layer</div>
-          <div class="arch-box-note fs-exec">One trustworthy source of truth for all listing data</div>
-          <div class="arch-box-note fs-tech">Custodian and operator as distinct entities, not one organisation_name field</div>
-          <div class="arch-box-note fs-tech">Native tombstone / deletion signal — no more "absence as the only delete signal"</div>
-          <div class="arch-box-note fs-tech">Media stored behind a stable ID — distributor keys never embedded in the URL itself</div>
-          <div class="arch-box-note fs-tech">Single source of truth — both APIs below read the same data, neither owns a copy</div>
-          <div class="arch-box-note fs-tech">Lossy/ambiguous mappings (old ↔ new format) may need accommodating here, not just at the adapter</div>
-          <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon DynamoDB as the long-term target rather than Amazon DocumentDB — DocumentDB only buys MongoDB-API compatibility, which matters for a lift-and-shift migration but not for where this needs to end up; DynamoDB is AWS-native, scales predictably without ops overhead, and DynamoDB Streams gives the tombstone/delta change feed natively instead of bolting one on. DocumentDB remains the lower-friction interim option if a faster initial migration off MongoDB is needed before re-modelling for DynamoDB's access-pattern-first design</div>
-          <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-        </div>
-        <div class="flex flex-col lg:flex-row gap-4">
-          <!-- Distribution path -->
-          <div class="flex-1 flex flex-col gap-2">
-            <p class="text-xs font-semibold text-gray-500 text-center uppercase tracking-wide">Distribution path</p>
-            <div class="arch-arrow" style="padding:0">↓ read-only canonical query</div>
-            <div class="arch-box detail-container layer-api" style="border-color:#2563eb">
-              <div class="arch-box-title"><span class="layer-icon">🔌</span>Schema Translation Layer</div>
-              <div class="arch-box-note fs-exec">Automatically converts data between old and new formats, so nothing breaks during the transition</div>
-              <div class="arch-box-note fs-tech">Sits in front of both APIs — translates canonical → legacy shape for v1; passes the native canonical shape straight through, untouched, for v2</div>
-              <div class="arch-box-note fs-tech">For v1, this is where old ↔ new mapping actually happens — a field-by-field crosswalk (canonical name/type/shape → legacy <code>/products</code>/<code>/product</code>/<code>/productservice</code> tag), built directly from this probe's findings</div>
-              <div class="arch-box-note fs-tech">Stateless and per-request — no translated copy is stored, so canonical stays the only source of truth</div>
-              <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> AWS Lambda behind Amazon API Gateway — a stateless, per-request transform is a natural fit for a function rather than a standing server</div>
-              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-            </div>
-            <div class="arch-arrow" style="padding:0">↓ old partners see the old format, new partners see the new format</div>
-            <div class="flex gap-2 items-stretch">
-              <div class="arch-box flex-1 detail-container layer-api" style="border-color:#2563eb">
-                <div class="arch-box-title"><span class="layer-icon">🔌</span>DAPI v1 <span class="text-gray-400 font-normal">(Legacy Schema)</span></div>
-                <div class="arch-box-note fs-exec">Keeps working exactly as today — no changes required for existing partners</div>
-                <div class="arch-box-note fs-tech">Serves exactly today's <code>/products</code>/<code>/product</code>/<code>/productservice</code> field shapes — distributors see no difference</div>
-                <div class="arch-box-note fs-tech">No distributor changes required</div>
-                <div class="arch-box-note font-semibold fs-tech" style="color:#b45309">Retirement date: TBD — set once migration plan exists</div>
-                <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon API Gateway + AWS Lambda — a thin, low-traffic shim that should shrink to nothing as v1 usage winds down</div>
-                <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-              </div>
-              <div class="arch-box flex-1 detail-container layer-api" style="border-color:#2563eb">
-                <div class="arch-box-title"><span class="layer-icon">🔌</span>DAPI v2 <span class="text-gray-400 font-normal">(New Schema)</span></div>
-                <div class="arch-box-note fs-exec">A modern, complete connection for new and upgrading partners</div>
-                <div class="arch-box-note fs-tech">Returns the canonical record's own field structure directly — no adapter step, so bulk and detail calls see identical fields</div>
-                <div class="arch-box-note fs-tech">Also exposes the database's native change feed (delta + deletes) as a subscribable endpoint, not just point-in-time queries</div>
-                <div class="arch-box-note fs-tech">Where new/migrating distributors land</div>
-                <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon API Gateway + AWS Lambda/Fargate for the request/response API; Amazon Kinesis Data Streams or EventBridge to power the delta/change-feed endpoint</div>
-                <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-              </div>
-            </div>
-            <div class="arch-arrow">↓ each distributor calls exactly one of the two, by choice</div>
-            <div class="arch-box detail-container layer-external" style="border-color:#6b7280">
-              <div class="arch-box-title"><span class="layer-icon">👤</span>Distributors</div>
-              <div class="arch-box-note fs-exec">Partners move to the new system on their own timeline</div>
-              <div class="arch-box-note fs-tech">Existing integrations keep working unmodified on v1 while they plan a v2 migration on their own timeline</div>
-              <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-            </div>
-          </div>
-
-          <!-- Analytics path -->
-          <div class="flex-1 flex flex-col gap-2">
-            <p class="text-xs font-semibold text-gray-500 text-center uppercase tracking-wide">Data Query Path</p>
-            <div class="arch-arrow" style="padding:0">↓ read-only change feed off the canonical layer</div>
-            <div style="border:2px dashed #9333ea; border-radius:10px; padding:14px 10px 10px; position:relative;">
-              <span style="position:absolute; top:-10px; left:10px; background:var(--atdw-white,#fff); padding:0 6px; font-size:0.62rem; font-weight:700; color:#9333ea; text-transform:uppercase; letter-spacing:.04em;">Future Horizon</span>
-            <div class="flex gap-2 items-start">
-              <div class="flex-1 flex flex-col gap-2">
-                <div class="arch-box detail-container layer-analytics" style="border-color:#2563eb">
-                  <div class="arch-box-title"><span class="layer-icon">📊</span>Data Lakehouse</div>
-                  <div class="arch-box-note fs-exec">Keeps a full history of changes for reporting and analysis</div>
-                  <div class="arch-box-note fs-tech">Ingests the full change feed — including tombstones/deletes — so history is queryable, not just current state</div>
-                  <div class="arch-box-note fs-tech">Read-only off the canonical layer; never the system of record</div>
-                  <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon S3 (raw + curated zones) with AWS Glue for ETL/cataloguing and AWS Lake Formation for access governance; Amazon Athena or Redshift Spectrum for query access</div>
-                  <div class="arch-box-note fs-tech" style="color:#7c3aed"><strong>Alternative — Databricks:</strong> Delta Lake + Unity Catalog could replace the S3/Glue/Athena/QuickSight/Bedrock stack across this whole Future Horizon group with one governed platform. Worth moving to it if: ML/data-science ambitions grow beyond basic reporting and NL query, a single platform spanning lakehouse + BI + AI is preferred over stitching together separate AWS services, or multi-cloud flexibility becomes a real requirement. For the current scope, the AWS-native stack stays simpler and cheaper</div>
-                  <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-                </div>
-                <div class="arch-arrow">↓ curated, query-ready datasets</div>
-                <div class="flex gap-2 items-stretch">
-                  <div class="arch-box flex-1 detail-container layer-analytics" style="border-color:#2563eb">
-                    <div class="arch-box-title"><span class="layer-icon">📊</span>Business Analytics</div>
-                    <div class="arch-box-note fs-exec">Turns that history into dashboards and reports for decision-making</div>
-                    <div class="arch-box-note fs-tech">v1 vs. v2 distributor adoption — the same usage data the v1 retirement date depends on</div>
-                    <div class="arch-box-note fs-tech">Data-quality trend monitoring — turns the one-off probe findings into an ongoing measure</div>
-                    <div class="arch-box-note fs-tech">National tourism reporting for ATDW stakeholders</div>
-                    <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon QuickSight reading directly off the lakehouse's curated datasets in S3/Athena</div>
-                    <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-                  </div>
-                  <div class="arch-box flex-1 detail-container layer-external" style="border-color:#2563eb">
-                    <div class="arch-box-title"><span class="layer-icon">🤖</span>AI Natural-Language Query</div>
-                    <div class="arch-box-note fs-exec">Ask questions about the data in plain English and get instant answers — no need to know how to query a database</div>
-                    <div class="arch-box-note fs-tech">Built on the same curated lakehouse datasets — a natural-language interface layered over structured data, not a separate copy</div>
-                    <div class="arch-box-note fs-tech">Read-only, same as the rest of the analytics path — cannot write back into the canonical layer</div>
-                    <div class="arch-box-note fs-tech">Recommended to connect via the Data Lakehouse rather than DAPI v2 — AI-generated queries are unpredictable in shape and volume, and the canonical store's live schema and operational load aren't suited to absorbing that directly; the lakehouse's curated, query-ready datasets are built for exactly this</div>
-                    <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> Amazon Bedrock (or Amazon Q Business) as the natural-language layer, querying the lakehouse's curated tables via Athena under the hood</div>
-                    <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-                  </div>
-                </div>
-              </div>
-              <div class="flex-1 flex gap-2 items-stretch">
-              <div class="flex items-center justify-center text-gray-400" style="font-size:1.1rem; padding:0 2px;">↔</div>
-              <div class="flex-1 flex flex-col gap-1">
-                <div class="arch-box detail-container layer-analytics" style="border-color:#6b7280">
-                  <div class="arch-box-title"><span class="layer-icon">📥</span>3rd Party Data Exchange</div>
-                  <div class="arch-box-note fs-exec">Exchanges data with external partners — pulling in third-party datasets (visitor numbers, weather, economic indicators) and sharing curated ATDW data back out in return</div>
-                  <div class="arch-box-note fs-tech">Bi-directional link with the Data Lakehouse — inbound datasets enrich it, and curated extracts flow back out to the exchange partner</div>
-                  <div class="arch-box-note fs-tech">Kept as a separate, clearly-sourced layer — never merged into the canonical model, and outbound sharing only ever draws from the lakehouse's read-only copy, never the live canonical layer</div>
-                  <div class="arch-box-note fs-tech" style="color:#b45309"><strong>Candidate AWS:</strong> AWS Data Exchange for managed third-party dataset subscriptions, landing into the same S3/Glue pipeline as the rest of the lakehouse</div>
-                  <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-                </div>
-              </div>
-              </div>
-            </div>
-            </div>
-          </div>
-        </div>
-      </div>
+    <!-- MAGPIE -->
+    <div class="card p-5 w-full lg:w-64 flex-shrink-0 text-center">
+      <p class="text-sm font-bold text-gray-800 mb-3">Magpie</p>
+      <img src="/static/magpie-logo.jpg" alt="Magpie logo" class="mx-auto rounded" style="max-width:140px" />
+      <p class="text-xs text-gray-400 mt-3">Candidate hosting platform under evaluation for the re-architecture — see the DAPI Standards Mapping tab for its field-level coverage.</p>
     </div>
-
-  <div class="card p-5 mt-6 detail-container">
-    <p class="text-sm font-bold text-gray-800 mb-2">Maintaining two Distributor APIs through the transition</p>
-    <p class="text-xs text-gray-500 leading-relaxed mb-3 fs-exec">Both APIs read from the same database: existing partners keep working unchanged, new partners get the upgraded version, and the old one is retired once usage data shows it's safe to do so.</p>
-    <p class="text-xs text-gray-500 leading-relaxed mb-3 fs-tech">The two APIs are <strong>facades over one canonical model, not two systems</strong> — this is the part that makes a dual-API period survivable rather than a maintenance burden:</p>
-    <ol class="text-xs text-gray-700 leading-relaxed list-decimal list-inside space-y-1.5 fs-tech">
-      <li><strong>v1 is a translation layer, not a data store.</strong> It reads the same canonical record as v2 and reshapes it back into the existing XML field structure on the way out. There is never a separate "legacy" copy of the data to keep in sync — that's what makes the no-distributor-changes promise possible without a permanent double-write burden.</li>
-      <li><strong>Version by route, not by data.</strong> <code>/v1/...</code> and <code>/v2/...</code> sit behind the same gateway and the same auth/key model distributors already use, so switching is a URL change for a distributor when they're ready, not a new integration.</li>
-      <li><strong>Instrument usage before setting the retirement date.</strong> Track per-distributor v1 vs. v2 call volume from day one of v2's launch. The retirement date isn't a guess — it's set once the migration curve shows v1 traffic is low enough (and remaining holdouts are known and engaged), per the existing project constraint that this date is still TBD.</li>
-      <li><strong>Retirement is a deprecation window, not a flag day.</strong> Announce the date once set, support both through it, then turn v1 into a fixed-shape error response (not a silent 404) pointing distributors at v2 documentation.</li>
-    </ol>
-    <div class="detail-toggle-btn" onclick="toggleDetail(this)">Show technical detail ▼</div>
-  </div>
+    </div>
   </div>
 
   <div class="card p-4 mt-6" style="background:var(--atdw-off-white)">
@@ -656,7 +479,6 @@ function switchTab(name, btn) {
 
 function switchArchView(name, btn) {
   document.getElementById('arch-view-current').classList.toggle('hidden', name !== 'current');
-  document.getElementById('arch-view-future').classList.toggle('hidden', name !== 'future');
   document.querySelectorAll('.subtab-btn').forEach(el => el.classList.remove('active'));
   btn.classList.add('active');
 }
@@ -1354,20 +1176,24 @@ const SCHEMA_DEFS = {
     { prop:'aggregateRating',           src:null,                   platformDB:'listing.socialExternalReferences.tripAdvisorURL', cov:'missing', dataType:'n/a → AggregateRating', rule:'EXTERNAL-API-FETCH', lookupRef:'TRIPADVISOR_RATING_LOOKUP', humanReview:true, note:'TripAdvisor URL in MongoDB — could feed a rating lookup API. Needs integration decision.' },
   ]},
   ACCOMM: { type:'schema:LodgingBusiness', url:'https://schema.org/LodgingBusiness', properties:[
-    { prop:'name',             src:'name',                platformDB:'listing.name',                                    cov:'data', dataType:'string → Text', rule:'DIRECT-COPY', lookupRef:null,    confidence:95, note:'Direct text field. Consistently populated across all 16,247 records.' },
-    { prop:'description',      src:'description',         platformDB:'listing.description',                             cov:'data', dataType:'string → Text', rule:'DIRECT-COPY', lookupRef:null,    confidence:92, note:'Avg 915 chars — richest descriptions after DESTINFO. Quality: Hipcamp records avg 900 chars, others 917.' },
-    { prop:'image',            src:'image_url',           platformDB:'media.url',                                       cov:'data', dataType:'string (URL, key-embedded) → URL / ImageObject', rule:'CDN-PROXY', lookupRef:null,    confidence:78, humanReview:true, note:'100% populated. All URLs embed distributor API key in &q= param — needs CDN proxy before storing.' },
-    { prop:'address',          src:'address[0]',          platformDB:'listing.physicalAddress.*',                       cov:'data', dataType:'object → PostalAddress', rule:'CONCAT-ADDRESS', lookupRef:null,    confidence:92, note:'All address sub-fields mapped. Postal address (postalAddress.*) is separate in MongoDB — not in DAPI.' },
-    { prop:'geo',              src:'latitude + longitude', platformDB:'listing.physicalAddress.geoCodeLocation.*',      cov:'data', dataType:'number, number → GeoCoordinates', rule:'GEO-PAIR', lookupRef:null,    confidence:90, note:'100% geo coverage. Hipcamp records (13% of ACCOMM) have rural/farm coordinates verified accurate.' },
-    { prop:'url',              src:null,                   platformDB:'listing.socialExternalReferences.websiteURL',    cov:'missing', dataType:'n/a → URL', rule:'MONGODB-PATHWAY', lookupRef:null, humanReview:true, note:'websiteURL in MongoDB — not in DAPI. Requires MongoDB pathway.' },
-    { prop:'telephone',        src:null,                   platformDB:'organisation.phone',                             cov:'missing', dataType:'n/a → Text', rule:'MONGODB-PATHWAY', lookupRef:null, humanReview:true, note:'In MongoDB organisation table — not in DAPI.' },
-    { prop:'checkinTime',      src:null,                   platformDB:null,                                             cov:'missing', dataType:'n/a → Time', rule:'NO-SOURCE', lookupRef:null, note:'Not captured in DAPI or MongoDB.' },
-    { prop:'checkoutTime',     src:null,                   platformDB:null,                                             cov:'missing', dataType:'n/a → Time', rule:'NO-SOURCE', lookupRef:null, note:'Not captured in DAPI or MongoDB.' },
-    { prop:'numberOfRooms',    src:null,                   platformDB:'service.capacity',                               cov:'missing', dataType:'n/a → QuantitativeValue', rule:'UNCONFIRMED-SOURCE', lookupRef:null, humanReview:true, note:'Potentially in MongoDB service table — not confirmed. Needs schema investigation.' },
-    { prop:'starRating',       src:null,                   platformDB:null,                                             cov:'missing', dataType:'n/a → Rating', rule:'NLP-EXTRACT', lookupRef:null, humanReview:true, note:'Not in DAPI or MongoDB. May be parseable from description text — needs NLP validation.' },
-    { prop:'amenityFeature',   src:null,                   platformDB:'listing.facilities',                             cov:'missing', dataType:'n/a → LocationFeatureSpecification[]', rule:'LOOKUP-VALUE-MAP', lookupRef:'FACILITIES_TO_AMENITY_MAP', humanReview:true, note:'MongoDB has a facilities array (not in DAPI) — could map to amenityFeature with a lookup table. Needs human mapping.' },
-    { prop:'priceRange',       src:null,                   platformDB:null,                                             cov:'missing', dataType:'n/a → Text', rule:'NO-SOURCE', lookupRef:null, note:'Not captured in DAPI or MongoDB.' },
-    { prop:'aggregateRating',  src:null,                   platformDB:'listing.socialExternalReferences.tripAdvisorURL', cov:'missing', dataType:'n/a → AggregateRating', rule:'EXTERNAL-API-FETCH', lookupRef:'TRIPADVISOR_RATING_LOOKUP', humanReview:true, note:'TripAdvisor URL in MongoDB — could feed rating lookup. Needs integration decision.' },
+    { prop:'identifier',       src:'product_id',           platformDB:'listing._id',                                     cov:'data',    dataType:'string → Text', rule:'DIRECT-COPY',    lookupRef:null, confidence:99, note:'Unique 24-character ATDW database ID (product_id). Also product_number — the public 9-char alphanumeric code beginning with AU. Confirmed in DAPI. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'name',             src:'name',                 platformDB:'listing.name',                                    cov:'data',    dataType:'string → Text', rule:'DIRECT-COPY',    lookupRef:null, confidence:95, note:'Direct text field. Consistently populated across all 16,247 records.' },
+    { prop:'description',      src:'description',          platformDB:'listing.description',                             cov:'data',    dataType:'string → Text', rule:'DIRECT-COPY',    lookupRef:null, confidence:92, note:'Avg 915 chars — richest descriptions after DESTINFO. DAPI also exposes product_short_description (≤25 words) as an alternate summary field.' },
+    { prop:'image',            src:'image_url',            platformDB:'media.url',                                       cov:'data',    dataType:'string (URL, key-embedded) → URL / ImageObject', rule:'CDN-PROXY', lookupRef:null, confidence:78, humanReview:true, note:'100% populated. DAPI field: product_image. All URLs embed distributor API key in &q= param — needs CDN proxy before storing.' },
+    { prop:'address',          src:'address[0]',           platformDB:'listing.physicalAddress.*',                       cov:'data',    dataType:'object → PostalAddress', rule:'CONCAT-ADDRESS', lookupRef:null, confidence:92, note:'Physical address (street, suburb, state, postcode, country) confirmed in DAPI via addresses array. Postal address is a separate platform field not exposed in DAPI. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'geo',              src:'boundary',             platformDB:'listing.physicalAddress.geoCodeLocation.*',       cov:'data',    dataType:'number, number → GeoCoordinates', rule:'GEO-PAIR', lookupRef:null, confidence:90, note:'100% geo coverage. DAPI field: boundary (lat/lng). Hipcamp records (13% of ACCOMM) have rural/farm coordinates verified accurate. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'telephone',        src:'comms_ph',             platformDB:'listing.comms_ph',                                cov:'data',    dataType:'string → Text', rule:'DIRECT-COPY',    lookupRef:null, confidence:88, note:'DAPI field confirmed: comms_ph. Covers primary and secondary phone numbers. Previously assessed as MongoDB-only — manual mapping confirms DAPI exposure. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'email',            src:'comms_em',             platformDB:'listing.comms_em',                                cov:'data',    dataType:'string → Text', rule:'DIRECT-COPY',    lookupRef:null, confidence:88, note:'DAPI field confirmed: comms_em. Email address associated with the product. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'url',              src:'comms_url',            platformDB:'listing.comms_url',                               cov:'data',    dataType:'string → URL', rule:'DIRECT-COPY',    lookupRef:null, confidence:88, note:'DAPI field confirmed: comms_url (website URL). Previously assessed as MongoDB-only — manual mapping confirms DAPI exposure. Also comms_burl (booking URL) → schema:bookingPage. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'bookingPage',      src:'comms_burl',           platformDB:'listing.comms_burl',                              cov:'data',    dataType:'string → URL', rule:'DIRECT-COPY',    lookupRef:null, confidence:85, note:'DAPI field confirmed: comms_burl — the preferred online booking URL. Maps to schema.org Offer.url / bookingPage. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'starRating',       src:'starrating',           platformDB:'listing.starrating',                              cov:'partial', dataType:'number → Rating', rule:'DIRECT-COPY',  lookupRef:null, confidence:80, humanReview:true, note:'DAPI field confirmed: starrating (1–5). This is the official tourism classification star rating, not a consumer review score. Previously assessed as NLP-EXTRACT — manual mapping confirms DAPI exposure. Not all properties carry a star rating. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'amenityFeature',   src:'product_accessibility_attribute', platformDB:'listing.product_accessibility_attribute', cov:'partial', dataType:'array → LocationFeatureSpecification[]', rule:'LOOKUP-VALUE-MAP', lookupRef:'FACILITIES_TO_AMENITY_MAP', humanReview:true, confidence:72, note:'DAPI field confirmed: product_accessibility_attribute (accessibility attributes array, e.g. "Actively welcomes people with access needs"). General property facilities (internet, room facilities) are platform-only — no DAPI pathway. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'numberOfRooms',    src:'number_of_rooms',      platformDB:'service.number_of_rooms',                         cov:'partial', dataType:'number → QuantitativeValue', rule:'DIRECT-COPY', lookupRef:null, confidence:75, humanReview:true, note:'DAPI field confirmed: number_of_rooms (total bookable rooms). Not always populated. Previously assessed as unconfirmed in service table — manual mapping confirms availability. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'checkinTime',      src:null,                   platformDB:null,                                              cov:'missing', dataType:'n/a → Time', rule:'NO-SOURCE',       lookupRef:null, note:'Not captured in DAPI. Confirmed absent in manual mapping (no DAPI field ID assigned). (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'checkoutTime',     src:null,                   platformDB:null,                                              cov:'missing', dataType:'n/a → Time', rule:'NO-SOURCE',       lookupRef:null, note:'Not captured in DAPI. Confirmed absent in manual mapping (no DAPI field ID assigned). (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'offers',           src:'rate_from',            platformDB:'listing.rate_from',                               cov:'data',    dataType:'number → Offer / PriceSpecification', rule:'DIRECT-COPY', lookupRef:null, confidence:80, note:'DAPI fields confirmed: rate_from (min price), rate_to (max price), free (boolean — no charge indicator). Previously assessed as NO-SOURCE — manual mapping confirms DAPI exposure. (Manual mapping: Nadia, Jul 2026)' },
+    { prop:'aggregateRating',  src:null,                   platformDB:'listing.socialExternalReferences.tripAdvisorURL', cov:'missing', dataType:'n/a → AggregateRating', rule:'EXTERNAL-API-FETCH', lookupRef:'TRIPADVISOR_RATING_LOOKUP', humanReview:true, note:'Consumer aggregate rating not in DAPI. TripAdvisor URL in MongoDB could feed a rating lookup — needs integration decision. Note: official star classification is available in DAPI via starrating → starRating above.' },
+    { prop:'dateModified',     src:'product_update_date',  platformDB:'listing.product_update_date',                     cov:'data',    dataType:'datetime → DateTime', rule:'DIRECT-COPY', lookupRef:null, confidence:95, note:'DAPI field confirmed: product_update_date — date/time the listing was last updated. (Manual mapping: Nadia, Jul 2026)' },
   ]},
   TOUR: { type:'schema:TouristAttraction', url:'https://schema.org/TouristAttraction', properties:[
     { prop:'name',              src:'name',                platformDB:'listing.name',                                   cov:'data', dataType:'string → Text', rule:'DIRECT-COPY', lookupRef:null,    confidence:95, note:'Direct text field. Consistently populated.' },
