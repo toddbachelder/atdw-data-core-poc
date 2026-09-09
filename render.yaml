@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: atdw-probe-api
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn src.api_server:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: DATABASE_URL
+        scope: run
+        value: postgresql://postgres.eszrwktyqpkfblfhitbz:3mLt7ZJmJGCrJFda@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres
