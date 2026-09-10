@@ -396,3 +396,35 @@ Calling `/product?productId=<id>` for one real TOUR record returned **194 distin
 ### Implication for the re-architecture work
 
 A future-state DAPI (or its replacement) can't be scoped from the list endpoint alone — the bulk of the platform's actual product/service data (pricing, accessibility, capacity, booking config) is only visible one record at a time via two extra round-trips per product. Any redesign that wants this data at scale needs either a bulk detail endpoint that doesn't exist today, or N+1 API calls per product — itself a re-architecture-worthy finding for the DAPI component.
+
+## Canonical Store Outage and Recovery — Supabase (September 2026)
+
+A routine status check found the canonical store unreachable: the pooler returned `FATAL XX000 — (ENOTFOUND) tenant/user postgres.eszrwktyqpkfblfhitbz not found`, and the project subdomain returned **NXDOMAIN** from both Google and Cloudflare DNS. Both the `aws-0-` and `aws-1-` regional poolers rejected the tenant identically. The project was subsequently recovered by ATDW and the store is fully intact — but the outage exposed several things worth recording.
+
+### The data survived; 58,388 rows recovered intact
+
+Post-recovery verification: **58,388 rows**, all 17 columns, all four indexes (`listings_pkey`, `listings_source_id_key`, `listings_category_idx`, `listings_status_idx`) present. `source_id` uniqueness holds at 58,388 distinct values, zero null names, and the ingest window is unchanged at 2026-06-15 → 2026-06-18. Decisively, `image_url` is populated on **57,874** rows — the exact figure recorded in the image-URL finding above, confirming byte-level continuity rather than a partial restore. Category split: ACCOMM 16,247 / ATTRACTION 14,833 / EVENT 8,954 / RESTAURANT 8,282 / TOUR 3,465 / DESTINFO 1,955 / GENSERVICE 1,803 / HIRE 1,224 / JOURNEY 734 / INFO 498 / TRANSPORT 393.
+
+### Recovery moved the project ref twice, and credentials do not follow
+
+The recovery first surfaced the data under a **new project ref** (`gcpsdqotpevjhdlffsas`), then it was moved back to the original ref (`eszrwktyqpkfblfhitbz`). Each ref is a separate project with separate credentials, so a password reset performed on the interim project did not apply to the final one — a full reset had to be repeated against the ref the data ultimately landed on. Any runbook for this has to treat *project ref* and *database password* as a matched pair; neither survives a move on its own.
+
+### The error codes distinguish the failure modes precisely
+
+Worth recording because the three are easily conflated, and each points somewhere different:
+- `XX000 (ENOTFOUND) tenant not found` — Supavisor has no tenant registered. Project absent, or pooler registration not yet propagated.
+- `28P01` with **no** `F`/`L`/`R` fields — pooler-synthesised auth rejection.
+- `28P01` **with** `'F': 'auth.c', 'R': 'auth_failed'` — the real PostgreSQL backend rejected it, meaning the pooler forwarded successfully and only the credential is wrong.
+Additionally, a bad database name returns `3D000`, not `28P01` — so `28P01` positively confirms host, tenant, and username format are all correct. During recovery the tenant registration was observed flipping from `ENOTFOUND` to `28P01` mid-poll, which is how pooler propagation presents.
+
+### Direct Postgres connections are unavailable from the ATDW network
+
+`db.<ref>.supabase.co` resolves **AAAA-only** (IPv6). The workstation used for this probe has no IPv6 egress — a raw socket to `2001:4860:4860::8888` fails with `WinError 10051, network unreachable`. Every direct connection attempt therefore fails regardless of credentials, and **the Supavisor pooler is the only viable Postgres path**. An IPv4-only lookup reports "no DNS record" and reads like a deleted project, which is actively misleading. Any future-state component that assumes direct Postgres reachability needs to account for this.
+
+### National record count has drifted: 58,135 → 58,817
+
+The DAPI list endpoint now reports **58,817** total results, up **682 (+1.2%)** from the 58,135 recorded earlier in this log, and 429 above the 58,388 rows in the store. Any total quoted from this probe needs a date attached.
+
+### Implication for the re-architecture work
+
+Nothing else in the pipeline degraded — DAPI returned HTTP 200 in 0.56s and the translation layer parsed 50/50 records with zero errors throughout. **The hosted store was the single point of failure.** The recovery was successful, but it depended on the vendor's own restore process, took multiple ref moves, and invalidated credentials twice along the way. The reconstruction path that actually de-risked this was ATDW-controlled: the source (DAPI) is ATDW-owned and the translation layer is in version control, so the store was rebuildable regardless of the vendor's outcome. That is the property any future-state architecture has to preserve — the canonical store must be reconstructible from ATDW-controlled inputs, not merely backed up by whoever is hosting it. This is a small-scale rehearsal of the exit-risk and data-portability concerns driving the Magpie partnership analysis.

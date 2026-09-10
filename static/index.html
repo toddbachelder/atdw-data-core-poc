@@ -356,13 +356,13 @@
   <p class="text-sm text-gray-500 mb-2">A first draft of how the platform could evolve — what exists today, and what's proposed to replace it. Click <strong>Show technical detail</strong> on any box for the finding or constraint behind it.</p>
 
   <div class="flex flex-wrap gap-3 mb-4">
-    <button class="subtab-btn active px-4 py-2" onclick="switchArchView('current',this)">Current State</button>
+    <button class="subtab-btn px-4 py-2" onclick="switchArchView('current',this)">Current State</button>
+    <button class="subtab-btn active px-4 py-2" onclick="switchArchView('magpie',this)">Magpie</button>
   </div>
 
-  <div id="arch-view-current">
-    <div class="flex flex-col lg:flex-row gap-4 items-start">
+  <div id="arch-view-current" class="hidden">
     <!-- CURRENT STATE -->
-    <div class="card p-5 flex-1 min-w-0">
+    <div class="card p-5">
       <p class="text-sm font-bold text-gray-800 mb-1">Current State</p>
       <p class="text-xs text-gray-400 mb-4">As probed — three components, three different shapes of truth.</p>
 
@@ -444,13 +444,13 @@
         </div>
       </div>
     </div>
+  </div>
 
-    <!-- MAGPIE -->
-    <div class="card p-5 w-full lg:w-64 flex-shrink-0 text-center">
-      <p class="text-sm font-bold text-gray-800 mb-3">Magpie</p>
-      <img src="/static/magpie-logo.jpg" alt="Magpie logo" class="mx-auto rounded" style="max-width:140px" />
-      <p class="text-xs text-gray-400 mt-3">Candidate hosting platform under evaluation for the re-architecture — see the DAPI Standards Mapping tab for its field-level coverage.</p>
-    </div>
+  <div id="arch-view-magpie">
+    <div class="card p-5">
+      <p class="text-sm font-bold text-gray-800 mb-1">Magpie</p>
+      <p class="text-xs text-gray-400 mb-4">Proposed architecture for the Magpie hosting partnership.</p>
+      <img src="/static/mp-arch-v4.1.png" alt="Magpie partnership architecture" class="mx-auto h-auto rounded border" style="border-color:var(--atdw-border); width:56.25%" />
     </div>
   </div>
 
@@ -479,6 +479,7 @@ function switchTab(name, btn) {
 
 function switchArchView(name, btn) {
   document.getElementById('arch-view-current').classList.toggle('hidden', name !== 'current');
+  document.getElementById('arch-view-magpie').classList.toggle('hidden', name !== 'magpie');
   document.querySelectorAll('.subtab-btn').forEach(el => el.classList.remove('active'));
   btn.classList.add('active');
 }
