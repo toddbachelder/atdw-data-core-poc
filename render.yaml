@@ -9,3 +9,14 @@ services:
       - key: DATABASE_URL
         scope: run
         value: postgresql://postgres.eszrwktyqpkfblfhitbz:3mLt7ZJmJGCrJFda@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres
+
+  - type: web
+    name: atdw-alpha-mcp
+    env: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: python src/http_mcp_server.py
+    envVars:
+      - key: DATABASE_URL
+        scope: run
+        value: postgresql://postgres.eszrwktyqpkfblfhitbz:3mLt7ZJmJGCrJFda@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres
