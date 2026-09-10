@@ -11,7 +11,7 @@ services:
         value: postgresql://postgres.eszrwktyqpkfblfhitbz:3mLt7ZJmJGCrJFda@aws-1-ap-southeast-2.pooler.supabase.com:5432/postgres
 
   - type: web
-    name: atdw-alpha-mcp
+    name: atdw-nlp-mcp-server
     env: python
     plan: free
     buildCommand: pip install -r requirements.txt
