@@ -1,0 +1,10 @@
+{
+  "mcpServers": {
+    "atdw-probe": {
+      "command": "python",
+      "args": [
+        "src/mcp_server.py"
+      ]
+    }
+  }
+}
