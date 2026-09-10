@@ -7,22 +7,28 @@ Useful for Render deployments and remote integrations.
 Run: python src/http_mcp_server.py
 """
 import json
-import subprocess
 import sys
+import os
+import logging
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-import os
+from fastapi.responses import JSONResponse
 
-app = FastAPI(title="ATDW MCP Server (HTTP)")
+# Setup logging
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
-# Start the MCP server subprocess
-mcp_process = subprocess.Popen(
-    [sys.executable, os.path.join(os.path.dirname(__file__), "mcp_server.py")],
-    stdin=subprocess.PIPE,
-    stdout=subprocess.PIPE,
-    stderr=subprocess.PIPE,
-    text=True,
-    bufsize=1,
+app = FastAPI(title="ATDW MCP Server (HTTP)", version="0.1.0")
+
+# Import MCP functions directly instead of spawning subprocess
+sys.path.insert(0, os.path.dirname(__file__))
+from mcp_server import (
+    query_listings,
+    query_natural_language,
+    search_text,
+    get_category_stats,
+    get_summary_stats,
+    handle_tool_call,
 )
 
 
@@ -36,36 +42,22 @@ class MCPRequest(BaseModel):
 @app.get("/health")
 def health_check():
     """Health check endpoint."""
-    return {"status": "ok", "service": "ATDW MCP Server"}
-
-
-@app.post("/rpc")
-def handle_rpc(request: MCPRequest):
-    """Handle JSON-RPC requests to the MCP server."""
     try:
-        # Send request to MCP server
-        rpc_message = json.dumps({
-            "jsonrpc": request.jsonrpc,
-            "method": request.method,
-            "params": request.params,
-            "id": request.id or 1,
-        })
-
-        mcp_process.stdin.write(rpc_message + "\n")
-        mcp_process.stdin.flush()
-
-        # Read response from MCP server
-        response_line = mcp_process.stdout.readline()
-        if not response_line:
-            raise HTTPException(status_code=500, detail="No response from MCP server")
-
-        response = json.loads(response_line)
-        return response
-
-    except json.JSONDecodeError as e:
-        raise HTTPException(status_code=400, detail=f"Invalid JSON: {str(e)}")
+        # Try to connect to database
+        get_summary_stats()
+        return {
+            "status": "ok",
+            "service": "ATDW MCP Server",
+            "database": "connected",
+        }
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"MCP Error: {str(e)}")
+        logger.error(f"Database health check failed: {e}")
+        return {
+            "status": "error",
+            "service": "ATDW MCP Server",
+            "database": "disconnected",
+            "error": str(e),
+        }, 503
 
 
 @app.get("/")
@@ -75,25 +67,101 @@ def root():
         "service": "ATDW MCP Server (HTTP Gateway)",
         "version": "0.1.0",
         "endpoints": {
-            "health": "/health",
-            "rpc": "/rpc (POST)",
+            "health": "GET /health",
+            "rpc": "POST /rpc",
+            "docs": "GET /docs (Swagger UI)",
         },
         "usage": {
-            "example": "POST /rpc with JSON-RPC payload",
-            "payload": {
+            "description": "Send JSON-RPC requests to /rpc",
+            "example_payload": {
                 "jsonrpc": "2.0",
                 "method": "tools/call",
                 "params": {
                     "name": "query_natural_language",
-                    "arguments": {"query": "restaurants in Sydney"},
+                    "arguments": {"query": "restaurants in Sydney", "limit": 50},
                 },
                 "id": 1,
             },
+            "available_tools": [
+                "query_listings",
+                "query_natural_language",
+                "search_text",
+                "get_category_stats",
+                "get_summary_stats",
+            ],
         },
     }
 
 
+@app.post("/rpc")
+async def handle_rpc(request: MCPRequest):
+    """Handle JSON-RPC requests to the MCP server."""
+    try:
+        logger.info(f"RPC Request: {request.method} with args: {request.params}")
+
+        if request.method != "tools/call":
+            return {
+                "jsonrpc": "2.0",
+                "id": request.id,
+                "error": {"code": -32601, "message": f"Method not found: {request.method}"},
+            }
+
+        tool_name = request.params.get("name")
+        arguments = request.params.get("arguments", {})
+
+        logger.info(f"Calling tool: {tool_name} with arguments: {arguments}")
+
+        # Call the tool handler
+        result_str = handle_tool_call(tool_name, arguments)
+        result = json.loads(result_str)
+
+        response = {
+            "jsonrpc": "2.0",
+            "id": request.id,
+            "result": result,
+        }
+
+        logger.info(f"RPC Response: {response}")
+        return response
+
+    except json.JSONDecodeError as e:
+        logger.error(f"JSON decode error: {e}")
+        return {
+            "jsonrpc": "2.0",
+            "id": request.id,
+            "error": {"code": -32700, "message": f"Parse error: {str(e)}"},
+        }
+    except Exception as e:
+        logger.error(f"RPC error: {e}", exc_info=True)
+        return {
+            "jsonrpc": "2.0",
+            "id": request.id,
+            "error": {"code": -32603, "message": f"Internal error: {str(e)}"},
+        }
+
+
+@app.get("/docs", include_in_schema=False)
+async def swagger_ui():
+    """Swagger UI documentation."""
+    from fastapi.openapi.utils import get_openapi
+
+    if app.openapi_schema:
+        return app.openapi_schema
+
+    openapi_schema = get_openapi(
+        title="ATDW MCP Server",
+        version="0.1.0",
+        description="HTTP Gateway for ATDW MCP Server with natural language query support",
+        routes=app.routes,
+    )
+
+    app.openapi_schema = openapi_schema
+    return app.openapi_schema
+
+
 if __name__ == "__main__":
     import uvicorn
+
     port = int(os.getenv("PORT", 8000))
-    uvicorn.run(app, host="0.0.0.0", port=port)
+    logger.info(f"Starting MCP HTTP server on port {port}")
+    uvicorn.run(app, host="0.0.0.0", port=port, log_level="info")
