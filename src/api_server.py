@@ -11,6 +11,7 @@ Or with hot reload during development:
 """
 import os
 import sys
+import json
 from typing import Optional
 
 from fastapi import FastAPI, HTTPException, Query
@@ -21,6 +22,7 @@ from pydantic import BaseModel
 
 sys.path.insert(0, os.path.dirname(__file__))
 from db import get_conn, rows_as_dicts
+from mcp_server import handle_tool_call
 
 # ============================================================================
 # FastAPI Setup
@@ -421,6 +423,53 @@ def get_summary_stats():
 
     except Exception as e:
         raise HTTPException(status_code=500, detail=f"Database error: {str(e)}")
+
+
+# ============================================================================
+# MCP JSON-RPC Endpoints
+# ============================================================================
+
+class MCPRequest(BaseModel):
+    """JSON-RPC request."""
+    jsonrpc: str = "2.0"
+    method: str
+    params: dict = {}
+    id: int = 1
+
+
+@app.post("/rpc")
+def mcp_rpc(request: MCPRequest):
+    """
+    Handle JSON-RPC requests for MCP tools.
+
+    Supports natural language queries and structured tool calls.
+    """
+    try:
+        if request.method != "tools/call":
+            return {
+                "jsonrpc": "2.0",
+                "id": request.id,
+                "error": {"code": -32601, "message": "Method not found"},
+            }
+
+        tool_name = request.params.get("name")
+        arguments = request.params.get("arguments", {})
+
+        result_str = handle_tool_call(tool_name, arguments)
+        result = json.loads(result_str)
+
+        return {
+            "jsonrpc": "2.0",
+            "id": request.id,
+            "result": result,
+        }
+
+    except Exception as e:
+        return {
+            "jsonrpc": "2.0",
+            "id": request.id,
+            "error": {"code": -32603, "message": str(e)},
+        }
 
 
 if __name__ == "__main__":
