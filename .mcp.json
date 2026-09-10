@@ -1,10 +1,7 @@
 {
   "mcpServers": {
-    "atdw-probe": {
-      "command": "python",
-      "args": [
-        "src/mcp_server.py"
-      ]
+    "atdw-alpha-mcp": {
+      "url": "https://atdw-alpha-mcp.onrender.com"
     }
   }
 }

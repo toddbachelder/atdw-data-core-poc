@@ -281,6 +281,94 @@ def search_text(query: str, limit: int = 50) -> dict:
     }
 
 
+def query_natural_language(query: str, limit: int = 50) -> dict:
+    """Process natural language queries and intelligently route to appropriate tools."""
+    query_lower = query.lower()
+
+    # Detect query intent and route accordingly
+    result = {
+        "input_query": query,
+        "intent": None,
+        "data": None,
+        "explanation": None,
+    }
+
+    # Intent 1: Statistics/aggregates (how many, total, count, stats, breakdown, etc.)
+    if any(keyword in query_lower for keyword in ["how many", "total", "count", "statistics", "stats", "breakdown", "summary", "coverage", "organisation", "organization", "category breakdown"]):
+        result["intent"] = "statistics"
+
+        if "coverage" in query_lower or "image" in query_lower or "geo" in query_lower:
+            data = get_summary_stats()
+            result["explanation"] = "Retrieved data coverage statistics"
+        else:
+            data = get_category_stats()
+            result["explanation"] = "Retrieved category and organization statistics"
+        result["data"] = data
+
+    # Intent 2: Location-based search (in, near, Sydney, Brisbane, location, area, state, etc.)
+    elif any(keyword in query_lower for keyword in [" in ", " near ", "location", "area", "state", "address", "sydney", "melbourne", "brisbane", "perth", "adelaide"]):
+        location_keywords = ["sydney", "melbourne", "brisbane", "perth", "adelaide", "hobart", "darwin", "canberra"]
+        location = None
+        for loc in location_keywords:
+            if loc in query_lower:
+                location = loc
+                break
+
+        result["intent"] = "location_search"
+        result["data"] = search_text(location or query, limit=limit)
+        result["explanation"] = f"Searched for listings related to: {location or query}"
+
+    # Intent 3: Category-specific queries (tours, restaurants, accommodation, attractions, events, etc.)
+    elif any(keyword in query_lower for keyword in ["tour", "restaurant", "accommodation", "accomm", "attraction", "event", "activity", "dining", "food", "stay", "hotel", "motel"]):
+        category_map = {
+            "tour": "TOUR",
+            "tours": "TOUR",
+            "restaurant": "RESTAURANT",
+            "restaurants": "RESTAURANT",
+            "dining": "RESTAURANT",
+            "food": "RESTAURANT",
+            "accommodation": "ACCOMM",
+            "accomm": "ACCOMM",
+            "hotel": "ACCOMM",
+            "motel": "ACCOMM",
+            "stay": "ACCOMM",
+            "attraction": "ATTRACTION",
+            "attractions": "ATTRACTION",
+            "event": "EVENT",
+            "events": "EVENT",
+        }
+
+        category = None
+        for keyword, cat in category_map.items():
+            if keyword in query_lower:
+                category = cat
+                break
+
+        result["intent"] = "category_search"
+        result["data"] = query_listings(category=category, limit=limit)
+        result["explanation"] = f"Retrieved {category} listings"
+
+    # Intent 4: Organization/provider queries (which org, top provider, etc.)
+    elif any(keyword in query_lower for keyword in ["organisation", "organization", "provider", "operator", "company", "business", "top provider"]):
+        result["intent"] = "organization_search"
+        stats = get_category_stats()
+        result["data"] = {
+            "query": query,
+            "explanation": "Top organizations by listing count",
+            "organisations": stats.get("organisations", []),
+            "total_unique": len(stats.get("organisations", [])),
+        }
+        result["explanation"] = "Retrieved top organizations by listing count"
+
+    # Intent 5: Free-text search (fallback for other queries)
+    else:
+        result["intent"] = "text_search"
+        result["data"] = search_text(query, limit=limit)
+        result["explanation"] = f"Performed full-text search for: {query}"
+
+    return result
+
+
 # ============================================================================
 # MCP Protocol Implementation (stdio-based)
 # ============================================================================
@@ -309,6 +397,13 @@ def handle_tool_call(tool_name: str, arguments: dict) -> str:
 
         elif tool_name == "search_text":
             result = search_text(
+                query=arguments.get("query", ""),
+                limit=arguments.get("limit", 50),
+            )
+            return json.dumps(result)
+
+        elif tool_name == "query_natural_language":
+            result = query_natural_language(
                 query=arguments.get("query", ""),
                 limit=arguments.get("limit", 50),
             )
@@ -408,6 +503,24 @@ def run_server():
                         "name": "get_summary_stats",
                         "description": "Get overall summary statistics (record count, coverage, etc.)",
                         "inputSchema": {"type": "object", "properties": {}},
+                    },
+                    {
+                        "name": "query_natural_language",
+                        "description": "Process natural language queries and intelligently route to appropriate tools (e.g., 'Show me restaurants in Sydney', 'How many tours do we have?', 'Which organization has the most listings?')",
+                        "inputSchema": {
+                            "type": "object",
+                            "properties": {
+                                "query": {
+                                    "type": "string",
+                                    "description": "Natural language query (e.g., 'restaurants in Sydney', 'accommodation statistics', 'tours near Melbourne')",
+                                },
+                                "limit": {
+                                    "type": "integer",
+                                    "description": "Max results to return (default 50)",
+                                },
+                            },
+                            "required": ["query"],
+                        },
                     },
                 ],
                 "resources": [
